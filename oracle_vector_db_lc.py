@@ -1,8 +1,8 @@
 """
-File name: oracle_vector_db_simple_lc.py
+File name: oracle_vector_db_lc.py
 Author: Luigi Saetta
 Date created: 2024-01-17
-Date last modified: 2024-02-24
+Date last modified: 2024-02-26
 Python Version: 3.9
 
 Description:
@@ -16,7 +16,7 @@ Inspired by:
 Usage:
     Import this module into other scripts to use its functions. 
     Example:
-        from oracle_vector_db_simple_lc import OracleVectorStore
+        from oracle_vector_db_lc import OracleVectorStore
         
         v_store = OracleVectorStore(embedding=embed_model,
                             verbose=True)
@@ -27,7 +27,7 @@ License:
 Notes:
     This is a part of a set of demo showing how to use Oracle Vector DB,
     OCI GenAI service, Oracle GenAI Embeddings, to build a RAG solution,
-    where all he data (text + embeddings) are stored in Oracle DB 23c
+    where all the data (text + embeddings) are stored in Oracle DB 23c
     Modified (25/02) to pass the Embed model and not the fuction
 
 Warnings:
@@ -43,7 +43,6 @@ import numpy as np
 
 import logging
 from typing import (
-    TYPE_CHECKING,
     Any,
     Callable,
     Dict,
@@ -247,7 +246,7 @@ class OracleVectorStore(VectorStore):
         return DSN
 
     #
-    # This function enable to load a table from scrath, with
+    # This function enable to load a table from scratch, with
     # texts and embeddings... then you can query
     #
     @classmethod
@@ -333,7 +332,6 @@ class OracleVectorStore(VectorStore):
 
             # beware: here we're passing the model... this cls can be
             # after used for query
-            # not to add more vectors (no batching)
             return cls(
                 embedding=embedding, collection_name=collection_name, verbose=verbose
             )
@@ -349,7 +347,7 @@ class OracleVectorStore(VectorStore):
         """Return VectorStore initialized from texts and embeddings."""
         raise NotImplementedError("from_texts method must be implemented...")
 
-    # thsi is an utility function to clean the table during tests
+    # this is an utility function to clean the table during tests
     # be aware it deletes all the record in the mentioned table
     @classmethod
     def drop_collection(cls, collection_name: str):
@@ -360,10 +358,34 @@ class OracleVectorStore(VectorStore):
             with connection.cursor() as cursor:
                 sql = f"""
                     BEGIN
-                        execute immediate 'truncate table {collection_name}';
+                        execute immediate 'drop table {collection_name}';
                     END;
                     """
 
                 cursor.execute(sql)
 
-                logging.info(f"{collection_name} truncated!!!")
+                logging.info(f"{collection_name} dropped!!!")
+
+    @classmethod
+    def create_collection(cls, collection_name: str):
+        DSN = OracleVectorStore.make_dsn()
+
+        with oracledb.connect(user=DB_USER, password=DB_PWD, dsn=DSN) as connection:
+            with connection.cursor() as cursor:
+                create_sql = f"""create table {collection_name}
+                    (ID NUMBER NOT NULL,
+                    CHUNK CLOB,
+                    VEC  VECTOR(1024, FLOAT64),
+                    REF VARCHAR2(1000),
+                    PRIMARY KEY ("ID")
+                    )
+                """
+                sql = f"""
+                    BEGIN
+                        execute immediate '{create_sql}';
+                    END;
+                    """
+
+                cursor.execute(sql)
+
+                logging.info(f"{collection_name} created!!!")
