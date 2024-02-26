@@ -7,4 +7,4 @@ In the txt subdirectory you can find a set of txt files, taken from Oracle docs 
 ## Setup the demo.
 Clone the repository, setup your conda environemnt, have a ready DB with AI Vector Search and then:
 * load the txt files + embeddings in the DB, using [load_vector_store](./load_vector_store.ipynb)
-* query your knowledge base, using [simple_assistant](./simple_assistant.ipynb) 
+* query your knowledge base, using a [simple_assistant](./simple_assistant.ipynb) 
