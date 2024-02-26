@@ -2,7 +2,7 @@
 This repository contains all the work done to develop demos based on LangChain, OCI Generative AI Service and Oracle AI Vector Search
 
 ## Data
-In the txt subdirectory you can find a set o txt files, taken from oRcale docs and blocs, that you can use to setup quickly a demo.
+In the txt subdirectory you can find a set of txt files, taken from Oracle docs and blogs, that you can use to setup quickly a demo.
 
 ## Setup the demo.
 Clone the repository, setup your conda environemnt, have a ready DB with AI Vector Search and then:
