@@ -276,6 +276,8 @@ class OracleVectorStore(VectorStore):
         # compute embeddings
         # here we use correctly embed_documents
         # (26/02) I'll handle directly inside here the batching
+        logging.info("Compute embeddings...")
+
         batch_size = cls._BATCH_SIZE
 
         if len(texts) > batch_size:
