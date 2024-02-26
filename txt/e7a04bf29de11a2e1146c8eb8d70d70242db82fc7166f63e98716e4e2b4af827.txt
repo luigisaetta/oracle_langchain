@@ -1,0 +1,128 @@
+Overview of Data Integration
+Administrators, data engineers, ETL developers, and operators are among the different types of data professionals who use Oracle Cloud Infrastructure Data Integration.
+You might perform one or more of the following roles:
+- Administrators: Oversee, manage, and monitor lifecycle management and security policies for the service.
+- Data engineers and ETL developers: Develop, build, and test data integration solutions.
+- Operators: Manage, monitor, and diagnose data integration executions.
+Watch a video introduction to the service.
+About the Service
+Before you get started, the administrator must satisfy connectivity requirements so that the Data Integration service can establish a connection to your data sources. The administrator then creates workspaces and gives you access to them. You use workspaces to stay organized and easily manage different data integration environments.
+For each data integration solution, you register data assets to identify the source and target data sources to use. When you're ready to start designing a data integration solution, Data Integration provides integration and data loader tasks .
+To create an integration task, start with a data flow. The designer in Data Integration is an easy-to-use graphical user interface where you can select from different operators and visually build the data flow. It includes validation and debug features to help you identify and correct potential issues before running the task.
+When you create a data loader task, you specify your source data asset, and then configure transformations to cleanse and process the data as it is loaded into the target data asset.
+To execute a specific set of processes in a sequence, you create a pipeline. Designing a pipeline is similar to building a data flow, where you use operators to add the tasks and activities you want. After building a pipeline, you create a pipeline task that uses the pipeline.
+After you create tasks, you publish them to the default application in Data Integration or to your own application . From an application, you run tasks and monitor their progress and status. You can also schedule tasks for automated runs.
+Data Integration Concepts
+The following is a list of concepts that would be helpful for you to know when using the Data Integration service:
+- Workspace
+- The container for all Data Integration resources, such as projects, folders, data assets, tasks, data flows, pipelines, applications, and schedules, associated with a data integration solution.
+- Project
+- A container for design-time resources, such as tasks or data flows and pipelines.
+- Folder
+- A container within a project or another folder to organize your design-time resources.
+- Data asset
+- Represents a data source such as a database, an object store, a file or document store containing the data source's metadata and connection details.
+- Connection
+- Includes the necessary details to establish a connection to a data source. A connection is always associated to one data asset. A data asset can have more than one connection.
+- Data entity
+- A collection of data, such as a database table or view, or a single logical file, with many attributes that describe its data.
+- Schema
+- A collection of data entities within a data asset.
+- Data flow
+- A design-time resource that defines the flow of data and any operations on the data between the source and target systems. To run a data flow, you add the data flow to an integration task.
+- Pipeline
+- A design-time resource for orchestrating tasks and activities in a sequence or in parallel to facilitate a process from start to finish. To run a pipeline, you add the pipeline to a pipeline task.
+- Operator
+- An operator represents an input source or output target, or a transformation in a data flow. In a pipeline, an operator represents a published task or an activity such as merge or end.
+- Parameter
+- A type of variable you can assign to an operator's details so that you can reuse the data flow or pipeline design with different resources and values. When you use parameters and set default values during design time, you can then change the values later, either in tasks that wrap the data flow or pipeline, or when you run the tasks.
+- Task
+- A design-time resource that specifies a set of actions to perform on data. You can create data loader tasks, integration tasks for data flows, and pipeline tasks for pipelines. You can also create SQL tasks and OCI Data Flow tasks. To run a task, you publish the task into an application to test it or roll it out to production.
+- Application
+- A container for runtime artifacts, such as tasks that have been published along with their dependencies. You use applications for testing and eventually roll them out into production.
+- Patch
+- An update to an application. When you publish a single task or a group of tasks, or when you unpublish a task, these activities are logged as patches in an application. When you create an application(target) by making a copy of existing resources in another application(source), a patch is added to the application(target). In subsequent refreshes of the target application by syncing with changes from the source application, a patch is also created in the application(target).
+- Run
+- A runtime artifact that represents the execution of a task.
+- Schedule
+- A runtime resource that defines when and how often any published tasks should run automatically.
+- Task schedule
+- A runtime resource that is associated with a specific published task and an existing schedule to define when and how often the task should run automatically.
+Reference Architectures
+Find out about the reference architectures that are available to help you learn how to use Oracle Cloud Infrastructure Data Integration.
+Reference architectures are architectures, configurations, and best practices for deploying on Oracle Cloud Infrastructure. They are available from the Oracle Architecture Center.
+On the Architecture Center main page, enter
+OCI Data Integration in the search field and press Enter.
+The following are some examples of reference architectures that you can find currently:
+Ways to Access Oracle Cloud Infrastructure
+You can access Oracle Cloud Infrastructure using the Console (a browser-based interface) or the REST API.
+Instructions for the Console and API are included in topics throughout this guide. For a list of available SDKs, see Software Development Kits and Command Line Interface.
+To access the Console, you must use a supported browser. From the navigation menu at the top of this help page, you can use the Infrastructure Console link to go to the sign-in page. You are prompted to enter your cloud account name or tenancy. If prompted for an identity domain, in most cases leave it at Default, and then enter your user name and password.
+Resource Identifiers
+Most types of Oracle Cloud Infrastructure resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID).
+For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Service Limits and Quotas
+Service Limits
+Data Integration limits you to five workspaces per region.
+Compartment Quotas
+You can limit the number of workspace resources in a compartment by creating a quota limit. For example:
+set dataintegration quota workspace-count to 10 in compartment <compartment_name>
+Retention Time
+Data Integration retains deleted and failed workspaces for 15 days. After 15 days, the workspaces are permanently removed.
+Integrated Services
+Data Integration is integrated with various Oracle Cloud Infrastructure services and features.
+Data Integration integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK, CLI, and REST API).
+An administrator sets up groups, compartments, and policies. Policies control who can create users, create and manage the cloud network, launch instances, create buckets, download objects, and so on.
+If you're a regular user, not an administrator, who needs to use Oracle Cloud Infrastructure resources that your company owns, have your administrator set up user ID for you. The administrator can confirm which compartment or compartments you can use.
+The administrator can create common policies to authorize Data Integration users. They can also create Data Integration Policies to control user access to the Data Integration service.
+Data Integration is not integrated with the common Work Requests API. Data Integration uses its own API for Work Requests. See Work Request Reference.
+The tenancy explorer lets you view all resources in a specific compartment, across all regions. The tenancy explorer is powered by the Search service and supports the Data Integration resource type,
+workspace.
+Oracle Cloud Infrastructure Monitoring lets you actively and passively monitor your Data Integration resources using metrics and alarms. Data Integration Metrics captures the number of bytes read, bytes written, active task runs, successful task runs, and failed task runs.
+About Data Security
+In addition to the control and transparency you get with Oracle Cloud Infrastructure security, the Data Integration service also handles your data with care.
+Oracle Cloud Infrastructure customer isolation ensures that each Data Integration workspace you create gets its own reserved compute instance. Your workspace is isolated from other workspaces within the same tenancy, and from other tenancies. Data Integration doesn't store any data in this compute instance beyond task runs to ensure that your data is secure.
+Data Integration uses Oracle Cloud Infrastructure's Vault service to store and encrypt sensitive information, such as passwords, wallet files for data asset and connection information as secrets. Schemas and data entities are accessed in real time, when needed. When a data sampling is loaded in the Data tab for a data flow or for configuring transformations in the data loader task, the data is loaded from the data entity in real time.
+Assign only the required privileges to accounts used for
+dataintegration. For
+example, Data Integration only requires read access to ingest
+data from data assets.
+For more information, see:
+Typical Data Integration User Activities
+Here are some of the activities you're likely to perform as a Data Integration user.
+|Activity
+|Description
+|Accessing or Creating Workspaces
+|Access or create a work area for your Data Integration projects and their resources (data assets, data flows, tasks, and so on)
+|Creating a Data Asset
+|Register the data sources you work with as Data Integration data assets
+|Creating a Connection
+|Add new connections to data assets
+|Using Projects and Folders
+|
+Create projects and folders to organize your design-time artifacts
+Create a project by copying an existing project
+|Creating a Data Flow
+|Design a data flow
+|Creating a Pipeline
+|Design a pipeline
+|
+Creating an Integration Task (for a data flow)
+Creating an OCI Data Flow Task
+Creating a Pipeline Task (for a pipeline)
+|Create tasks
+|Creating Applications
+|
+Create an Application for running and scheduling tasks:
+|Publishing Design Tasks
+|Publish tasks to Applications for testing and running
+|Run tasks and then monitor their progress
+|Scheduling Published Tasks
+|Create a schedule and task schedules for automating runs
+|Monitoring a Workspace
+|Monitor a workspace
+Using the Console's Data Integration Overview Page
+When you access Data Integration in the Console and click Overview, you are presented with the Data Integration Overview page.
+The Overview page provides information about features, links to help you get started with the service, and resources for using Data Integration efficiently.
+Data Integration Learning Resources
+Use the following resources to learn about Oracle Cloud Infrastructure Data Integration.

@@ -1,0 +1,24 @@
+Concepts for Generative AI Agents
+Pre-General Availability: 2024-01-24
+The following legal notice applies to Oracle pre-GA (Beta) releases. For copyright and other applicable notices, see Oracle Legal Notices.
+Pre-General Availability Draft Documentation Notice
+This documentation is in pre-General Availability status and is intended for demonstration and preliminary use only. It may not be specific to the hardware on which you are using the software. Oracle Corporation and its affiliates are not responsible for and expressly disclaim all warranties of any kind with respect to this documentation and will not be responsible for any loss, costs, or damages incurred due to the use of this documentation.
+This documentation is not a commitment by Oracle to deliver any material, code, functionality or services. This documentation, and Oracle Pre-GA programs and services are subject to change at any time without notice and, accordingly, should not be relied upon in making purchasing decisions. The development, release, and timing of any features or functionality for Oracle’s Pre-GA programs and services remains at the sole discretion of Oracle. All release dates or other predictions of future events are subject to change. The future availability of any future Oracle program or service should not be relied on in entering into any license or service agreement with Oracle.
+Here are some concepts and terms related to the OCI Generative AI Agents service.
+Generative AI Model
+A large language model trained on large amounts of data which takes inputs that it hasn't seen before and generates new content. The Generative AI Agents service uses a large language model while processing requests and generating responses.
+AI Agent
+An agent that uses AI to perform tasks.
+Agents cover various categories. The Generative AI Agents service supports Retrieval-Augmented Generation (RAG) agents. A RAG agent is a program that can connect to a data source, retrieve data, and augment model responses with the information from the data sources to generate more relevant responses. Examples for other AI agents are agents that can dynamically invoke APIs such as agents addressing customer support inquiries in a chatbot or agents updating and closing support tickets.
+- Answerability
+-
+The model can generate relevant responses to user queries.
+- Groundedness
+- The model's generated responses can be tracked to data sources.
+When using RAG agents, models need to perform with high answerability and groundedness.
+Data Source
+A data source points to your data store. The Generative AI Agents service supports OpenSearch as a data store. When you create a data source, you specify which OpenSearch cluster and indexes that your agent can use. For example, you point to the indexes related to product inquiries.
+Cache Store
+A temporary data store for saving session data. When chatting with the Retrieval-Augmented Generation (RAG) agent, each query and response is cached, enabling the agent to use the cached data from the previous queries in the next responses. Generative AI Agents uses OCI Cache with Redis to store the agent's cached data.
+Private Endpoint
+A network interface that allows secure and private communication between the Generative AI Agents service and resources within a customer network.

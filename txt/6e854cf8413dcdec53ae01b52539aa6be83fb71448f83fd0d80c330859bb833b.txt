@@ -1,0 +1,84 @@
+Overview of Data Catalog
+Data Catalog is a metadata management service that helps data consumers discover data and improve governance in the Oracle ecosystem.
+With OCI Data Catalog, data analysts, data scientists, data engineers, and data stewards have a single self-service environment to discover the data that is available in the cloud sources. Data Catalog helps data providers create a data dictionary comprising of technical and business metadata. Data consumers can easily assess the suitability of data for analytics and data science projects.
+Data Catalog Key Capabilities
+- Harvest technical metadata from a wide range of supported data sources that are accessible using public or private IPs.
+- Create and manage a common enterprise vocabulary with a business glossary. Build a hierarchy of categories, subcategories, and terms with detailed rich text descriptions.
+- Enrich the harvested technical metadata with annotations by linking data entities and attributes to the business terms, user-defined properties, or adding free-form tags.
+- Find the information you need by exploring the data assets, browsing the data catalog, or using the quick search bar.
+- Automate and manage harvesting jobs using schedules.
+- Integrate the enterprise class capabilities of your data catalog with other applications using REST APIs and SDKs.
+Watch a video introduction to the service.
+Data Catalog Concepts
+An understanding of the following concepts is essential for using Data Catalog.
+- Data Asset
+- Represents a data source, such as a database, an object store, a file or document store, a message queue, or an application.
+- Connection
+- Includes necessary details to establish a connection to a data source. A connection is always associated to one data asset. A data asset can have more than one connection.
+- Connection Type
+- Defines the different set of properties available in a connection to connect to a data asset.
+- Harvest
+- Process that extracts technical metadata from your connected data sources into your data catalog repository.
+- Object
+- An object in the Data Catalog refers to any object that is managed in your data catalog such as data assets, data entities, attributes, glossaries, and terms.
+- Data Object
+- A data object in Data Catalog refers to data assets and data entities.
+- Data Entity
+- A data entity is a collection of data such as a database table or view, or a single logical file. Typically, a data entity has many attributes that describe its data.
+- Filename Pattern
+- A filename pattern is a regular expression that is created to group multiple Object Storage files into a logical data entity.
+- Logical Data Entity
+- A logical data entity is a group of Object Storage files that are derived by creating and assigning filename patterns to a data asset.
+- Attribute
+- An attribute describes a data item with a name and data type. For example, a column in a table or a field in a file.
+- Custom Property
+- Custom property is created to enrich data catalog objects with business context.
+- Glossary
+- A glossary is a collection of business concepts in your company. Glossary constitutes of categories and business terms.
+- Category
+- A category is created in a glossary to group logically related business terms. You can create a category within a category to group your terms.
+- Term
+- Terms are the actual definitions of business concepts as agreed upon by different business stakeholders in your company. You use terms to organize your data entities and attributes.
+- Data Catalog Tag
+- Tags are free-form labels or keywords you create to be able to logically identify data objects. Tags help in metadata classification and discovery. You create tags for data assets, data entities, and attributes. Using tags, you can search for all data objects tagged with a specific tag name.
+- Job
+- A task that runs the harvest process. A job can be created and run immediately, scheduled to run at a specified frequency, or created and run when needed.
+- Schedule
+- An automated job that can run hourly, daily, weekly, or monthly.
+Ways to Access Data Catalog
+You access Data Catalog using the Console, REST API, SDKs, or CLI.
+Use any of the following options, based on your preference and its suitability for the task you want to complete:
+- The Console is an easy-to-use, browser-based interface. To access the
+Console, you must use one of the following supported browsers:
+- Google Chrome 69 or later
+- Firefox 62 or later
+- The REST APIs provide the most functionality, but require programming expertise. API reference and endpoints provide endpoint details and links to the available API reference documents.
+- Oracle Cloud Infrastructure provides SDKs that interact with Data Catalog without you having to create a framework.
+- The command line interface (CLI) provides both quick access and full functionality without the need for programming.
+Resource Identifiers
+The Data Catalog resource has an Oracle-assigned unique identifier known as an Oracle Cloud ID (OCID).
+Regions and Availability Domains
+Data Catalog is available in all the regions mentioned in Regions and availability domains. Regions and availability domains indicate the physical and logical organization of your Data Catalog resources. A region is a localized geographic area, and an availability domain is one or more data centers located within a region.
+Limits and Quotas
+Service Limits
+Data Catalog limits you to two data catalog instances per region.
+Compartment Quotas
+You can limit the number of data catalog resources in a compartment by creating a quota limit. For example:
+set data-catalog quota catalog-count to 1 in compartment <MyCompartment>
+Integrated Services
+Data Catalog is integrated with various services and features.
+Data Catalog integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK, CLI, and REST API).
+An administrator in your company needs to set up groups, compartments, and policies that control who can access different services and resources, and the type of their access. For example, the policies control who can create users, create and manage the cloud network, create instances, create buckets, and download objects.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm the compartments that you can use.
+Common policies can be created to authorize Data Catalog users. You can also create Data Catalog policies to control user access to Data Catalog.
+The Oracle Cloud Infrastructure Search lets you find resources in your tenancy without requiring you to navigate through different services and compartments. You can search for the
+datacatalog resource type in your search queries.
+The tenancy explorer lets you view all your resources in a specific compartment, across
+all regions. The tenancy explorer is powered by the Search service and supports the Data Catalog resource type
+datacatalog.
+The Oracle Cloud Infrastructure Monitoring lets you actively and passively monitor your data catalog resources using the metrics and alarms features.
+The Data Catalog metrics help you measure:
+- The number of objects stored in your data catalog instance.
+- The number of objects harvested.
+- The time taken to harvest the objects.
+- The errors encountered during harvest.

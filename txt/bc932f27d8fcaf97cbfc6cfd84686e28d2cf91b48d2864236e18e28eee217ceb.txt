@@ -1,0 +1,18 @@
+Limitations Common to all Models
+Learn about the Language limitations common to all pretrained and custom models.
+-
+Ensure that input text records follows correct grammar and punctuation to avoid model performance degradation.
+-
+Spelling isn't checked or corrected so the results might not be as you expect when spelling mistakes exist.
+Single Requests
+-
+A record can be up to 1,000 characters. We encourage you to use batch requests that support records up to 5,000 characters and support more than one record in a single request.
+-
+There's no minimum number of characters that must be provided, but the output quality is highly dependent on the amount of information provided to the models.
+Batch Requests
+-
+A batch can have up to 100 records.
+-
+A record can be up to 5,000 characters long.
+-
+The total number of characters to process in a request can be up to 20,000 characters.

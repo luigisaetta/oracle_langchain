@@ -1,0 +1,88 @@
+Sentiment Analysis
+Sentiment analysis can be used to gauge the mood or the tone of text.
+Sentiment analysis analyzes the subjective information in an expression. For example, opinions, appraisals, emotions, or attitudes toward a topic, person, or entity. Expressions are classified, with a confidence score, as positive, negative, or neutral.
+The Language service sentiment analysis uses natural language processing (NLP). The service understands the text, returns positive, neutral, mixed, and negative sentiments, and a confidence score. It supports both sentence and aspect-based sentiment analysis.
+Aspect-Based Sentiment Analysis
+Aspect-Based Sentiment Analysis (ABSA) extracts the individual aspects in the input document and classifies each of the aspects into one of the polarity classes: positive, negative, mixed, and neutral. With the predicted sentiment for each aspect, the Language API also provides a confidence score for each of the classes, and their corresponding offsets in the input.
+Confidence scores closer to 1 indicate a higher confidence in the label's classification, while lower scores indicate lower confidence score. The range of the confidence score for each class is between 0 to 1, and the cumulative scores of all the four classes sum to 1.
+For example, a restaurant review that says "Food is marginal, but the service is so bad.” contains positive sentiment toward the food aspect. Also, it has a strong negative sentiment toward the service aspect. Classifying the overall sentiment as negative would neglect the fact that food was good. ABSA addresses this problem by referring to an aspect as an attribute (or component) of an entity. Also, the screen of a phone or the picture quality of a camera.
+If the input data is "I had a good day at work today", then a single aspect day is identified with 100% positive, 0% neutral, 0% mixed, and 0% negative sentiments.
+Sentence Level Sentiment Analysis
+The Language service also provides sentence level sentiment with confidence scores for each sentence in the text. Based on the use case, you can select either sentence or document sentiment, or ABSA, or both. For example, in a customer feedback analytics scenario, you might want to identify sentences that need human review for further action.
+Use Cases
+Some business use cases are:
+-
+Brand monitoring
+-
+Monitoring market research
+-
+Employee feedback analysis
+-
+Customer reviews and emails analysis
+-
+Product surveys
+For example, customer and employee raw survey responses can be processed using the sentiment analysis model. The results can then be aggregated for analysis and follow up, and to help engagements.
+Social media monitoring can be useed with sentiment analysis to extract the overall mood swing of the customer. For example, when a new product is launched, or competitive market research is conducted.
+Supported Features
+-
+Analysis level: sentence and aspect
+-
+English language
+-
+Requests support single record and multi-record batches.
+Supported Languages for Input Text
+- English
+- Spanish
+Aspect-Based Sentiment Analysis Example
+|Input Text
+|Sentiment
+|Polarity Score
+|
+OCI recently added new services to the existing compliance program including SOC, HIPAA, and ISO, to enable our customers to solve their use cases. We also released new technical papers and guidance documents related to Object Storage, the Australian Prudential Regulation Authority (APRA), and the Central Bank of Brazil. These resources help regulated customers better understand how OCI supports their regional and industry-specific compliance requirements. Not only are we expanding our number of compliance offerings and regulatory alignments, we continue to add regions and services at a faster rate.
+|
+services [Positive]
+OCI [Positive]
+resources [Positive]
+regions [Positive]
+|
+Sample Request:
+- API Request format:
+-
+POST https://<region-url>/20210101/actions/batchDetectLanguageSentiments?level=ASPECT
+- Input JSON
+-
+{ “documents”: [ { "key" : "doc1", "text" : "OCI recently added new services to existing compliance program including SOC, HIPAA, and ISO to enable our customers to solve their use cases. We also released new white papers and guidance documents related to Object Storage, the Australian Prudential Regulation Authority (APRA), and the Central Bank of Brazil. These resources help regulated customers better understand how OCI supports their regional and industry-specific compliance requirements. Not only are we expanding our number of compliance offerings and regulatory alignments, we continue to add regions and services at a faster clip." } ] }
+- Response JSON:
+-
+{ "documents": [ { "key": "1", "documentSentiment": "Positive", "documentScores": { "Neutral": 0.44763687, "Positive": 0.46578798, "Mixed": 0.064058214, "Negative": 0.022516921 }, "sentences": [ { "offset": 0, "length": 147, "text": "OCI recently added new services to the existing compliance program including SOC, HIPAA, and ISO, to enable our customers to solve their use cases.", "sentiment": "Neutral", "scores": { "Negative": 0.0154264, "Mixed": 0, "Neutral": 0.98231775, "Positive": 0.0022558598 } }, { "offset": 148, "length": 170, "text": "We also released new white papers and guidance documents related to Object Storage, the Australian Prudential Regulation Authority (APRA), and the Central Bank of Brazil.", "sentiment": "Neutral", "scores": { "Mixed": 0, "Neutral": 0.97296304, "Negative": 0.007886417, "Positive": 0.019150572 } }, { "offset": 319, "length": 137, "text": "These resources help regulated customers better understand how OCI supports their regional and industry-specific compliance requirements.", "sentiment": "Neutral", "scores": { "Neutral": 0.5864549, "Positive": 0.35583654, "Mixed": 0.02932497, "Negative": 0.028383587 } }, { "offset": 457, "length": 145, "text": "Not only are we expanding our number of compliance offerings and regulatory alignments, we continue to add regions and services at a faster rate.", "sentiment": "Positive", "scores": { "Negative": 0.022516921, "Positive": 0.46578798, "Mixed": 0.064058214, "Neutral": 0.44763687 } } ], "aspects": [ { "offset": 325, "length": 9, "text": "resources", "sentiment": "Positive", "scores": { "Positive": 0.9841423768960832, "Negative": 0.01398839404953044, "Neutral": 0, "Mixed": 0.0018692290543864747 } } ], "languageCode": "en" } ], "errors": [] }
+Sentence Level Sentiment Analysis Example
+|Input Text
+|Sentiment
+|Polarity Score
+|
+I was impressed with the griddle as it kept an even heat throughout the surface. My only concern is that the cord is too short, I really wish it was at least 16 inches long so I do not have to buy an extension cord. Overall, I think it is OK for the price.
+|
+Sentence 1 [Positive]
+Sentence 2 [Negative]
+Sentence 3 [Neutral]
+|
+Sample Request:
+- API Request format:
+-
+POST https://<region-url>/20210101/actions/batchDetectLanguageSentiments?level=SENTENCE
+- Input JSON
+-
+{ "documents": [ { "key": "doc1", "text": "OCI recently added new services to existing compliance program including SOC, HIPAA, and ISO to enable our customers to solve their use cases. We also released new white papers and guidance documents related to Object Storage, the Australian Prudential Regulation Authority (APRA), and the Central Bank of Brazil. These resources help regulated customers better understand how OCI supports their regional and industry-specific compliance requirements. Not only are we expanding our number of compliance offerings and regulatory alignments, we continue to add regions and services at a faster clip." } ] }
+- Response JSON:
+-
+{ "documents": [ { "key": "doc1", "documentSentiment": "positive", "documentScores": { "positive": 0.6763582, "mixed": 0.08708387, "neutral": 0.12376911, "negative": 0.11278882 }, "sentences": [ { "text": "OCI recently added new services to existing compliance program including SOC, HIPAA, and ISO to enable our customers to solve their use cases.", "sentiment": "neutral", "scores": { "positive": 0.15475821, "neutral": 0.5567636, "mixed": 0.09907853, "negative": 0.18939966 } }, { "text": "We also released new white papers and guidance documents related to Object Storage, the Australian Prudential Regulation Authority (APRA), and the Central Bank of Brazil.", "sentiment": "neutral", "scores": { "mixed": 0.07148028, "negative": 0.12318015, "positive": 0.11138679, "neutral": 0.6939528 } }, { "text": "These resources help regulated customers better understand how OCI supports their regional and industry-specific compliance requirements.", "sentiment": "positive", "scores": { "negative": 0.11278882, "neutral": 0.12376911, "mixed": 0.08708387, "positive": 0.6763582 } }, { "text": "Not only are we expanding our number of compliance offerings and regulatory alignments, we continue to add regions and services at a faster clip.", "sentiment": "neutral", "scores": { "mixed": 0.0973028, "positive": 0.18745653, "negative": 0.1592837, "neutral": 0.55595696 } } ], "aspects": [], "languageCode": "en" } ], "errors": [] }
+The actual values, and input and output structure might vary by model version, see the SDK documentation.
+Limitations
+-
+The identified aspects might be partial matches or split aspects.
+-
+When sentences are semantically or structurally incorrect, the aspects could differ from your expectations.
+-
+Pronouns aren't considered aspects.
+-
+Sarcasm isn't recognized.

@@ -1,0 +1,87 @@
+Overview of Container Instances
+Oracle Cloud Infrastructure (OCI) Container Instances is a serverless compute service that enables you to quickly and easily run containers without managing any servers. Container Instances runs your containers on serverless compute optimized for container workloads that provides the same isolation as virtual machines.
+You can create a container instance with one or more containers specifying the container images and a few parameters. You get the flexibility to specify the underlying compute shape and configure resource allocation, networking, and other advanced options such as restart policy and graceful shutdown. You can also configure environment variables, startup options, and resource limits for each container.
+Container Instances lets you allocate all the CPU and memory provided by the underlying Compute shape to a container instance. This gives you flexibility to run even the most demanding workloads in containers without running into resource constraints.
+Container instances are suitable for containerized workloads that do not require a container orchestration platform like Kubernetes. These use cases include: APIs, web applications, build and deployment jobs in CI/CD pipelines, automation tasks for cloud operations, data/media processing jobs, development or test environments, and more. For running your containerized apps on Kubernetes without managing infrastructure, see Container Engine for Kubernetes.
+Required IAM Policy
+To use Oracle Cloud Infrastructure, you must be granted security access in a policy by an administrator. This access is required whether you're using the Console or the REST API with an SDK, CLI, or other tool. If you get a message that you don’t have permission or are unauthorized, verify with your administrator what type of access you have and which compartment to work in.
+When you create a container instance, several other resources are involved, such as an image, a cloud network, and a subnet. Those other resources can be in the same compartment with the instance or in other compartments. You must have the required level of access to each of the compartments involved in order to launch the instance.
+For administrators: The simplest policy to enable users to create container instances is listed in Let users create container instances. It gives the specified group general access to manage container instances. To allow the Container Instances resource to pull images from Container Registry, see the example policy Let Container Instances pull images from Container Registry.
+For information about using the API and signing requests, see REST APIs and Security Credentials. For information about SDKs, see Software Development Kits and Command Line Interface.
+Container Instances Shapes
+Container instances use flexible shapes that let you customize the number of OCPUs and the amount of memory allocated to an instance. When you create a container, you select the number of OCPUs and the amount of memory that you need for the workloads that run on the container. The network bandwidth and number of VNICs scale proportionately with the number of OCPUs. This flexibility lets you build containers that match your workload, enabling you to optimize performance and minimize cost.
+Creating Automation with Events
+You can create automation based on state changes for your Oracle Cloud Infrastructure resources by using event types, rules, and actions. For more information, see Overview of Events.
+The following Container Instances resources emit events:
+- Create Container Instance
+- Restart Container Instance
+- Start Container Instance
+- Stop Container Instance
+- Update Container Instance
+- Change Container Instance Compartment
+- Delete Container Instance
+- Update Container
+- Container Instance Maintenance
+Resource Identifiers
+Most types of Oracle Cloud Infrastructure resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID). For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Work Requests
+Work requests help you monitor long-running operations. Container Instances is one of the Oracle Cloud Infrastructure services that offers work requests supported by the service API rather than the Work Requests API. For general information on using work requests in Oracle Cloud Infrastructure, see Work Requests in the user guide. For information on the work requests for Container Instances, see Container Instances work requests API.
+Ways to Access Oracle Cloud Infrastructure
+You can access Oracle Cloud Infrastructure using the Console (a browser-based interface) or the REST APIs. Instructions for the Console and API are included in topics throughout this guide. For a list of available SDKs, see Software Development Kits and Command Line Interface.
+To access the Console, you must use a supported browser. To go to the Console sign-in page, open the navigation menu at the top of this page and click Infrastructure Console. You are prompted to enter your cloud tenancy, your user name, and your password.
+For general information about using the API, see REST APIs.
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups , compartments , and policies that control which users can access which services, which resources, and the type of access. For example, the policies control who can create new users, create and manage the cloud network, launch instances, create buckets, download objects, etc.
+- If you're a new administrator, see Getting Started with Policies.
+- For specific details about writing policies for this service, see Container Instances IAM Policies.
+- For specific details about writing policies for other services, see Policy Reference.
+- For information about hosting container images in private registries or repositories that require authorization in order to pull the images, see Vault Secrets for Image Pull Authorization.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm which compartment or compartments you should be using.
+Resource Billing for Stopped Container Instances
+For container instances, billing depends on the shape that you use to create the container instance. Container instances use standard shapes which pause billing when a container instance stops. However, stopped and failed instances continue to count toward your service limits.
+|
+Container Instance States
+|
+Description
+|
+Billing
+|Creating
+|
+The container instance is being created.
+|
+No
+|Active
+|The container instance is active, the container images are being pulled, or the containers are running.
+|Yes
+|
+Updating
+|
+You change the configuration of the container instance. For example:
+Attributes such as the container image or the auto-restart policy become effective after a container instance restart.
+Container instances are in "Updating" state after a restart, start, stop.
+When you stop a container instance, it pauses the billing for that container instance. The billing resumes when the container instance is active again.
+|
+Yes
+|Failed
+|The container instance is no longer functional and cannot be recovered. The "Failed" state is permanent.
+For example, a container instance reaches the "Failed" state if the creation of the container instance fails due to invalid user input. An example of invalid user input is when a user specifies a container image that does not exist, or the Container Instances service cannot pull a container image because the user does not provide a sufficient method of authorization.
+|No
+|Inactive
+|
+You stopped the container instance and it will not start again without user input.
+or
+All containers in the container instance stopped and the auto-restart policy is disabled.
+The container instance infrastructure is removed. Billing is stopped.
+|No
+|Deleting
+|Container instance goes into a "Deleting" state when you request the container instance deletion by using the DeleteContainerInstance API call.
+The container instance infrastructure is being removed.
+|No
+|Deleted
+|The container instance is deleted. DeleteContainerInstance is complete.
+|No
+Limits on Container Instances Resources
+See Service Limits for a list of applicable limits and instructions for requesting a limit increase. To set compartment-specific limits on a resource or resource family, administrators can use compartment quotas.
+Many Container Instances operations are subject to throttling.
+A service limit is different from host capacity. A service limit is the quota or allowance set on a resource. Host capacity is the physical infrastructure that resources such as container instances run on.

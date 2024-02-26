@@ -1,0 +1,30 @@
+Overview of Generative AI Agents Service
+Pre-General Availability: 2024-01-24
+The following legal notice applies to Oracle pre-GA (Beta) releases. For copyright and other applicable notices, see Oracle Legal Notices.
+Pre-General Availability Draft Documentation Notice
+This documentation is in pre-General Availability status and is intended for demonstration and preliminary use only. It may not be specific to the hardware on which you are using the software. Oracle Corporation and its affiliates are not responsible for and expressly disclaim all warranties of any kind with respect to this documentation and will not be responsible for any loss, costs, or damages incurred due to the use of this documentation.
+This documentation is not a commitment by Oracle to deliver any material, code, functionality or services. This documentation, and Oracle Pre-GA programs and services are subject to change at any time without notice and, accordingly, should not be relied upon in making purchasing decisions. The development, release, and timing of any features or functionality for Oracle’s Pre-GA programs and services remains at the sole discretion of Oracle. All release dates or other predictions of future events are subject to change. The future availability of any future Oracle program or service should not be relied on in entering into any license or service agreement with Oracle.
+Oracle Cloud Infrastructure Generative AI Agents (Beta) is a fully managed service that combines the power of large language models with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
+To use this service, index your data in OCI Search with OpenSearch and set up a cluster in OCI Cache with Redis for the cached user prompts and responses. Then you create an agent and attach your data source. Finally, you test your agent and allow it to generate insights and answer questions.
+Use Cases
+Use the OCI Generative AI Agents service for the following types of use cases.
+- Chatbot for FAQs
+-
+Index FAQ and documentation so that users can easily access relevant topics and find answers to their questions through a chatbot or through the current documentation.
+- Chatbot for policies
+-
+Index policy documents, such as human resources, insurance, or finance documents. When users ask specific questions about these policies, they can get answers relevant answers from those documents through a chatbot interface.
+Supported Data Sources in Generative AI Agents
+Generative AI Agents supports the following data source to be used with agents:
+- OCI Search with OpenSearch
+-
+To use OCI Search with OpenSearch with Generative AI Agents, create a cluster for Search with OpenSearch and ingest your data into the Search with OpenSearch cluster. Then, create indexes for your Search with OpenSearch data, so that when you create an agent, the agent can use those indexes to generate answers. See Getting Started with Generative AI Agents.
+Regions with Generative AI Agents
+Oracle hosts its OCI services in regions and availability domains. A region is a localized geographic area, and an availability domain is one or more data centers in that region. OCI Generative AI Agents is hosted in the following region:
+- Region name: US Midwest (Chicago)
+- Region identifier: us-chicago-1
+See About Regions and Availability Domains for the list of available OCI regions, along with associated locations, region identifiers, region keys, and availability domains.
+Accessing Generative AI Agents in the Console
+- Sign in to the Console by using a supported browser.
+- In the navigation bar of the Console, choose a region that hosts Generative AI Agents, for example, US Midwest (Chicago). If you don't know which region to choose, see Regions with Generative AI Agents.
+- Open the navigation menu and click Analytics & AI. Under AI Services, click Generative AI Agents.

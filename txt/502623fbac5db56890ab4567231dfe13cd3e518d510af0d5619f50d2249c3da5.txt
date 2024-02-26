@@ -1,0 +1,98 @@
+Workflow for Custom Models
+Creating a custom model typically involves five steps.
+- Preparing a Training Dataset
+- Training a Model
+- Evaluating the Model
+- Deploying the Model
+- Analyzing Text
+After evaluating the model in step 3, repeat steps 1-3 until you have satisfactory metrics, and then deploy the model.
+Preparing a Training Dataset
+To train a custom model, you provide labeled data, see About Data Labeling.
+For example, to create a text classification model, you give the model many examples of text records and you label them with the class that they belong to. The model learns the characteristics of the labeled records. Then the trained model can infer the class for new records.
+Training data must be labeled. For example, to create a text classification model, you give the model representative examples of text records with a label for each record. These examples enable the model to learn and predict for examples that aren't seen by a model. To label data, we recommend that you use the OCI CLI toData Labeling service.
+- Dataset Recommendations for Custom Models
+-
+Follow the guidelines in the following table to prepare training datasets. If you're lacking datasets for validation and test, then a random 60% of items are used for training, 20% for validation, and 20% for test.
+If you don't provide a validation or test dataset, then a random 20% of the samples are chosen by the service.
+Training Set Validation Set Test Set
+Custom Named Entity Recognition
+-
+Minimum — 10 instances per entity.
+-
+Recommended — 50 instances per entity.
+-
+Minimum — 5 instance per entity or 20% of training instances, whichever is higher.
+-
+Recommended — 20 instances per entity.
+-
+Minimum — 5 instance per entity or 20% of training instances, whichever is higher.
+-
+Recommended — 20 instances per entity.
+Custom Text Classification
+-
+Minimum — 10 documents per class.
+-
+Recommended — 100 documents per class.
+-
+Recommended — 20 documents per class.
+-
+Recommended — 20 documents per class.
+-
+-
+Label the training examples correctly. The quality of the model depends on the quality of the data. When you train a model, if a type of class or entity doesn't perform as expected, add more examples for that class or entity. Also ensure that the entity is annotated at every occurrence in the training set. Low quality training data results in poor training metrics and yields inaccurate results.
+-
+Have enough training samples for models. More data is always better to boost model performance. We recommend that you train the model with a small dataset, review the model training metrics, and add more training samples as needed.
+Training a Model
+Training is the process where the model learns from the labeled data. The training duration and results depend on the size of the dataset, the size of each record, and the number of active training jobs.
+Evaluating the Model
+After a model is trained, you can get evaluation metrics that describe the quality of the model, or how likely the model is to predict correctly. The service applies the model to the test set and compares the predicted labels to the expected labels. The metrics are based on how accurate the model predicts the test set.
+Using the Console you get a set of evaluation metrics at the model level, and at the class level, (or entity level for NER models) listed in the following section.
+Using the Console you get the following types of evaluation metrics:
+- Class level metrics
+- Model level metrics
+- Entity level metrics for NER models
+- Confusion matrix
+Using the API, you can get a more complete set of metrics including micro, macro and weighted average precision recall, and F-1 scores.
+Class Metrics
+Class metrics are or entity level metrics.
+- Precision
+-
+The ratio between true positives (the correctly predicted examples), and all examples of the particular class.
+It describes how many of the predicted examples are correctly predicted. The value is between 0 and 1. Higher values are better.
+- Recall
+-
+The ratio between true positives (the correctly predicted examples) and all predicted examples.
+It describes how many correct examples are predicted. The value is between 0 and 1. Higher values are better.
+- F1-Score
+-
+The F1-score is the harmonic mean of precision and recall, giving you a single value to evaluate the model. The value is between 0 and 1. Higher values are better.
+Model Metrics
+Model metrics are model level metrics for multi-class models. Model level metrics describe the overall quality of a model. Precision, recall, and F-1 values are presented at the macro, micro, and weighted average level.
+- Macro Averages
+-
+A macro average is the average of metric values of all classes.
+For example, macro-precision is calculated as the sum of all class precision values divide by the number of classes.
+- Micro Averages
+-
+A micro-average aggregates the contributions of all examples to compute the average metric.
+-
+For example, a micro recall is calculated as (sum of correct examples predicted) / (sum of correct examples predicted + sum of correct examples not predicted).
+- Weighted Averages
+-
+Calculated by considering the number of instances of each class.
+For example, a weighted F1-score is calculated as sum of (F1-score of class * support proportion of the class).
+- Accuracy
+-
+A fraction of all correctly predicted and nonpredicted examples. The fraction is calculated as the ratio between correctly predicted and nonpredicted classes (true positive + true negative) and all examples
+- Confusion Matrix
+-
+A table to visualize the true and prediction results of each class.
+Deploying the Model
+After model metrics meet expectations, you can put the model in production and use the model to analyze text. To put the model into production, you create an endpoint. An endpoint assigns dedicated compute resources for inferencing (performing text analysis) on custom models.
+Custom model endpoints are private and you must specify a compartment for deploying the endpoint. You can create more than one endpoint for a model. You can create or delete endpoints without deleting a model.
+Analyzing Text
+After you create a model endpoint, you can deploy the model and analyze text using a custom model. You can deploy a model to an endpoint in the following ways:
+- Console
+- REST API
+- SDK (Python, Java, C#, JavaScript, and Ruby)
+- CLI

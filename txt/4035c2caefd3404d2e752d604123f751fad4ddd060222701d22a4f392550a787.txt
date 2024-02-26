@@ -1,0 +1,111 @@
+Overview of the Compute Service
+Oracle Cloud Infrastructure Compute lets you provision and manage compute hosts, known as instances. You can create instances as needed to meet your compute and application requirements. After you create an instance, you can access it securely from your computer, restart it, attach and detach volumes, and terminate it when you're done with it. Any changes made to the instance's local drives are lost when you terminate it. Any saved changes to volumes attached to the instance are retained.
+Oracle Cloud Infrastructure offers both bare metal and virtual machine instances:
+- Bare metal: A bare metal compute instance gives you dedicated physical server access for highest performance and strong isolation.
+-
+Virtual machine: A virtual machine (VM) is an independent computing environment that runs on top of physical bare metal hardware. The virtualization makes it possible to run multiple VMs that are isolated from each other. VMs are ideal for running applications that do not require the performance and resources (CPU, memory, network bandwidth, storage) of an entire physical machine.
+An Oracle Cloud Infrastructure VM compute instance runs on the same hardware as a bare metal instance, leveraging the same cloud-optimized hardware, firmware, software stack, and networking infrastructure.
+Learn more about the Compute service and related services.
+Be sure to review Best Practices for Your Compute Instances for important information about working with your Compute instances.
+Linux instances on Oracle Cloud Infrastructure can use Oracle Ksplice to apply critical kernel patches without rebooting. Ksplice can maintain specific kernel versions for Oracle Linux, CentOS, and Ubuntu. For more information, see Oracle Ksplice.
+Compute is Always Free eligible. For more information about Always Free resources, including capabilities and limitations, see Oracle Cloud Infrastructure Free Tier.
+Instance Types
+When you create a compute instance, you can select the most appropriate type of instance for your applications based on characteristics such as the number of CPUs, amount of memory, and network resources.
+Instance Features
+Oracle Cloud Infrastructure offers features that let you customize your instances for specialized workloads and security requirements.
+- Burstable instances are virtual machine (VM) instances that provides a baseline level of CPU performance with the ability to burst to a higher level to support occasional spikes in usage. For more information, see Burstable Instances.
+- Shielded instances harden the firmware security on bare metal hosts and virtual machines (VMs) to defend against malicious boot level software. For more information, see Shielded Instances.
+- Extended memory VMs are VM instances that provide more memory and cores than available with standard shapes. For more information, see Extended Memory VM Instances.
+Shape Types
+Oracle Cloud Infrastructure offers a variety of shapes that are designed to meet a range of compute and application requirements:
+- Standard shapes: Designed for general purpose workloads and suitable for a wide range of applications and use cases. Standard shapes provide a balance of cores, memory, and network resources. Standard shapes are available with Intel, AMD, and Arm-based processors.
+- DenseIO shapes: Designed for large databases, big data workloads, and applications that require high-performance local storage. DenseIO shapes include locally-attached NVMe-based SSDs.
+- GPU shapes: Designed for hardware-accelerated workloads. GPU shapes include Intel or AMD CPUs and NVIDIA graphics processors. Some bare metal GPU shapes support cluster networking.
+- High performance computing (HPC) and optimized shapes: Designed for high-performance computing workloads that require high frequency processor cores. Bare metal HPC and optimized shapes support cluster networking.
+For more information about the available bare metal and VM shapes, see Compute Shapes, Bare Metal Instances, Virtual Machines, and Virtual Machines and Bare Metal (GPU).
+Flexible Shapes
+Flexible shapes let you customize the number of OCPUs and the amount of memory allocated to an instance. When you create a VM instance using a flexible shape, you select the number of OCPUs and the amount of memory that you need for the workloads that run on the instance. The network bandwidth and number of VNICs scale proportionately with the number of OCPUs. This flexibility lets you build VMs that match your workload, enabling you to optimize performance and minimize cost.
+Capacity Types
+You can choose the type of host capacity to use when launching compute instances. On-demand capacity is the default, but you can use preemptible capacity, capacity reservations, or dedicated capacity instead.
+- On-demand capacity: Pay for only the compute capacity that you use. With on-demand capacity, you pay for compute capacity by the second, and depending on the shape, you pay only for the seconds that your instances are running. Capacity availability is not guaranteed when launching large workloads.
+- Preemptible capacity: Preemptible capacity allows you to save money by using preemptible instances to run workloads that only need to run for brief periods or that can be interrupted when the capacity is reclaimed. Preemptible instances behave the same as regular compute instances, but the capacity is reclaimed when it's needed elsewhere, and the instances are terminated. For more information, see Preemptible Instances.
+- Reserved capacity: Reserve capacity for future usage, and ensure that capacity is available to create Compute instances whenever you need them. The reserved capacity is used when you launch instances against the reservation. When these instances are terminated, the capacity is returned to the reservation, and the unused capacity in the reservation increases. Unused reserved capacity is metered differently than used reserved capacity. For more information, see Capacity Reservations.
+- Dedicated capacity: Run VM instances on dedicated servers that are a single tenant and not shared with other customers. This feature lets you meet compliance and regulatory requirements for isolation that prevent you from using shared infrastructure. You can also use this feature to meet node-based or host-based licensing requirements that require you to license an entire server. For more information, see Dedicated Virtual Machine Hosts.
+Service limits and compartment quotas apply to all types of host capacity. For reserved capacity, if your request for reserved capacity will exceed your service limits, request a service limit increase before you reserve the capacity. For more information, see Service Limits.
+Components for Launching Instances
+The components required to launch an instance are:
+- availability domain
+- The Oracle Cloud Infrastructure data center within your geographical region that hosts cloud resources, including your instances. You can place instances in the same or different availability domains, depending on your performance and redundancy requirements. For more information, see Regions and Availability Domains.
+- virtual cloud network
+- A virtual version of a traditional network—including subnets, route tables, and gateways—on which your instance runs. At least one cloud network has to be set up before you launch instances. For information about setting up cloud networks, see Networking Overview.
+- key pair (for Linux instances)
+- A security mechanism required for Secure Shell (SSH) access to an instance. Before you launch an instance, you’ll need at least one key pair. For more information, see Managing Key Pairs on Linux Instances.
+- password (for Windows instances)
+- A security mechanism required to access an instance that uses a Windows platform image. The first time you launch an instance using a Windows image, Oracle Cloud Infrastructure will generate an initial, one-time password that you can retrieve using the console or API. This password must be changed after you initially log on.
+- image
+-
+A template of a virtual hard drive that determines the operating system and other software for an instance. You can launch instances from these sources:
+- Oracle Cloud Infrastructure platform images.
+- Trusted third-party images published by Oracle partners from the Partner Image catalog. For more information about partner images, see Overview of Marketplace and Working with Listings.
+- Pre-built Oracle enterprise images and solutions enabled for Oracle Cloud Infrastructure.
+- Custom images, including bring your own image scenarios.
+- Community images, created and published by community members for use by other community members.
+- Boot volumes.
+- shape
+- A template that determines the number of CPUs, amount of memory, and other resources allocated to a newly created instance. You choose the most appropriate shape when you launch an instance. See Compute Shapes for a list of available bare metal and VM shapes.
+- tags
+-
+Apply tags to your resources to help organize them according to your business needs. Apply tags at the time you create a resource, or update the resource later with the wanted tags. For general information about applying tags, see Resource Tags.
+Resources that are created and used by compute instances, such as boot volumes and network traffic, are billed separately from the compute instance.
+Creating Automation with Events
+You can create automation based on state changes for your Oracle Cloud Infrastructure resources by using event types, rules, and actions. For more information, see Overview of Events.
+The following Compute resources emit events:
+- Autoscaling configurations and autoscaling policies
+- Cluster networks
+- Console histories
+- Images
+- Instances and instance attachments
+- Instance configurations
+- Instance console connections
+- Instance pools
+Resource Identifiers
+Most types of Oracle Cloud Infrastructure resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID). For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Work Requests
+Compute is one of the Oracle Cloud Infrastructure services that is integrated with the Work Requests API. For general information on using work requests in Oracle Cloud Infrastructure, see Work Requests in the user guide, and the Work Requests API.
+Ways to Access Oracle Cloud Infrastructure
+You can access Oracle Cloud Infrastructure (OCI) by using the Console (a browser-based interface), REST API, or OCI CLI. Instructions for using the Console, API, and CLI are included in topics throughout this documentation. For a list of available SDKs, see Software Development Kits and Command Line Interface.
+To access the Console, you must use a supported browser. To go to the Console sign-in page, open the navigation menu at the top of this page and click Infrastructure Console. You are prompted to enter your cloud tenant, your user name, and your password.
+For general information about using the API, see REST APIs.
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups , compartments , and policies that control which users can access which services, which resources, and the type of access. For example, the policies control who can create new users, create and manage the cloud network, launch instances, create buckets, download objects, and so on. For more information, see Getting Started with Policies. For specific details about writing policies for each of the different services, see Policy Reference.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm which compartment or compartments you should be using.
+Security
+In addition to creating IAM policies, follow these security best practices for Compute.
+- Encrypt boot volumes with a custom key, and rotate keys
+- Apply the latest security patches to instances
+- Use Oracle Cloud Guard to detect and respond to security problems
+- Perform a security audit
+See Securing Compute.
+Storage for Compute Instances
+You can expand the storage that's available for your compute instances with the following services:
+- Block Volume: Lets you dynamically provision and manage block volumes that you can attach to one or more compute instances. See Overview of Block Volume for more information. For steps to attach block volumes to compute instances, see Attaching a Block Volume to an Instance and Attaching a Volume to Multiple Instances.
+- File Storage: A durable, scalable, secure, enterprise-grade network file system that you can connect to from any compute instance in your virtual cloud network (VCN). See Overview of File Storage for more information.
+- Object Storage: An internet-scale, high-performance storage platform that lets you store an unlimited amount of unstructured data of any content type. This storage is regional and not tied to any specific compute instance. See Overview of Object Storage for more information.
+- Archive Storage: A storage platform that lets you store an unlimited amount of unstructured data of any content type that doesn't require instantaneous data retrieval. This storage is regional and not tied to any specific compute instance. See Overview of Archive Storage for more information.
+Limits on Compute Resources
+For a list of applicable limits and instructions for requesting a limit increase, see Service Limits. To set compartment-specific limits on a resource or resource family, administrators can use compartment quotas.
+Additional limits include:
+- To attach a volume to an instance, both the instance and volume must be within the same availability domain.
+- Many Compute operations are subject to throttling.
+A service limit is different from host capacity. A service limit is the quota or allowance set on a resource. Host capacity is the physical infrastructure that resources such as compute instances run on. If you get an "Out of host capacity" error when you try to create an instance or change the shape of an instance, try the suggested workarounds.
+Metadata Key Limits
+Custom metadata keys (any key you define that is not
+ssh_authorized_keys or
+user_data) have the following limits:
+- Max number of metadata keys: 128
+- Max size of key name: 255 characters
+- Max size of key value: 255 characters
+ssh_authorized_keys is a special key that does not have these limits, but its value is validated to conform to a public key in the OpenSSH format.
+user_data has a maximum size of 16KB. For Linux instances with cloud-init configured, you can populate the
+user_data field with a Base64-encoded string of cloud-init user data. For more information on formats that cloud-init accepts, see cloud-init formats.

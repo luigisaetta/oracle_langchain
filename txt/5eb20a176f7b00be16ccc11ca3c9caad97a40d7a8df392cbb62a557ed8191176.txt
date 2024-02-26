@@ -1,0 +1,90 @@
+In the evolving landscape of conversational artificial intelligence (AI), the Retrieval-Augmented Generation (RAG) framework has emerged as a pivotal innovation, particularly in enhancing the capabilities of chatbots. RAG addresses a fundamental challenge in traditional chatbot technology: The limitation of relying solely on pretrained language models, which often leads to responses that lack current, specific, or contextually nuanced information. By seamlessly integrating a retrieval mechanism with advanced language generation techniques, RAG-based systems can dynamically pull in relevant and up-to-date content from external sources. This ability not only significantly enriches the quality and accuracy of chatbot responses but also ensures that they remain adaptable and informed by the latest information.
+In an era where users expect highly intelligent and responsive digital interactions, the need for RAG-based systems in chatbots has become increasingly critical, marking a transformative step in realizing truly dynamic and knowledgeable conversational agents. Traditional chatbots, constrained by the scope of their training data, often struggle to provide up-to-date, specific, and contextually relevant responses. RAG overcomes this issue by integrating a retrieval mechanism with language generation, allowing chatbots to access and incorporate external, current information in real time. This approach not only improves the accuracy and relevance of responses but also enables chatbots to handle niche or specialized queries more effectively. Furthermore, RAG’s dynamic learning capability ensures that chatbot responses remain fresh and adapt to new trends and data.
+By providing more detailed and reliable information, RAG significantly enhances user engagement and trust in chatbot interactions, marking a substantial advancement in the field of conversational AI. This technique is particularly useful in the context of chatbots for the following reasons:
+Enhanced knowledge and information retrieval: RAG enables a chatbot to pull in relevant information from a large body of documents or a database. This feature is particularly useful for chatbots that need to provide accurate, up-to-date, or detailed information that isn’t contained within the model’s pretrained knowledge base.
+Improved answer quality: By retrieving relevant documents or snippets of text as context, RAG can help a chatbot generate more accurate, detailed, and contextually appropriate responses. This capability is especially important for complex queries where the answer might not be straightforward or requires synthesis of information from multiple sources.
+Balancing generative and retrieval capabilities: Traditional chatbots are either generative (creating responses from scratch) or retrieval-based (finding the best match from a set of predefined responses). RAG allows for a hybrid approach, where the generative model can create more nuanced and varied responses based on the information retrieved, leading to more natural and informative conversations.
+Handling long-tail queries: In situations where a chatbot encounters rare or unusual queries (known as long-tail queries), RAG can be particularly useful. It can retrieve relevant information even for these less common questions, allowing the generative model to craft appropriate responses.
+Continuous learning and adaptation: Because RAG-based systems can pull in the latest information from external sources, they can remain up-to-date and adapt to new information or trends without requiring a full retraining of the model. This ability is crucial for maintaining the relevance and accuracy of a chatbot over time.
+Customization and specialization: For chatbots designed for specific domains, such as medical, legal, or technical support, RAG can be tailored to retrieve information from specialized databases or documents, making the chatbot more effective in its specific context.
+When we investigate the retrieval augmentation generation systems, we must grasp the nuanced, semantic relationships inherent in human language and complex data patterns. But traditional databases, which are intended to be structured around exact keyword matches, often fall short in this regard. However, vector databases use embeddings—dense, multidimensional representations of text, images, or other data types—to capture these subtleties. By converting data into vectors in a high-dimensional space, these databases enable more sophisticated, context-aware searches. This capability is crucial in retrieval-augmentation-generation tasks, where the goal is not just to find the most directly relevant information but to understand and generate responses or content that are semantically aligned with the query. Trained on large datasets, embeddings can encapsulate a vast array of relationships and concepts, allowing for more intuitive, accurate, and efficient retrieval and generation of information, thereby significantly enhancing user experience and the effectiveness of data-driven applications.
+In this post, we use the Llama2 model and deploy an endpoint using Oracle Cloud Infrastructure (OCI) Data Science Model Deployment. We create a question and answering application using Streamlit, which takes a question and responds with an appropriate answer.
+Deployment of the solution uses the following steps:
+This post walks you through the following steps:
+To implement this solution, you need an OCI account with familiarity with LLMs, access to OCI OpenSearch, and OCI Data Science Model Deployment. We also need access to GPU instances, preferably A10.2. We used the following GPU instances to get started.
+The workflow diagram moves through the following steps:
+For the deployment of our models, we use a distinct OCI setup that uses the NVIDIA A10 GPU. In our scenario, we deployed 7b parameter model using NVIDIA A10.2 instance. We suggest using the Llama 7b model with the VM.GPU.A10.2 shape (24-GB RAM per GPU, two A10).
+Set up the key prerequisites before you can proceed to run the distributed fine-tuning process on OCI Data Science:
+Refer to the blog, Deploy Llama 2 in OCI Data Science, where we depicted on how to deploy a Llama2 model on an A10.2 instance.
+To estimate model memory needs, Hugging Face offers a Model Memory Calculator. FurtherFurthermore, for insights into the fundamental calculations of memory requirements for transformers, Eleuther has published an informative article on the subject. Use the custom egress functionality while setting up the model deployment to access the Qdrant database.
+To set up the Qdrant database, you can use the following options:
+Create a Docker container instance
+Use a Python client
+To learn more about setting up the Qdrant database, refer to this GitHub example.
+Qdrant integrates smoothly with LangChain, and you can use Qdrant within LangChain with the VectorDBQA class. The first step is to compile all the documents that act as the foundational knowledge for our LLM. Imagine that we place these in a list called docs. Each item in this list is a string containing segments of paragraphs.
+The next task is to produce embeddings from these documents. To illustrate, we use a compact model from the sentence-transformers package:
+from langchain.vectorstores import Qdrant
+from langchain.embeddings import LlamaCppEmbeddings
+import qdrant_client
+#Load the embeddings model
+embedding = LlamaCppEmbeddings(model_path=model_folder_directory,n_gpu_layers=1000)
+# Get your Qdrant URL and API Key
+url = <QDRANT-URL-HERE>
+api_key = <QDRANT-API-KEY-HERE>
+# Setting up Qdrant
+client = qdrant_client.QdrantClient(
+url,
+api_key=api_key
+)
+qdrant = Qdrant(
+client=client, collection_name="my_documents",
+embeddings=embeddings
+)
+# If adding for the first time, this method recreate the collection
+qdrant = Qdrant.from_texts(
+texts, # texts is a list of documents to convert in embeddings and store to vector DB
+embedding,
+url=url,
+api_key=api_key,
+collection_name="my_documents"
+)
+# Adding following texts to the vector DB by calling the same object
+qdrant.add_texts(texts) # texts is a list of documents to convert in embeddings and store to vector DB
+Qdrant provides retrieval options in similarity search methods, such as batch search, range search, geospatial search, and distance metrics. Here, we use similarity search based on the prompt question.
+qdrant = Qdrant(
+client=client, collection_name="my_documents",
+embeddings=embeddings
+)
+# Similarity search
+docs = qdrant.similarity_search(prompt)
+We use the prompt template and QA chain provided by Langchain to make the chatbot, which helps pass the context and question directly to the Llama2-based model.
+from langchain.chains.question_answering import load_qa_chain
+from langchain.prompts.prompt import PromptTemplate
+template = """You are an assistant to the user, you are given some context below, please answer the query of the user with as detail as possible
+Context:\"""
+{context}
+\"""
+Question:\"
+{question}
+\"""
+Answer:"""
+chain = load_qa_chain(llm, chain_type="stuff", prompt=qa_prompt)
+## Retrieve docs from Qdrant Vector DB based upon user prompt
+docs = qdrant.similarity_search(user_prompt)
+answer = chain({"input_documents": docs, "question": question,"context": docs}, return_only_outputs=True)['output_text']
+To set up Compute instances and host the Streamlit application, follow the readme on Github.
+Try Oracle Cloud Free Trial! A 30-day trial with US$300 in free credits gives you access to Oracle Cloud Infrastructure Data Science service. For more information, see the following resources:
+Full sample including all files in OCI Data Science sample repository on GitHub.
+Visit our Data Science service documentation.
+Read about OCI Data Science Feature Store.
+Configure your OCI tenancy with these setup instructions and start using OCI Data Science.
+Star and clone our new GitHub repo! We included notebook tutorials and code samples.
+Watch our tutorials on our YouTube playlist.
+Try one of our LiveLabs. Search for “data science.”
+Sudhi is a Senior Manager in OCI Data Science focussing on Large Language Model Deployment and Inferencing capabilities. Sudhi has about 20+ years experience in building platforms and leading engineering teams across various industry verticals such as Aerospace, Telecommunications and Networking, Media and Fintech. Of the 7 patents filed by Sudhi, 5 patents are in AI/ML domain. He holds a Bachelors Degree in Computer Science and Engineering from Bangalore University.
+Srikanta (Sri) is working as a Principal product Manager, in OCI Data Science. He is leading efforts related to experiment tracking with oci-mlflow, OCI Data Science Feature Store and Model catalog capabilities in OCI Data Science portfolio. Sri brings about 19+ years of work experience working in Industry verticals such as Aviation and Aerospace, Semiconductor manufacturing and print and media verticals. He holds a Master’s Degree from National University of Singapore, MBA from University of North Carolina.
+Gaurav Chauhan is a Member of Technical Staff at OCI Data Science. A recent graduate from IIT Delhi with a Bachelors and Masters in Computer Science and Engineering. His graduate work was focused on NLP in Social Computation. At OCI Data Science he works in the Model Deployment team enabling hosting of ML Models at ease. Passionate about ML, he has earlier worked at CRED, FinMechanics and Torch Investments as a Data Scientist Intern.
+Abhinav is a Senior Member of Technical Staff at OCI. Abhinav has been part of various Data Science programs such as Model Catalog, Model Deployment and ML Monitoring. Abhinav is currently working on the large language model support initiative incorporating Gen AI and LLMs in Model Deployment Service. Apart from Data Science, he has 7+ years of work experience across Healthcare Radiology and Finance Sector. He holds a Bachelor of Technology degree from National Institute of Technology, Srinagar.
+Anees is a Senior Principal Member of Technical Staff with 18+ years of experience in diverse technology areas, including Animation engines, VoIP, Security, Kubernetes, and AI Platform services. He is currently leading the large language model support initiative in Data Science, Model Deployment Service. Anees holds a Master of Technology degree in Computer Science from Cochin University of Science and Technology.
+Previous Post
+Next Post

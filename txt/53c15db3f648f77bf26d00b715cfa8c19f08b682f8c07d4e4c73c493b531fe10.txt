@@ -1,0 +1,28 @@
+Overview of Container Engine for Kubernetes
+Find out about Container Engine for Kubernetes (OKE), a fully-managed, scalable, and highly available service that enables you to deploy your containerized applications to the cloud.
+Oracle Cloud Infrastructure Container Engine for Kubernetes is a fully-managed, scalable, and highly available service that you can use to deploy your containerized applications to the cloud. Use Container Engine for Kubernetes (sometimes abbreviated to just OKE) when your development team wants to reliably build, deploy, and manage cloud-native applications. You specify whether to run applications on virtual nodes or managed nodes, and Container Engine for Kubernetes provisions them on Oracle Cloud Infrastructure in an existing OCI tenancy.
+Container Engine for Kubernetes uses Kubernetes - the open-source system for automating deployment, scaling, and management of containerized applications across clusters of hosts. Kubernetes groups the containers that make up an application into logical units (called pods) for easy management and discovery. Container Engine for Kubernetes uses versions of Kubernetes certified as conformant by the Cloud Native Computing Foundation (CNCF). Container Engine for Kubernetes is itself ISO-compliant (ISO-IEC 27001, 27017, 27018).
+You can access Container Engine for Kubernetes to define and create Kubernetes clusters using the Console and the REST API. You can access the clusters you create using the Kubernetes command line (kubectl), the Kubernetes Dashboard, and the Kubernetes API.
+Container Engine for Kubernetes is integrated with Oracle Cloud Infrastructure Identity and Access Management (IAM), which provides easy authentication with native Oracle Cloud Infrastructure identity functionality.
+For an introductory tutorial, see Creating a Cluster with Oracle Cloud Infrastructure Container Engine for Kubernetes. A number of related Developer Tutorials are also available.
+Ways to Access Oracle Cloud Infrastructure
+You can access Oracle Cloud Infrastructure (OCI) by using the Console (a browser-based interface), REST API, or OCI CLI. Instructions for using the Console, API, and CLI are included in topics throughout this documentation. For a list of available SDKs, see Software Development Kits and Command Line Interface.
+To access the Console, you must use a supported browser. To go to the Console sign-in page, open the navigation menu at the top of this page and click Infrastructure Console. You are prompted to enter your cloud tenant, your user name, and your password.
+For general information about using the API, see REST APIs.
+Creating Automation with Events
+You can create automation based on state changes for your Oracle Cloud Infrastructure resources by using event types, rules, and actions. For more information, see Overview of Events.
+See Container Engine for Kubernetes for details about Container Engine for Kubernetes resources that emit events.
+Resource Identifiers
+Most types of Oracle Cloud Infrastructure resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID). For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups , compartments , and policies that control which users can access which services, which resources, and the type of access. For example, the policies control who can create new users, create and manage the cloud network, launch instances, create buckets, download objects, and so on. For more information, see Getting Started with Policies. For specific details about writing policies for each of the different services, see Policy Reference.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm which compartment or compartments you should be using.
+Note that to perform certain operations on clusters created by Container Engine for Kubernetes, you might require additional permissions granted via a Kubernetes RBAC role or clusterrole. See About Access Control and Container Engine for Kubernetes.
+Container Engine for Kubernetes Capabilities and Limits
+Your account type (Monthly Universal Credits, Pay-as-You-Go, Promo) determines the number of clusters you can create in each region that is enabled for your tenancy, and the maximum number of nodes in each cluster. See Container Engine for Kubernetes Limits.
+You can specify up to 110 pods to run on a single managed node in a node pool in a cluster. The limit of 110 is imposed by Kubernetes.
+Required IAM Service Policy
+To use Oracle Cloud Infrastructure, you must be granted security access in a policy by an administrator. This access is required whether you're using the Console or the REST API with an SDK, CLI, or other tool. If you get a message that you don’t have permission or are unauthorized, verify with your administrator what type of access you have and which compartment to work in.
+If you're new to policies, see Getting Started with Policies and Common Policies.
+For more details about policies for Container Engine for Kubernetes, see:

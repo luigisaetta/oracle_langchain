@@ -1,0 +1,10 @@
+Oracle Cloud Infrastructure (OCI) GoldenGate is a fully managed service platform for real-time data management. As part of this platform, the GoldenGate Stream Analytics native service is now generally available in all OCI commerical regions. Please watch this video to see how quickly it can be set up in an OCI tenancy. 
+
+OCI GoldenGate Stream Analytics (OCI GGSA) allows users to model, process, analyze, and act on real-time streaming information using sophisticated correlation patterns, time-series analytics, geospatial analysis, and machine learning. With OCI GGSA, businesses can make informed decisions with timely and accurate insights into their data.
+
+Oracle GoldenGate Stream Analytics is available in 3 formats:
+
+Fully managed cloud service as OCI GoldenGate Stream Analytics (New)
+Co-managed cloud instance as GoldenGate Stream Analytics for OCI Marketplace for deployment on OCI compute or OCI Roving Edge devices
+User-managed software as GoldenGate Stream Analytics for installation on on-premises, Oracle or 3rd party clouds
+Get started using OCI GGSA today by opening GoldenGate in the OCI console and creating a Stream Analytics deployment type. I recommend to watch the getting started video going through some of our Workshops to familiarize yourself with the service and its capabilities.

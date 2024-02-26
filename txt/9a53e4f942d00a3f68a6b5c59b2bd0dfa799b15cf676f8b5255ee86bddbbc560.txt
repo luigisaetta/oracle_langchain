@@ -1,0 +1,48 @@
+The Generation Models
+Available pretrained models are:
+- cohere.command
+- cohere.command-light
+- meta.llama-2-70b-chat
+Prompt style: Write an email to Susan thanking her for…
+Output style to previous prompt: Dear Susan, Thanks for…
+Choosing a Generation Model
+- cohere.command
+- A highly performant generation model. Use this model when you're optimizing for accuracy such as text extraction and sentiment analysis. Use this high performant model to draft your marketing copies, emails, blog posts, product descriptions, and then review and use them.
+- cohere.command-light
+- A quick and light generation model. Use this model when speed and cost is important. Because this model is light, for best results give the model clear instructions. The more specific your prompt, the better this model performs. For example, instead of the prompt, "What is the tone of this product review?", write, "What is the tone of this product review? Answer with either the word positive or negative.".
+- meta.llama-2-70b-chat
+- A highly performant generation model with 70 billion parameters. Use this model when you're optimizing for accuracy such as text extraction and sentiment analysis. Use this high performant model to draft your marketing copies, emails, blog posts, product descriptions, and then review and use them.
+- Copy generation
+Draft marketing copies, emails, blog posts, product descriptions, documents, and so on.
+- Chat
+Create chatbots that can brainstorm, solve problems, and answer questions or integrate with search systems to create a grounded information retrieval.
+- Stylistic Conversion
+Rewrite content in a different style or language.
+Generation Model Parameters
+When using the Generate models in the playground, fine-tune the output by changing the following parameters.
+- Maximum output tokens
+-
+The maximum number of tokens that you'd like the model to generate for each response. Estimate three tokens per word.
+- Temperature
+-
+How random to generate the output text. To generate the same output for a prompt every time you run that prompt, use 0. To generate a random new text for that prompt, increase the temperature. Default temperature is 1 and the maximum temperature is 5.Tip
+Start with the temperature set to 0 and increase the temperature as you regenerate the prompts to refine the outputs.
+- Top k
+-
+Have the model choose the next token randomly from the top k most likely tokens. A higher k generates more random outputs making the output text sound more natural. Default value is 0 for command models and -1 for Llama2 models, which means consider all tokens and don't use this method.
+- Top p
+-
+To eliminate tokens with low likelihood, assign p a minimum percentage for the next token's likelihood. Default for p is 0.75 which eliminates the bottom 25 percent for the next token.
+The top p method ensures that only the most likely tokens with the sum p of their probabilities are considered for generation at each step. A higher p introduces more randomness into the output. Either set to 1.0 or 0 to disable this method. If also using top k, then the model considers only the top tokens whose probabilities add up to p percent and ignores the rest of the k tokens. For example, if k is 20, but the probabilities of top 10 add up to .75, then only the top 10 tokens are chosen.
+- Stop sequences
+-
+A sequence of characters such as a word, a phrase, a newline (\n), or a period that tells the model when to stop the generated output. If you have more than one stop sequence, then the model stops when it reaches any of those sequences.
+- Frequency penalty
+-
+Assigns a penalty when a token appears frequently. High penalties encourage less repeated tokens and produce more random outputs.
+- Presence penalty
+-
+Assigns a penalty to each token when it appears in the output to encourage generating outputs with tokens that haven't been used.
+- Show likelihoods
+-
+Every time a new token is to be generated, a number between -15 and 0 is assigned to all tokens, where tokens with higher numbers are more likely to follow the current token. For example, it's more likely that the word "favorite" is followed by the word "food" or "book" rather than the word "zebra". This parameter is only available for Cohere models.

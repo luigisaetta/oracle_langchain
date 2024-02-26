@@ -1,0 +1,24 @@
+High Availability and Business Continuity
+An OCI Database with PostgreSQL database system can be configured several ways for high availability.
+We recommend one of the following methods to achieve a more highly available database system:
+- Create a database system with at least two nodes. Upon detection of any fault, the service performs a failover to promote one of the replica nodes as to the primary node within a few seconds.
+- Create a database system with at least two nodes and choose regional data placement. A regional database system with multiple nodes can withstand availability domain-level outages.
+Multiple Node Databases and Node Placement
+OCI Database with PostgreSQL with database optimized storage takes advantage of regional block volumes to deliver high availability and data durability. Data is automatically replicated across different Availability Domains (AD) in multi-AD regions so that mission-critical deployments can tolerate the loss of an entire AD.
+A database's primary node functions as its read/write endpoint. You have read/write access to the primary node only. All data written to the primary node is durably stored in block volumes. Metadata is copied to other read replica nodes asynchronously.
+Read replicas are placed in different availability or fault domains. When you create a database, the following data placement models are used:
+- Regional: Nodes are placed in different availability domains.
+- Availability-domain specific: Nodes are placed in different fault domains in the same availability domain.
+You can add more nodes to a database that can be used as read replicas. Read replicas use the same regional volumes and asynchronous replication to ensure that the database scales linearly as more nodes are added to the database.
+Single Node Databases
+If a database uses a single node, high availability is offered by automatically detecting failures, restoring the database environment to a newly provisioned Compute instance, and attaching the disaggregated storage.
+The same underlying volumes are reused to build the recovered environment. Network endpoints are maintained in the restored environment, ensuring that services applications don't have to be reconfigured.
+We recommend that single node databases are used for development, test, or noncritical production purposes.
+Business Continuity
+The OCI Database with PostgreSQL service offers a 99.99% uptime SLA, a Recovery Time Objective (RTO) of less than 2 minutes for multi-node database systems, and a Recovery Point Objective (RPO) of 0 with no data loss.
+For single-node database systems in single AD-regions, the service offers a 99.9% uptime SLA, an RTO of less than 20 minutes, and an RPO of 0.
+OCI Database with PostgreSQL leverages Block Volume to store user data. So the same durability, security, and performance guarantees apply.
+Database Backups
+Backups are a copy of the database data that's taken and stored remotely so that it can be used to restore the original if needed, such as after a data loss event. Backups can be created manually or automated through a management policy.
+Automatic backups can be scheduled to be created daily, weekly, and monthly. Automatic backups have a retention period of up to 35 days before they're deleted by the system.
+When you create a backup manually, you can choose whether the backup is retained indefinitely or deleted on a specific date, or after a specified number of days.

@@ -1,0 +1,6 @@
+Using the Playground
+The playground is an interface in the OCI Console for exploring the hosted pretrained and custom models without writing a single line of code. Use the playground to test your use cases and refine prompts and parameters. When you're happy with the results, integrate the generated code into your applications.
+Choose from one of the following models:
+- Generation models: Run prompts to generate or classify text or extract information from text.
+- Summarization models: Use as an executive summary generator for documents that are too long to read and summarize any type of text into free-form paragraphs or in bullet points and optionally specify the tone.
+- Embedding models: Provide sentences and phrases and have the model group those sentences based on their meaning. Then use the generated embeddings in applications.

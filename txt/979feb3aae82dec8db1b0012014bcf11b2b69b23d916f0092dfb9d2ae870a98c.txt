@@ -1,0 +1,122 @@
+Using STOMP for Message Management
+Use the STOMP message protocol to publish, consume, and manage messages in a queue.
+Overview
+STOMP is open messaging protocol which can boost production and consumption efficiency, because authentication is done once per connection, rather than once per request. The Queue service supports STOMP specifications 1.0, 1.1, and 1.2. You can use both STOMP and REST to publish and consume to the same queue.
+See the following sections for details on how Queue supports STOMP:
+Queue doesn't support custom headers or transactions (STOMP frames
+BEGIN/COMMIT/ABORT). Queue returns an
+ERROR frame and closes the connection if
+BEGIN/COMMIT/ABORT are used.
+Connection and Authentication
+Clients can use the
+CONNECT or
+STOMP frame to connect to the Queue service on its messages endpoint on port 61613. For detailed instructions on finding a queue's messages endpoint, see Messages Endpoint.
+Authentication with the STOMP protocol uses authentication tokens. Auth tokens must be base64-encoded. You can generate tokens in the Console user details page. See Working with Auth Tokens for more information.
+Create a dedicated group or user and grant them the permission to manage queues in the appropriate compartment or tenancy. Then generate an auth token for the user you created and use it in the STOMP client configuration. See Queue Policies and Policy Examples for details on required permissions for queue management.
+SEND
+Use the
+SEND frame to produce messages. You can include the following headers in the
+SEND frame:
+-
+destination: (Required) The OCID (Oracle Cloud Identifier) of the queue to publish the messages to. Optionally, you can include a channel ID to publish to the specified channel. For example:
+<queue_OCID>/<channel_ID>
+receipt: (Optional) If the
+SENDframe contains a
+receiptheader, Queue sends a
+RECEIPTframe to the client upon successful publishing, or an
+ERRORframe on error.Note
+If the
+receiptheader is missing, the Queue service doesn't send a
+RECEIPTframe, but might still send an
+ERRORframe on error.
+The
+transaction header and any custom headers aren't supported. Queue sends an
+ERROR frame and closes the connection if unsupported headers are included.
+SUBSCRIBE
+Use the
+SUBSCRIBE frame to consume messages. The
+SUBSCRIBE frame is equal to a long polling
+GetMessages request. Any messages received on the subscribed destination are delivered to the client as
+MESSAGE frames from the queue. You can include the following headers in the
+SUBSCRIBE frame:
+-
+destination: (Required) The OCID (Oracle Cloud Identifier) of the queue to consume messages from. Optionally, you can include a channel filter to consume from the specified channel or channels. For example:
+<queue_OCID>/<channel_ID_filter>Note
+For more information on filtering, see Message Selection.
+id: (Required) Identifies the subscription. The same ID must be passed by the client in an
+UNSUBSCRIBEframe to stop consuming messages.
+ack: (Required) Only the
+client-individualvalue is supported. This means that an
+ACKframe only deletes the message identified in the
+ACKframe and not all messages delivered before.
+visibility: (Optional) How long the consumed messages will only be visible for the client making the request. If the header is omitted, the Queue service uses the queue's default visibility timeout.
+On error, the Queue service returns an
+ERROR frame and closes the connection.
+UNSUBSCRIBE
+Use the
+UNSUBSCRIBE frame to stop the STOMP client from receiving messages from the queue. Include the following header in the frame:
+id: (Required) Identifies which subscription to stop. This ID was used in the corresponding
+SUBSCRIBEframe.
+ACK/NACK
+Use the
+ACK frame to delete a message after it's been received and processed. An
+ACK frame only deletes the message identified by the
+id header.
+Use the
+NACK frame to notify Queue that the message hasn't been successfully processed. Using the
+NACK frame updates the visibility of the message to make it immediately visible for other consumers.
+Both frames accept the following header, depending on protocol version:
+id: (Required for STOMP v1.2) The ID of the message to delete or update.
+message-id: (Required for STOMP v1.1 or 1.0) The ID of the message to delete or update.
+MESSAGE
+The
+MESSAGE frame conveys messages from subscriptions to the STOMP client. A
+MESSAGE frame contains the following headers:
+message-id:
+- For STOMP v1.2: A unique, internal identifier for the message. Used for debugging purposes only.
+- For STOMP v1.1 and v1.0: The message receipt to use with
+ACKand
+NACKframes.
+subscription: The ID used in the
+SUBSCRIBEframe.
+destination: The OCID (Oracle Cloud Identifier) of the queue that contained the messages and an optional channel ID to publish to a specified channel. For example:
+<queue_OCID>/<channel_ID>
+ack: For STOMP v.1.2 only, the message receipt.
+content-type: The type of payload, in this case,
+plain/text.
+content-length: The length of the payload, or message.
+expire-after: The message expiration time, as milliseconds since epoch.
+visible-after: The message visibility time, as milliseconds since epoch.
+delivery-count: The number of times this message has been delivered
+oci-message-id: An internal message ID.
+A
+MESSAGE frame contains the payload of the message as the body of the frame.
+RECEIPT
+The Queue service sends a
+RECEIPT frame to the STOMP client after the service successfully processes a
+SEND frame that requested a receipt. A
+RECEIPT frame includes a
+receipt-id header with a value that matches the receipt header in the
+SEND frame.
+A
+RECEIPT frame is an acknowledgment that the corresponding client frame has been processed by the server. Because STOMP is stream based, the receipt is also a cumulative acknowledgment that all the previous frames have been received by the server. However, these previous frames may not yet be fully processed. If the client disconnects, previously received frames should continue to get processed by the server.
+DISCONNECT
+Use the
+DISCONNECT frame to disconnect, or close the connection to the Queue service. All subscriptions associated with the connection are stopped. You can include the following header in the frame:
+receipt: (Optional) Queue will send a
+RECEIPTframe to the STOMP client after all previous frames with a
+receiptheader have been successfully processed. Use the
+receiptheader for graceful disconnections.
+ERROR
+Queue may send
+ERROR frames if something goes wrong. After sending the
+ERROR frame, Queue closes the connection. The
+ERROR frame can contain the following headers:
+message: A short description of the error. The body contains more detailed information.
+receipt-id: The value of the
+receiptheader, if the frame that caused the error included a
+receiptheader.
+content-type:The type of payload, if the body contains more error message details.
+content-length: The length of the payload, or error message details.
+The
+ERROR frame body contains detailed information about the error.

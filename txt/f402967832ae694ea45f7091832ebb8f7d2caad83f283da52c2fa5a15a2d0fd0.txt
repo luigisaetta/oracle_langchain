@@ -1,0 +1,105 @@
+Creating a Notebook Session
+Create a Data Science notebook session to access a JupyterLab interface that uses a customizable compute, storage, and network configuration.
+Before you begin:
+-
+To use a runtime configuration, identify the custom environment variables and any Git repository URLs that you want you want to use.
+-
+To use storage mounts, you must have an Object Storage bucket or OCI File Storage Service (FSS) mount target and export path.
+To use FSS, you must first create the file system and the mount point. Use the custom networking option and ensure that the mount target and the notebook are configured with the same subnet. Configure security list rules for the subnet with the specific ports and protocols.
+Ensure that service limits are allocated to
+file-system-countand
+mount-target-count.
+The network configuration of a notebook session can't be changed when the notebook session is reactivated. If a notebook session was configured to use a default network, you can't deactivate the notebook session then select custom networking when you reactivate it.
+We recommend that you review Persisting Data and Files on a Notebook Session Block Volume to help decide the block volume size.
+- Use the Console to sign in to a tenancy with the necessary policies.
+- Open the navigation menu and click Analytics & AI. Under Machine Learning, click Data Science.
+-
+Select the compartment that contains the project that you want to create the notebook session in.
+All projects in the compartment are listed.
+-
+Click the name of the project.
+The project details page opens and lists any existing notebook sessions.
+- Click Create notebook session.
+- (Optional)
+Enter a unique name for the notebook session (limit of 255 characters). If you don't provide a name, a name is automatically generated. For example,
+datasciencenotebooksession20200108222435.
+- (Optional) Enter a description.
+- (Optional)
+Change the Compute shape by clicking Change shape. Then, follow these steps in the Select compute panel.
+- Select an instance type.
+- Select an shape series.
+- Select one of the supported Compute shapes in the series.
+-
+Select the shape that best suits how you want to use the resource. For the AMD shape, you can use the default or set the number of OCPUs and memory.
+For each OCPU, select up to 64 GB of memory and a maximum total of 512 GB. The minimum amount of memory allowed is either 1 GB or a value matching the number of OCPUs, whichever is greater.
+- Click Select shape.
+- Enter the block storage size to use, between 50 GB and 10, 240 GB (10 TB). You can change the value by 1 GB increments. The default value is 100 GB.
+-
+Select one of the following options to configure the network type:
+Note
+-
+Default networking—The workload is attached by using a secondary VNIC to a preconfigured, service-managed VCN, and subnet. This provided subnet allows egress to the public internet through a NAT gateway, and access to other Oracle Cloud services through a service gateway.
+If you need access only to the public internet and OCI services, we recommend using this option. It doesn't require you to create networking resources or write policies for networking permissions.
+-
+Custom networking—Select the VCN and subnet that you want to use for the resource (notebook session or job).
+For egress access to the public internet, use a private subnet with a route to a NAT gateway.
+If you don't see the VCN or subnet that you want to use, click Change Compartment, and then select the compartment that contains the VCN or subnet.Important
+Custom networking must be used to use a file storage mount.
+The network configuration of a notebook session can't be changed when the notebook session is reactivated. If a notebook session was configured to use a default network, you can't deactivate the notebook session then select custom networking when you reactivate it.
+-
+-
+Select one of the following options to configure the endpoint type:
+-
+Public endpoint—Data access in a managed instance from outside a VCN.
+-
+Private endpoint—Select the VCN, subnet, and private endpoint that you want to use for the notebook session.
+Click Change Compartment to select the compartment that contains the VCN, subnet, or private endpoint.
+-
+- (Optional)
+To use storage mounts, click +Add storage mount.
+- Select a storage mount type, OCI Object Storage or OCI File Storage.
+- Select a compartment that contains the storage resource that you want to mount.
+-
+Select one of the following:
+- Object Storage
+-
+The bucket you want to use.
+You can add an object name prefix. The prefix must start with an alphanumeric character. The allowed characters are alphanumerics, slash ( / ), hyphen ( - ) and underscore ( _ ).
+- File Storage
+-
+The mount target and export path you want to use.
+You must use a custom network to use file storage.
+-
+Enter the path under which the storage is to be mounted.
+Storage is mounted under the specified mount path. The path must start with an alphanumeric character. The destination directory must be unique across the storage mounts provided. The allowed characters are alphanumerics, hyphen ( - ) and underscore ( _ ).
+You can specify the full path, such as
+/opc/storage-directory. If only a directory is specified, such as
+/storage-directory, then it's mounted under the default
+/mntdirectory. You can't specify OS specific directories, such as
+/binor
+/etc.
+-
+Click Submit.
+Repeat these steps to add up to two storage mounts for notebook sessions and five storage mounts for jobs.
+- (Optional)
+Expand the Runtime configuration section to define custom environment variables and Git settings, as follows:
+-
+Key value pairs—Select the tab and enter environment variables by key and value. To name keys, see key value pair constraints.
+-
+Git settings—Select the tab and enter up to three public Git repository URLs. Review the Git repository constraints for number and size of the URLs.Tip
+You can use the ADS repository example to quickly create a Git repository for a notebook that you can use when you open it in JupyterLab. See https://github.com/oracle/accelerated-data-science.git.
+-
+- (Optional)
+Enter the tag namespace (for a defined tag), key, and value to assign tags to the resource.
+To add more than one tag, click Add tag.
+Tagging describes the various tags that you can use organize and find resources including cost-tracking tags.
+- (Optional) To view the details for the notebook session immediately after creation, select View detail page on clicking create.
+- Click Create.
+The notebook sessions page opens. When the notebook session is successfully created, the status turns to Active, and you can open the notebook session. The create notebook session action is asynchronous and starts a work request. You can use the work request to track the status of an operation. For general information about using work requests in OCI, see Work Requests and the Work Requests API.
+Use the oci data-science notebook-session create commands and required parameters to create a notebook session in a compartment:
+oci data-science notebook-session create --compartment-id
+<compartment-id>, -c [
+<name>], -c [
+<project-id>] ... [OPTIONS]
+For a complete list of flags and variable options for CLI commands, see the CLI Command Reference.
+Run the CreateNotebookSession operation to create a notebook session.

@@ -1,0 +1,32 @@
+About Cache with Redis
+OCI Cache with Redis is a managed service that enables you to build and manage Redis clusters, which are memory-based storage solutions for your applications.
+Cache with Redis handles the management and operations of your clusters, including operations such as security updates.
+Cache with Redis supports Redis clusters configured with one to five nodes. One node in the cluster is always configured as the primary node, any other nodes configured as replicas. All nodes in the cluster are located in the same region, however the service attempts to distribute them across fault domains and availability domains (for multiple availability domain regions) as much as possible.
+You can resize clusters, either by increasing or decreasing the node count or the amount of memory available per cluster node. To improve redundancy, you can increase a cluster's node count. If you need more memory for your cache, you can increase the memory per cluster. Bandwidth is allocated to your cluster as you adjust memory. If you need more memory to increase bandwidth, then increase the memory for your cluster.
+For more information, see Resizing Nodes for a Redis Cluster and Resizing Memory for a Redis Cluster.
+Redis Version
+Cache with Redis supports the open source Redis version 7.0.5.
+Sharding is not yet supported by Cache with Redis.
+Resource IdentifiersCache with Redis supports clusters and work requests as Oracle Cloud Infrastructure resources. Most types of resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID). For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Availability
+Cache with Redis is available in all Oracle Cloud Infrastructure commercial regions. See About Regions and Availability Domains for the list of available regions for Oracle Cloud Infrastructure, along with associated locations, region identifiers, region keys, and availability domains.
+Ways to Access Cache with Redis
+You can access Cache with Redis using the Console (a browser-based interface), the command line interface (CLI), or the REST API. Instructions for the Console, CLI, and API are included in topics throughout this guide.
+To access the Console, you must use a supported browser. To go to the Console sign-in page, open the navigation menu at the top of this page and click Infrastructure Console. You are prompted to enter your cloud tenant, your username, and your password.
+For a list of available SDKs, see SDKs and the CLI. For general information about using the APIs, see REST API documentation.
+Limits
+The limits for Cache with Redis are as follows:
+- 5 nodes per cluster
+- 500 GB per node
+- 20 nodes
+- 1000 GB
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups , compartments , and policies that control which users can access which services, which resources, and the type of access. For example, the policies control who can create new users, create and manage the cloud network, launch instances, create buckets, download objects, and so on. For more information, see Getting Started with Policies. For specific details about writing policies for each of the different services, see Policy Reference.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm which compartment or compartments you should be using.
+- For details about writing Cache with Redis policies, see Cache with Redis IAM Policies.
+- For details about writing policies for other services, see Policy Reference.
+Monitoring and Alarms
+You can monitor the health, capacity, and performance for your Redis clusters by using metrics , alarms , and notifications. For more information, see Cache with Redis Metrics.
+Cluster Patching
+Cache with Redis handles a cluster's management and maintenance operations for you, including applying scheduled patches and security updates for a cluster's nodes. When the service patches a cluster's node, a new node is created with the patched image. Your data is then replicated to the new node in the background. After the new node is fully populated, the service swaps out the old node, replacing it with the new node. Your Redis library should automatically reconnect after a node swap, and in the unlikely event of a delay, a 1 millisecond connection loss can sometimes occur.

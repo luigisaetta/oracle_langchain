@@ -1,0 +1,76 @@
+1 Overview of Digital Assistants and Skills
+Oracle Digital Assistant is a platform that allows you to create and deploy digital assistants for your users. With Oracle Digital Assistant, you create:
+-
+Digital assistants, which are AI-driven interfaces (commonly known as chatbots) that help users accomplish a variety of tasks in natural language conversations. For each digital assistant, you assemble one or more skills.
+-
+Skills, which are individual bots that are focused on specific types of tasks, such as tracking inventory, submitting time cards, and creating expense reports.
+You can add skills to digital assistants or deploy them to a channel on their own.
+What are Digital Assistants?
+Digital assistants are virtual devices that help users accomplish tasks through natural language conversations, without having to seek out and wade through various apps and web sites. Each digital assistant contains a collection of specialized skills. When a user engages with the digital assistant, the digital assistant evaluates the user input and routes the conversation to and from the appropriate skills.
+You can populate your digital assistant with skills from the Skill Store and with skills you have designed yourself.
+You can make digital assistants available to users through a variety of channels, such as Microsoft Teams, Slack, and your own web and mobile apps.
+What a Digital Assistant Does
+A digital assistant enables a user to interact with multiple skills through a unified user interface. To help facilitate this, a digital assistant performs the following functions.
+-
+Greets the user upon access.
+-
+Upon user request, lists what it can do and provide entry points into the given skills.
+-
+Routes explicit user requests to the appropriate skill.
+-
+Handles interruptions to flows.
+For example, if a user inputs something that reflects a different intent or which requires a different skill, the digital assistant prompts the user to confirm a transition to the desired flow. And once that new flow is completed, offers to return the user to the preceding flow.
+-
+Handles disambiguation.
+For example, if a user types ”cancel”, it may need to prompt the user whether to cancel a request that she previously made, to leave the existing flow, or to exit the bot entirely.
+-
+Handles requests to exit the bot.
+To optimize the behavior of a digital assistant (so that it is best able to respond to ambiguous user input), you will probably want to tune its configuration and the way that the skills are registered in the digital assistant. To dig in, see Digital Assistants.
+What Are Skills?
+Basic Concepts
+Before you dive into digital assistant and skill development, here are some concepts you’ll want to get familiar with:
+-
+Intents—Categories of actions or tasks users expect your skill to perform for them.
+-
+Entities—Variables that identify key pieces of information from user input that enable the skill to fulfill a task.
+Both intents and entities are common NLP (Natural Language Processing) concepts. NLP is the science of extracting the intention of text and relevant information from text.
+-
+Components—Provide your skill with various functions so that it can respond to users. These can be generic functions like outputting text, or they can return information from a backend and perform custom logic.
+-
+Dialog Flow—The definition for the skill-user interaction. The dialog flow describes how your skill responds and behaves according to user input.
+-
+Channels—Digital assistants and skills aren’t apps that you download from an app marketplace, like iTunes. Instead, users access them through messaging platforms or through client messaging apps. Channels, which are platform-specific configurations, allow this access. A single digital assistant or skill can have several channels configured for it so that it can run on different services simultaneously.
+Platform Features and Capabilities
+Here is a summary of the key features and capabilities of the Oracle Digital Assistant platform.
+- Regular intents and answer intents. You design intents for your skills to categorize typical user requests by the tasks and actions that your skill performs. With regular intents, you map the user's message to a conversation flow. With answer intents, you display a ready-made answer to the message.
+- The Utterance Tester, which enables you to iteratively test your skill's intent resolution. You can do ad hoc tests and create and save batch tests.
+- Built-in entities, including ADDRESS, DATE_TIME, DURATION, EMAIL, LOCATION, NUMBER, PERSON, PHONE NUMBER, URL, and YES_NO, which you can use to detect specific data from user input.
+- Custom entity types, including value list, derived,
+regular expression, dynamic, ML (machine learning), and composite bag.
+With composite bag entities, you can create a group of entities that can be treated as a whole within a conversation. This enables you to resolve the values of business objects with multiple attributes (such as a pizza where you need to determine things like type, size, and extra toppings) within one state of a dialog flow. For complex cases, you can use entity event handlers to programmatically handle validation, prompting, and disambiguation for the composite bag entity items.
+- Visual Flow Designer, which enables you to visually and declaratively define the model of interaction between a skill and its users. You can also create conversations modularly with separate and reusable flows.
+- Backend integration support, including:
+- The REST Service component that you can use to send a request to a REST service's endpoint.
+- Custom components, which you can use to do complex processing as well as call REST endpoints.
+- Authentication services to enable interaction between Digital Assistant and identity providers.
+- SQL Dialog Skills, which translate a user's natural language utterances into SQL queries, send the queries to a backend data source, and display the response.
+- Channel support for messenger clients, mobile apps, and Web pages, through which users can access your digital assistants. There is built-in support for platforms such as Microsoft Teams, Slack, and Twilio. And there are SDKs for integrating the iOS and Android platforms and Web applications. In addition, you create a Webhook channel to integrate with a platform that is not supported out of the box.
+- Voice. The SDKs for the Android, iOS, and Web channels have speech recognition capabilities to allow users to talk directly to skills and digital assistants and get the appropriate responses
+- Native-language support for skills and digital assistants. When you develop a skill with native language support, understanding of multiple languages is built into the model. Arabic, Dutch, English, French, German, Italian, Portuguese, and Spanish are supported natively.
+- Translation service support. If the languages that you want to include in your digital assistant are not part of the native-language support, you can use a translation service to translate user input. OCI Language, the Google Translation API, and Microsoft Translator are supported.
+- Skill Store, which provides skills and digital assistants that you can pull into your Digital Assistant instance and clone, extend, or use as is. When you extend a skill or digital assistant that you have pulled, you can customize it and then, when a new version is made available in the Skill Store, rebase it to the new version while keep your customizations.
+- Insights, which provides developer-oriented analytics that pinpoint issues with your skills and digital assistants. You can track metrics at both the chat session (or user session) level and at the conversation level. You can also define custom metrics and use the User Feedback component in your dialog flows to collect additional data.
+- External Events and Application-Initiated Conversations, which enable you to trigger a conversation with a user's digital assistant from an external application.
+- Data Manufacturing, which helps you crowdsource the training data for your skills.
+- Customer Service Integration, which enables you to integrate
+your digital assistants with customer service applications in the following ways:
+- By using the DA as an Agent feature to integrate with Oracle B2C Service or Oracle Fusion Service and turn a digital assistant into an automated agent that participates in live-help chats in much the same way that human agents do.
+- If you have Oracle B2C Service Chat, by using the Live Agent Transfer feature to pass the conversation to a human whenever the skill senses that the customer is stuck or frustrated.
+- By incorporating Oracle Intelligent Advisor interviews in to your skills.
+- By using the Knowledge Search feature to search for and display articles from Oracle B2C Service Knowledge Foundation or Oracle Fusion Service Knowledge Management.
+Register for Email Notifications
+You can subscribe to email notifications on upcoming new features and changes in Digital Assistant.
+To subscribe, open the user profile menu on the top right of Oracle Digital Assistant and select Subscription Preferences.
+- In the top right of Digital Assistant, click the user profile menu and select Subscription Preferences.
+- In the dialog, enter your email address and select one or more of the message categories.
+You will only receive email notifications for the categories you select.

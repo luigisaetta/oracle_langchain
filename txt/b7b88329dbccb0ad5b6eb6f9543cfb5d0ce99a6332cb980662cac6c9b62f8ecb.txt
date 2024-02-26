@@ -1,0 +1,66 @@
+Overview of OCI Database with PostgreSQL
+OCI Database with PostgreSQL is a fully managed PostgreSQL-compatible service with intelligent sizing, tuning, and high durability.
+The service automatically scales storage as database tables are created and dropped, making management easier on you and optimizing storage spend. Data is encrypted both in-transit and at rest. OCI Database with PostgreSQL is designed for high availability by offering durability even in the event of an availability domain (AD) failure. For more information, see High Availability and Business Continuity.
+This documentation is intended for PostgreSQL administrators and assumes familiarity with PostgreSQL and its related tools. For more details, see Supporting Documentation.
+Concepts
+The OCI Database with PostgreSQL service and documentation use the following concepts.
+- OCI database optimized storage
+-
+- Decoupled storage that scales independently of Compute resources
+- Efficient, dynamic storage management
+- Cost effective, high performance read scaling
+The result is that you only pay for what you need.
+- database system
+- A PostgreSQL database cluster running on one or more OCI VM Compute instances. A database system provides an interface enabling the management of tasks such as provisioning, backup and restore, monitoring, and so on. Each database system has one endpoint for read/write PSQL queries and can have multiple endpoints for read-only queries.
+- node
+- A VM Compute instance where a database instance runs. One primary node is required. Other nodes act as read replicas.
+- configuration
+- A set of variables used to tune or optimize a database. Default, optimized variables are set when you create a database system. Values can be adjusted and saved as a custom list, which can be applied to other database systems.
+- regional volume
+- A Block Volume that synchronously replicates data across availability domains within multi-AD regions.
+- read replica
+- A read replica is a node in the database system that can server read queries. A read replica uses shared storage, which doesn't require additional copies of the PostgreSQL database. Any read replica node can be promoted to the primary node.
+Features
+The OCI Database with PostgreSQL service provides the following features:
+- dynamically scaling storage
+- As database tables are created and dropped, storage scales dynamically, without any downtime. This eases burden and optimizes storage spend. You only pay for the storage that you use.
+- high availability
+- OCI Database with PostgreSQL is designed for high availability when using multiple nodes. Failover is nearly instantaneous. For more information, see High Availability and Business Continuity.
+- automated backups
+-
+You can set schedules for automated backups of a database system. Backups can be scheduled to be created daily, weekly, and monthly. Automatic backups have a retention period of up to 35 days. If you need to keep a backup longer, you can also create a backup manually.
+- scheduled maintenance
+-
+You can select a maintenance schedule so that patching or maintenance doesn't occur during peak activity. For more information, see Maintenance.
+Supporting Documentation
+This documentation is intended for PostgreSQL administrators and assumes familiarity with PostgreSQL and its related tools. For more information, see the PostgreSQL reference manual.
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization for management of OCI resources, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups, compartments , and policies that control which users can access which services, and which resources, and the type of access they have. For example, policies control who can create users, groups, and compartments, or who can create and manage virtual deployments.
+- If you're a new administrator, see Getting Started with Policies.
+- For details about writing policies for this service, see OCI Database with PostgreSQL Policies.
+- For details about writing policies for resources in other services, see Policy Reference.
+Ways to Access
+You can access OCI Database with PostgreSQL resources by using the Console (a browser-based interface), Oracle Cloud Infrastructure CLI, or REST APIs. To access the Console, you must use a supported browser.
+Use a PSQL client to connect to the database endpoint from within a private subnet. For more information, see Connecting to a Database.
+Instructions for all three methods are included throughout this guide.
+- The OCI Console is an easy-to-use, browser-based interface. To access the Console, you must use a supported browser.
+- The REST APIs provide the most functionality, but require programming expertise. API Reference and Endpoints provide endpoint details and links to the available API reference documents including the OCI Database with PostgreSQL APIs.
+- OCI provides SDKs that interact with OCI Database with PostgreSQL.
+- The Command Line Interface (CLI) provides both quick access and full functionality without the need for programming.
+- To use the OCI CLI or REST APIs, you can either set up your environment, or use Oracle Cloud Infrastructure Cloud Shell.
+- To use the CLI or REST APIs in Cloud Shell, sign in to the Console. See Using Cloud Shell and the CLI Command Reference.
+- To install the OCI CLI in your environment, follow the steps in the Install CLI Quickstart.
+- When using REST APIs, refer to REST API documentation and API Reference and Endpoints.
+Service Limits
+When you sign up for Oracle Cloud Infrastructure, a set of service limits is configured for your tenancy. The service limit is the quota or allowance set on a resource. Review the following service limits for OCI Database with PostgreSQL resources.
+|Resource
+|Details
+|Database systems
+|8 per tenancy per region
+|Backups
+|10 per tenancy per region
+|Configurations
+|20 per tenancy per region
+See Service Limits to learn more about service limits and find instructions for requesting a limit increase. To set compartment-specific limits on a resource or resource family, administrators can use compartment quotas.
+For more limitations and considerations for database systems, see Limitations and Considerations.

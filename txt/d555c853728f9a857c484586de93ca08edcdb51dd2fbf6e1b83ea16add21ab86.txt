@@ -1,0 +1,15 @@
+Generative AI has captured the minds of everyone around the world, emerging as a beacon of innovation across all industries. However, the process of harnessing the power of generative AI to solve specific problems isn’t a simple one, especially in the enterprise context. Building or fine-tuning foundation models for domain expertise can be complex and resource-intensive.
+To simplify the use of LLMs and make it more accessible to a wider audience, Oracle Cloud Infrastructure (OCI) Data Science is releasing AI Quick Actions, a no-code solution for harnessing LLMs in the enterprise.
+AI quick actions provide a streamlined, code-free, and efficient environment for working with LLMs, and a seamless experience from fine-tuning to deployment with information retrieval. The AI quick actions catalog is a collection of LLM use cases that can be invoked with a click of a button, all in an easy-to-use user interface inside the Data Science notebook experience.
+When an AI quick action is performed, you can track its progress and work with the outputs. For example, after a Llama 2 13B model has been deployed, you can open the playground and interact with the model, or use the endpoint in your own client application.
+AI quick actions are easy to use. Every model contains details about the model, its origins, and common use cases. When you find the model you want, select it, choose if you want to fine-tune it first, and then deploy it!
+Some of the initial available Quick Actions include the following examples:
+We plan to add more actions over time to enable as many use cases as possible, so stay tuned!
+AI quick actions are part of OCI Data Science, which provides access to a wide range of open source tools, libraries, and frameworks. If you want access to multiple LLMs or if you need more granular control on the fine-tuning or deployment process, you can do so through the OCI Data Science service. We have published several blog posts with guidance on how to work with any LLM, which you can find at the end of this post. Please ensure that you read and comply with a model's terms of service and license before using it.
+Oracle has also announced the OCI Generative AI service, for the easiest use of generative AI through web APIs. You don't need any AI knowledge to use this service. Simply send the question or directive you want and get an answer from the service.
+In addition, the OCI Generative AI agents service, recently announced in beta release, enables retrieval augmented generation (RAG) to include more organization-specific information as part of the generative AI process.
+Get the full story - read the press release.
+Ready to learn more about the Oracle Cloud Infrastructure Data Science service?
+Product Manager in OCI Data Science
+Previous Post
+Next Post

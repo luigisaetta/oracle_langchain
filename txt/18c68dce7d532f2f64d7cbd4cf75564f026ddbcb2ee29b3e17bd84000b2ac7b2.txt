@@ -1,0 +1,109 @@
+About Search with OpenSearch
+OCI Search with OpenSearch is a managed service that you can use to build in-application search solutions based on OpenSearch to enable you to search large datasets and return results in milliseconds, without having to focus on managing your infrastructure.
+Search with OpenSearch handles all the management and operations of search clusters, including operations such as security updates, upgrades, resizing, and scheduled backups. This allows you to focus your resources on building features for your OpenSearch solutions.
+Concepts
+The following concepts are key to understanding the Search with OpenSearch.
+- Cluster
+- A cluster is the set of Compute instances that provide the OpenSearch functionality. Each instance is a node in the cluster. The type of node is what determines the functionality and tasks performed by the instance. Each cluster is composed of one or more data nodes, leader nodes, and OpenSearch Dashboard nodes.
+- Data Node
+- Data nodes store the data for OpenSearch and handle the operations related to searching, managing, and aggregating the OpenSearch data. A node configured for the data role can fill any of the specialized data node roles. When configuring your cluster's data nodes, the minimum memory required per node is 20 GB.
+- Leader Node
+-
+Leader nodes, formerly master nodes, manage the cluster operations, monitor the node status, and route the network traffic for the cluster. The leader node is responsible for cluster-wide actions such as creating or deleting an index, tracking which nodes are part of the cluster, and deciding which shards to allocate to which nodes. Stable leader nodes are important for cluster health. When configuring your cluster's leader nodes, the minimum memory required per node is 20 GB.
+- OpenSearch Dashboard Node
+- OpenSearch Dashboard nodes manage and provide access to the OpenSearch Dashboards for your cluster. When configuring your cluster's OpenSearch Dashboard, the minimum memory required per node is 8 GB.
+- OpenSearch Dashboards
+- OpenSearch Dashboards are a visualization tool for your OpenSearch data and can also be used as the user interface for some OpenSearch plugins. They enable you to create interactive data dashboards with real-time data.
+- Private Endpoints
+- When you create a cluster, Search with OpenSearch sets up private endpoints to provide access to the cluster and the cluster's OpenSearch Dashboards. This network setup ensures that all network traffic stays within the cluster's VCN in the tenancy. For more information, see Private Endpoints. To create a cluster, you need to configure the required service permissions for Search with OpenSearch to create private endpoints, see Service Permissions.
+Regions and Availability Domains
+Search with OpenSearch is available in all Oracle Cloud Infrastructure commercial regions. See About Regions and Availability Domains for the list of available regions for Oracle Cloud Infrastructure, along with associated locations, region identifiers, region keys, and availability domains.
+Resource Identifiers
+Search with OpenSearch supports clusters, backups, and work requests Oracle Cloud Infrastructure resources. Most types of resources have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID). For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Ways to Access Search with OpenSearch
+You can access Search with OpenSearch using the Console (a browser-based interface), the command line interface (CLI), or the REST API. Instructions for the Console, CLI, and API are included in topics throughout this guide.
+To access the Console, you must use a supported browser. To go to the Console sign-in page, open the navigation menu at the top of this page and click Infrastructure Console. You are prompted to enter your cloud tenant, your user name, and your password.
+For a list of available SDKs, see SDKs and the CLI. For general information about using the APIs, see REST API documentation.
+Authentication and Authorization
+Each service in Oracle Cloud Infrastructure integrates with IAM for authentication and authorization, for all interfaces (the Console, SDK or CLI, and REST API).
+An administrator in your organization needs to set up groups , compartments , and policies that control which users can access which services, which resources, and the type of access. For example, the policies control who can create new users, create and manage the cloud network, launch instances, create buckets, download objects, etc. For more information, see Getting Started with Policies.
+- For details about writing Search with OpenSearch policies, see Service Permissions.
+- For details about writing policies for other services, see Policy Reference.
+If you’re a regular user (not an administrator) who needs to use the Oracle Cloud Infrastructure resources that your company owns, contact your administrator to set up a user ID for you. The administrator can confirm which compartment or compartments you should be using.
+Limits
+Search with OpenSearch has various default limits. Whenever you create an OpenSearch cluster, the system ensures that your request is within the bounds of your limit. Search with OpenSearch limits are regional.
+If necessary, you can submit a request to increase your limits in the Oracle Cloud Console from the Limits, Quotas, and Usage page. See Service Limits.
+This table lists the default service limits for Search with OpenSearch.
+|
+Resource
+|
+Monthly or Annual Universal Credits
+|
+Pay-as-You-Go or Promo
+|OpenSearch clusters
+|2 clusters per region
+|Contact Us
+|Cluster data nodes
+|10 data nodes per region
+|Contact Us
+|Cluster master nodes
+|3 master nodes per region
+|Contact Us
+|Cluster OpenSearch Dashboard nodes
+|3 OpenSearch Dashboard nodes per region
+|Contact Us
+|Total OCPUs (cores)
+|640 OCPUs for all clusters per region
+|Contact Us
+|Total memory
+|10,240 GB for all clusters per region
+|Contact Us
+For instructions to view your usage level against the tenancy's resource limits, see Viewing Your Service Limits, Quotas, and Usage.
+Quotas
+You can use quotas to determine how other users allocate OpenSearch cluster resources across compartments in Oracle Cloud Infrastructure. Whenever you create a cluster, the system ensures that your request is within the bounds of the quota for that compartment.
+You can manage the service quotas in the Oracle Cloud Console from the compartment detail page. See About Compartment Quotas.
+Family name:
+opensearch
+|
+Name
+|
+Scope
+|
+Description
+|data-node-count
+|Regional
+|Total number of OpenSearch cluster data nodes.
+|master-node-count
+|Regional
+|
+Total number of OpenSearch cluster master nodes.
+|opendashboard-node-count
+|Regional
+|
+Total number of OpenSearch Dashboards nodes.
+Required Policies
+Before you can create an OpenSearch cluster, you need to configure the service and resource permissions covered in this section. For more information about Search with OpenSearch IAM permissions and resources, along with several sample policies, see Service Permissions.
+Service Permissions
+You need to grant Search with OpenSearch access to create and manage the Networking resources required for a cluster. The permissions need to be configured for the compartment that contains the Networking resources, so if you create the cluster in a different compartment from the VCN and subnet, ensure that the permissions are configured for the compartment containing the VCN and subnet.
+The following policy includes the required permissions:
+Allow service opensearch to manage vnics in compartment <NETWORK_RESOURCES_COMPARTMENT>
+Allow service opensearch to manage vcns in compartment <NETWORK_RESOURCES_COMPARTMENT>
+Allow service opensearch to use subnets in compartment <NETWORK_RESOURCES_COMPARTMENT>
+Allow service opensearch to use network-security-groups in compartment <NETWORK_RESOURCES_COMPARTMENT>
+Resource Permissions
+To create a cluster, a user or group requires at minimum the manage permission for the
+opensearch-clusters resource.
+The following policy allows the group SearchOpenSearchAdmins to create and manage clusters in the specified compartment:
+Allow group SearchOpenSearchAdmins to manage opensearch-clusters in compartment <CLUSTER_RESOURCES_COMPARTMENT>
+To grant access to the SearchOpenSearchAdmins group to create and manage all Search with OpenSearch resources, and not just clusters, use the following policy:
+Allow group SearchOpenSearchAdmins to manage opensearch-family in compartment <CLUSTER_RESOURCES_COMPARTMENT>
+Cluster Patching and Resize Operations
+Search with OpenSearch handles a cluster's management and maintenance operations for you, including applying scheduled patches and security updates for a cluster's instances. While the service is patching a cluster's instances, the search functionality is in read-only mode. During this maintenance window you can read data from the cluster but you can’t write data to the cluster. The length of the maintenance window is related to an OpenSearch cluster's total number of shards and indices. The more shards and indices a cluster has, the longer the maintenance window.
+Patching operations are scheduled during the third week of each month, but there’s no guarantee that your clusters will be patched on the same day each month. Unscheduled patching operations might also be performed at other times, on an as-needed basis.
+A cluster's search functionality is also in read-only mode during all horizontal resize operations, and most vertical resize operations. The search functionality returns to read/write mode when the resize operation completes. The only resize operation this does not apply to is when you increase the storage for a data node. When you increase the storage for a data node during the resize operation, the search functionality stays in read/write mode.
+Getting Started
+After configuring the required permissions, create your first OpenSearch cluster. Learn about managing your cluster and working with cluster backups.
+Learn how to configure the prerequisites and test basic connection scenarios to a cluster and the cluster's OpenSearch Dashboards in Connecting to a Cluster.
+Languages and Plugins
+Search with OpenSearch includes built-in language analyzers from OpenSearch, along with support for additional language-specific plugins. For a complete list of languages and related plugins, see Supported Languages.
+Search with OpenSearch also includes support for other OpenSearch plugins, for a complete list, see Supported Plugins.

@@ -1,0 +1,6 @@
+About Custom Models
+Document Understanding can use custom models for key value extraction and document classification.
+Custom Key Value Extraction
+Build a model to detect the location of customer-defined fields in documents. For example, an HR customer could create a custom key value model for their job application form which includes Name, Job ID, and Email Address. The output includes a confidence score, and the coordinates of the bounding box for each field found.
+Custom Document Classification
+Build a model to categorize documents based on customer-defined document types. For example, a bank could categorize documents required for a mortgage application into a Credit Report, Lease Agreements, and an Application Form. The output returns a confidence score for each classification.

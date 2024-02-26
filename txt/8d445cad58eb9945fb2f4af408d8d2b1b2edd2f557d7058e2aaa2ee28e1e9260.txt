@@ -1,0 +1,314 @@
+Getting Started with Oracle Linux
+Oracle Cloud Infrastructure has a set of Oracle Linux platform images that you can select when creating an instance. For more information about specific releases of platform images, see Release Information.
+Key features for Oracle Linux on Oracle Cloud Infrastructure
+Oracle Linux images available on Oracle Cloud Infrastructure include:
+The advantages of Oracle Cloud Infrastructure Oracle Linux images over traditional Oracle Linux deployments are:
+-
+Instances automatically have access to Unbreakable Linux Network (ULN) content.
+-
+If the instance is connected to a service gateway, it has access to ULN content through the regional yum servers. Unlike the publicly available Oracle Linux yum server, the Oracle Cloud Infrastructure regional yum servers mirror all ULN channels. Thus, you can access ULN content without registering the system with ULN or using alternate tools to manage channel access, which simplifies software management on the instance.
+-
+-
+All images have Oracle Ksplice installed by default.
+-
+You can run Ksplice to install patches manually or enable automatic updates to get the latest security patches without any need to reboot.
+-
+-
+The default kernel is the latest version Unbreakable Enterprise Kernel (UEK) available for the image.
+-
+Setting the default kernel to UEK ensures the broadest functionality support immediately after deploying an instance.
+-
+-
+Instances can use the OCI Utilities.
+-
+The OCI utilities are a set of custom tools that allow the instance to access information about infrastructure resources. These tools can help automatically discover or provision resources as you need them.
+-
+Creating an Instance
+Create a Linux instance using the Embedded Marketplace, Oracle Images tab, or Oracle Cloud Marketplace.
+Using the Embedded Marketplace
+-
+Log in to the Oracle Cloud Infrastructure Console.
+-
+Open the navigation menu and click Marketplace, then, under Marketplace, click All Applications.
+-
+In the search box, type the name of the image. Options include:
+- Oracle Linux STIG Image
+- Oracle Cloud Developer Image
+- Oracle Linux KVM Image
+- Oracle Linux Storage Appliance
+- Oracle Autonomous Linux versions are available for some of the images
+-
+Press Enter and then select the image.
+-
+Launch the instance:
+-
+Select the Version of the image and the Compartment.
+-
+Review and then accept the Oracle standard Terms and Restrictions.
+-
+Click Launch Instance.
+-
+-
+Enter the Name, select the Compartment, and select the Availability Domain.
+You can add or change the name later. The name does not need to be unique, because an Oracle Cloud Identifier (OCID) uniquely identifies the instance.
+-
+Change the instance type or the instance shape:
+-
+Click Change Shape.
+-
+Choose an Instance type of Virtual Machine or Bare Metal Machine.
+-
+Select a compute Shape Series on which to deploy the image.
+-
+Click Select Shape.
+-
+-
+Under Networking, make any necessary changes to the default settings.
+-
+Under Add SSH keys, either generate a key pair or upload your own public key.
+If you provide an existing public key, then when you connect to the instance, you are prompted to also provide the associated private key. For more information about SSH keys, see Managing Key Pairs on Linux Instances.
+-
+Under Boot volume, change the default boot volume size or encrypt the volume.
+-
+Click Create to deploy your instance.
+Using the Oracle Images Tab
+-
+Log in to the Oracle Cloud Infrastructure Console.
+-
+Open the navigation menu and click Compute, then, under Compute, click Instances.
+- Click Create Instance.
+-
+Enter the Name, select the Compartment, and select the Availability Domain.
+You can add or change the name later. The name does not need to be unique, because an Oracle Cloud Identifier (OCID) uniquely identifies the instance.
+-
+Within the Image and Shape section, click Change Image.
+-
+From the Browse All Images panel, under Image Source, select Oracle Images, and then choose name of the image. Options include:
+- Oracle Linux STIG Image
+- Oracle Cloud Developer Image
+- Oracle Linux KVM Image
+- Oracle Linux Storage Appliance
+- Oracle Autonomous Linux versions are available for some of the images
+-
+Review and then accept the Oracle standard Terms and Restrictions.
+-
+Click Select Image.
+-
+Change the instance type or the instance shape:
+-
+Click Change Shape.
+-
+Choose an Instance type of Virtual Machine or Bare Metal Machine.
+-
+Select a compute Shape Series on which to deploy the image.
+-
+Click Select Shape.
+-
+-
+Under Networking, make any necessary changes to the default settings.
+-
+Under Add SSH keys, either generate a key pair or upload your own public key.
+If you provide an existing public key, then when you connect to the instance, you are prompted to also provide the associated private key. For more information about SSH keys, see Managing Key Pairs on Linux Instances.
+-
+Under Boot volume, change the default boot volume size or encrypt the volume.
+-
+Click Create to deploy your instance.
+Using the Oracle Cloud Marketplace
+The Oracle Cloud Marketplace is outside of Oracle Cloud Infrastructure. For more information, see Overview of Marketplace.
+-
+Go to the Oracle Cloud Marketplace.
+-
+In the search box, type the name of the image. Options include:
+- Oracle Linux STIG Image
+- Oracle Cloud Developer Image
+- Oracle Linux KVM Image
+- Oracle Linux Storage Appliance
+- Oracle Autonomous Linux versions are available for some of the images
+-
+Select the image version. Click Get App.
+- Log into your Oracle Cloud Infrastructure Account.
+-
+Launch the instance:
+-
+Select the Version of the image and the Compartment.
+-
+Review and then accept the Oracle standard Terms and Restrictions.
+-
+Click Launch Instance.
+-
+-
+Enter the Name, select the Compartment, and select the Availability Domain.
+You can add or change the name later. The name does not need to be unique, because an Oracle Cloud Identifier (OCID) uniquely identifies the instance.
+-
+Change the instance type or the instance shape:
+-
+Click Change Shape.
+-
+Choose an Instance type of Virtual Machine or Bare Metal Machine.
+-
+Select a compute Shape Series on which to deploy the image.
+-
+Click Select Shape.
+-
+-
+Under Networking, make any necessary changes to the default settings.
+-
+Under Add SSH keys, either generate a key pair or upload your own public key.
+If you provide an existing public key, then when you connect to the instance, you are prompted to also provide the associated private key. For more information about SSH keys, see Managing Key Pairs on Linux Instances.
+-
+Under Boot volume, change the default boot volume size or encrypt the volume.
+-
+Click Create to deploy your instance.
+For more information, see Creating a Compute Instance.
+Accessing an Instance
+Connect to your Oracle Cloud Infrastructure instance using SSH.
+For Oracle Linux Storage Appliance instances, connecting directly with SSH is not supported. Instead, access the instance through the web interface. See Accessing the Web Interface.
+Prerequisites
+Before connecting, obtain the following:
+- SSH client
+- Public IP address of the instance
+- Path to the SSH-2 RSA private key file
+Connecting Using SSH
+- Complete the Prerequisites.
+- From an SSH client, use the default
+opcuser to connect to the instance.
+For example:
+ssh -i PRIVATE_KEY_PATH opc@PUBLIC_IP_ADDRESS
+- After you’re logged in as
+opc, you can use the
+sudocommand to run administrative tasks.
+For example, run the following command to show details for all storage devices attached to your instance:
+sudo oci-iscsi-config --show
+For more information, see:
+Installing Software
+Install software by enabling repositories from the Oracle Cloud Infrastructure regional yum servers.
+Unlike the publicly available Oracle Linux yum server, the Oracle Cloud Infrastructure regional yum servers mirror all ULN channels. Therefore, compute instances can access ULN content without having to register the system with ULN. For more information, see Oracle Linux 7: Managing Software and Oracle Linux 8: Managing Software.
+Connecting to the Regional Yum Server
+Instances connected to the service gateway automatically have access to the regional
+yum servers. The
+$ociregion and
+$ocidomain yum variables
+determine which regional server the instance connects to.
+For example, the
+baseurl to the
+_latest repository for
+Oracle Linux 8 is:
+baseurl=https://yum$ociregion.$ocidomain/repo/OracleLinux/OL8/baseos/latest/$basearch/
+-
+Set the
+$ociregionvariable by populating content in
+/etc/yum/vars/ociregion.
+If the
+ociregionfile does not exist or is empty, the
+baseurlpoints to the publicly accessible Oracle Linux yum server. Typically, when you create the instance the
+$ociregionvariable is set to point to the closest regional yum server on the Oracle Cloud Infrastructure service network. For example, if
+$ociregionis set to
+-phx, the
+baseurlexpands to point to the regional yum server in Phoenix.
+- Set the
+$ocidomainvariable by populating content in
+/etc/yum/vars/ocidomain.
+Accessing ULN Content
+To access ULN content on the regional yum servers, install the appropriate
+release-el packages and enable the repositories that you require access to.
+x
+For example, on Oracle Linux 8, you can run the following commands to access the
+ol8_oci_included repository, where tools like Oracle InstantClient, the Oracle Java Development Kit and Oracle Java Runtime Environment are located:
+sudo dnf install oci-included-release-el8 sudo dnf config-manager --enable ol8_oci_included
+Other ULN channels are also available directly through the Oracle Cloud Infrastructure regional yum servers. For example, to access the Ksplice channels on an Oracle Linux 7 compute instance, you can do:
+sudo yum install ksplice-release-el7 sudo yum-config-manager --enablerepo ol7_ksplice ol7_x86_64_userspace_ksplice
+Most of these channels are installed and available by default in the latest platform images.
+Using OS Management
+You can use OS Management to manage packages on Oracle Linux instances, including installing, removing, and updating packages. See Managing Linux Packages for more information.
+OS Management uses software sources to provide packages to instances, and to track the available updates to those packages. A software source is a collection of packages. Software sources enable you to control which packages can be installed on instances without having to manually log in and configure the repositories on each instance. See Managing Software Sources for more information.
+Updating an Instance
+Use Oracle Ksplice, OS Management, or Oracle Autonomous Linux to help automate system updates, but also follow recommended guidance to keep your system up to date.
+Using Oracle Ksplice
+You can use Oracle Ksplice to patch a system without requiring a reboot. However, these updates only occur in-memory. You must also update packages on-disk to their latest versions, so that when the system reboots, it starts from the most current release. Follow the recommendations in Maintaining the System.
+Using OS Management
+You can use OS Management to manage and monitor updates for the OS environments Oracle Linux instances. OS Management allows you to group instances for updates, providing automated patch and fleet management capabilities. See Managing Linux Packages for more information.
+Using Autonomous Linux
+Oracle Autonomous Linux can automatically handle system package updates on a regular schedule. Autonomous Linux provides automatic daily updates in addition to the zero-downtime Ksplice updates for kernel, OpenSSL, and glibc libraries. These updates are referred to as autonomous updates. When you create an Autonomous Linux instance, the service automatically creates a controlled scheduled job for autonomous updates. You can update the start time for the daily autonomous updates using the Console, CLI, or API.
+Maintaining the System
+Regularly update the operating system and user space packages to obtain the latest bug fixes and security patches.
+Oracle recommends that you:
+-
+Subscribe the instance to the
+_latestyum repository for your Oracle Linux release.
+-
+Update any software that was installed outside of the Oracle Linux yum package manager.
+For example, tools such as
+flatpakand
+snap, for installing desktop applications; and
+pip,
+gemand
+npm, for installing Python, Ruby and Node libraries and modules, all have their own software update mechanisms.
+-
+Always update instances to the most recent release of the operating system.
+Oracle Linux uses a rolling update level approach for keeping software up to date. For example, Oracle Linux 8.4 or Oracle Linux 8 Update 4, are rolling snapshots of the latest supported packages for the Oracle Linux release and are not considered independent versions of Oracle Linux.
+-
+Manually update packages or install and configure the appropriate tool for automatic updates.
+- For Oracle Linux 7 instances you can use the
+yum-cronutility described in Oracle Linux 7: Managing Software.
+- For Oracle Linux 8 instances you can use the
+dnf-automaticutility described in Oracle Linux 8: Managing Software on Oracle Linux
+- For Oracle Linux 7 instances you can use the
+Adding Users and Groups
+Use the default
+opc user to add users and groups to a newly created instance.
+Oracle recommends that you create and configure users and groups according to your access requirements. Access the instance as the
+opc user (see Accessing an Instance), and then add users and groups as necessary. See Create users and groups on Oracle Linux for a general introduction to users and groups on Oracle Linux.
+What is the opc user?
+Oracle Linux instances have a default
+opc user. Use this account to create and configure additional users and groups.
+The
+opc account has:
+- Full
+sudoprivileges.
+-
+No password configured.
+Instead you access the account over SSH with a key pair configured when you create the instance (see Accessing an Instance).
+Adding a User
+To add a user named
+alice to the system:
+sudo useradd alice
+To set a password for the user:
+sudo passwd alice
+Adding a Group
+To add a group called
+staff to the system:
+sudo groupadd staff
+To add the user
+alice to the group
+staff:
+sudo usermod -G staff alice
+Manage the users in a group using the
+groupmems command. For example, to remove
+alice from the group
+staff:
+sudo groupmems -d alice -g staff
+Configuring Permissions
+Define permissions by configuring users and groups within
+/etc/sudoers.
+By default, members of the
+wheel group can use sudo to obtain all root privileges. You can add entries for users or groups by adding files to
+/etc/sudoers.d. For example, the privileges assigned to the
+opc user are defined in
+/etc/sudoers.d/90-cloud-init-users.
+Migrating to Oracle Cloud Infrastructure
+You can migrate on-premises Oracle Linux images to Oracle Cloud Infrastructure with the
+oci-image-migrate utilities. See OCI Image Migrate Utilities.
+Oracle Linux Learning Resources
+Use these resources to learn more about Oracle Linux.
+- General Oracle Linux Documentation
+- The general Oracle Linux documentation is not specific to Oracle Cloud Infrastructure but most of the content still applies.
+-
+- Training Resources
+-
+Use the following Oracle Linux training resources to grow your skill set using free videos and hands-on tutorials and labs.
+- Oracle Linux Training Station
+- Oracle Linux 8 Tutorials
+- Oracle Linux and Virtualization Labs
+- Blogs and Community Forums
+- Use these resources to track features highlighted by Oracle or to reach other community users for more help and information.
+-

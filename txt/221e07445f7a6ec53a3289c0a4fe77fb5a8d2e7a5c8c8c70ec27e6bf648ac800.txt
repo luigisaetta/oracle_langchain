@@ -1,0 +1,294 @@
+Get Started with Administration
+Let’s explore Oracle Analytics Cloud and what you need to know to get started with deployment and administration on Oracle Cloud Infrastructure Gen 2.
+About Oracle Analytics Cloud on Gen 2
+Oracle Analytics Cloud is a scalable and secure public cloud service that provides capabilities to explore and perform collaborative analytics for you, your workgroup, and your enterprise.
+Oracle Analytics Cloud is available on Oracle Cloud Infrastructure Gen 2 in several regions in North America, EMEA, APAC, and LAD when you subscribe through Universal Credits. You can subscribe to Professional Edition or Enterprise Edition.
+When you deploy Oracle Analytics Cloud on Gen 2, you complete some initial setup steps, and then Oracle takes care of most service management, patching, backup and restore, and other maintenance tasks. You determine the size of your service when you set up the service and you can increase or decrease capacity if your requirements change. Oracle Analytics Cloud offers two sizing options, you can specify the number of Oracle Compute Units (OCPUs) you want to deploy or how many people you expect to use the service.
+Region Availability
+Oracle Analytics Cloud is currently available on several data regions in North America, Europe, the Middle East and Africa (EMEA), Asia-Pacific (APAC), and Latin American (LAD). Thereafter, Oracle Analytics Cloud will expand to other regions.
+For the latest information on availability in regions, see Data Regions for Platform and Infrastructure Services.
+Service Limits
+Oracle Analytics Cloud has various default limits. Whenever you create an Oracle Analytics Cloud instance or scale up, the system ensures that your request is within the bounds of your limit. The limit that applies to you depends on which edition you subscribe to: Professional Edition or Enterprise Edition.
+|Resource Limit
+|Limit Short Name
+|Default Value (Universal Credits)
+|Default Value (Pay As You Go or Trials)
+|Description
+|Professional Edition OCPUs
+|se-ocpu-count
+|4
+|4
+|Maximum number of OCPUs available with Oracle Analytics Cloud Professional Edition.
+|Enterprise Edition OCPUs
+|ee-ocpu-count
+|40
+|4
+|Maximum number of OCPUs available with Oracle Analytics Cloud Enterprise Edition.
+|Professional Edition Users
+|se-user-count
+|200
+|-
+|Maximum number of users available with Oracle Analytics Cloud Professional Edition.
+|Enterprise Edition Users
+|ee-user-count
+|200
+|-
+|Maximum number of users available with Oracle Analytics Cloud Enterprise Edition.
+You can submit a request to increase your limits from Limits, Quotas, and Usage page in Oracle Cloud Infrastructure Console.
+Service Quotas
+You can use quotas to determine how other users allocate Oracle Analytics Cloud resources across compartments in Oracle Cloud Infrastructure. Whenever you create an Oracle Analytics Cloud instance or scale up, the system ensures that your request is within the bounds of the quota for that compartment.
+The quota that you use to allocate Oracle Analytics Cloud resources depends on which edition you subscribe to: Professional Edition or Enterprise Edition.
+|Quota Name
+|Scope
+|Description
+|se-ocpu-count
+|Regional
+|Number of Professional Edition OCPUs.
+|ee-ocpu-count
+|Regional
+|Number of Enterprise Edition OCPUs.
+|se-user-count
+|Regional
+|Number of Professional Edition users.
+|ee-user-count
+|Regional
+|Number of Enterprise Edition users.
+Example Quota Statements for Oracle Analytics Cloud
+-
+Limit the number of OCPUs that users can allocate to self-service analytics services they create in MyDVCompartment to 2.
+set analytics quota se-ocpu-count to 2 in compartment MyDVCompartment
+-
+Limit the number of OCPUs that users can allocate to enterprise analytics services they create in MyEnterpriseCompartment to 10.
+set analytics quota ee-ocpu-count to 10 in compartment MyEnterpriseCompartment
+-
+Limit the user count for enterprise analytics services that users create in MyEnterpriseCompartment to 100.
+set analytics quota ee-user-count to 100 in compartment MyEnterpriseCompartment
+-
+Don't allow users to allocate any OCPUs to enterprise analytics services in MyTestCompartment.
+zero analytics quota ee-ocpu-count in compartment MyTestCompartment
+Service Events
+Actions that you perform on Oracle Analytics Cloud instances emit events.
+You can define rules that trigger a specific action when an event occurs. For example, you might define a rule that sends a notification to administrators when someone deletes an instance. See Overview of Events and Get Started with Events.
+This table lists the Oracle Analytics Cloud events that you can reference.
+|Event Name
+|Event Type
+|Analytics - Instance - Create Instance
+|com.oraclecloud.analytics.createanalyticsinstance
+|Analytics - Instance - Update Instance
+|com.oraclecloud.analytics.updateanalyticsinstance
+|Analytics - Instance - Delete Instance
+|com.oraclecloud.analytics.deleteanalyticsinstance
+|Analytics - Instance - Scale Instance Up or Down Begin
+|com.oraclecloud.analytics.scaleanalyticsinstance.begin
+|Analytics - Instance - Scale Instance Up or Down End
+|com.oraclecloud.analytics.scaleanalyticsinstance.end
+|Analytics - Instance - Start Instance Begin
+|com.oraclecloud.analytics.startanalyticsinstance.begin
+|Analytics - Instance - Start Instance End
+|com.oraclecloud.analytics.startanalyticsinstance.end
+|Analytics - Instance - Stop Instance Begin
+|com.oraclecloud.analytics.stopanalyticsinstance.begin
+|Analytics - Instance - Stop Instance End
+|com.oraclecloud.analytics.stopanalyticsinstance.end
+|Analytics - Instance - Change Compartment Begin
+|com.oraclecloud.analytics.changeanalyticsinstancecompartment.begin
+|Analytics - Instance - Change Compartment End
+|com.oraclecloud.analytics.changeanalyticsinstancecompartment.end
+|Analytics - Instance - Change Network Endpoint Begin
+|com.oraclecloud.analytics.changeanalyticsinstancenetworkendpoint.begin
+|Analytics - Instance - Change Network Endpoint End
+|com.oraclecloud.analytics.changeanalyticsinstancenetworkendpoint.end
+|Analytics - Instance - Create Vanity URL Begin
+|com.oraclecloud.analytics.createvanityurl.begin
+|Analytics - Instance - Create Vanity URL End
+|com.oraclecloud.analytics.createvanityurl.end
+|Analytics - Instance - Update Vanity URL Begin
+|com.oraclecloud.analytics.updatevanityurl.begin
+|Analytics - Instance - Update Vanity URL End
+|com.oraclecloud.analytics.updatevanityurl.end
+|Analytics - Instance - Delete Vanity URL Begin
+|com.oraclecloud.analytics.deletevanityurl.begin
+|Analytics - Instance - Delete Vanity URL End
+|com.oraclecloud.analytics.deletevanityurl.end
+|Analytics - Instance - Update Custom Encryption Key Begin
+|com.oraclecloud.analytics.updateinstancekmskeyid.begin
+|Analytics - Instance - Update Custom Encryption Key End
+|com.oraclecloud.analytics.updateinstancekmskeyid.end
+|Analytics - Instance - Create Private Access Channel Begin
+|com.oraclecloud.analytics.createprivateaccesschannel.begin
+|Analytics - Instance - Create Private Access Channel End
+|com.oraclecloud.analytics.createprivateaccesschannel.end
+|Analytics - Instance - Update Private Access Channel Begin
+|com.oraclecloud.analytics.updateprivateaccesschannel.begin
+|Analytics - Instance - Update Private Access Channel End
+|com.oraclecloud.analytics.updateprivateaccesschannel.end
+|Analytics - Instance - Delete Private Access Channel Begin
+|com.oraclecloud.analytics.deleteprivateaccesschannel.begin
+|Analytics - Instance - Delete Private Access Channel End
+|com.oraclecloud.analytics.deleteprivateaccesschannel.end
+Example
+This example shows information associated with the event Analytics - Instance - Create Instance:
+{
+"cloudEventsVersion": "0.1",
+"contentType": "application/json",
+"source": "analytics",
+"eventID": "<unique_ID>",
+"eventType": "com.oraclecloud.analytics.createanalyticsinstance",
+"eventTypeVersion": "<version>",
+"eventTime": "2019-10-19T00:53:04.126Z",
+"data": {
+"additionalDetails": {},
+"availabilityDomain": "<availability_domain>",
+"compartmentId": "ocid1.compartment.oc1..<unique_ID>",
+"compartmentName": "my_compartment",
+"freeformTags": {},
+"resourceId": "ocid1.analyticsinstance.oc1..<unique_ID>",
+"resourceName": "my_analytics_cloud"
+},
+"extensions": {
+"compartmentId": "ocid1.compartment.oc1..<unique_ID>"
+}
+Typical Workflow for Administrators
+If you’re setting up Oracle Analytics Cloud on Gen 2 for the first time, follow these tasks as a guide.
+|Task
+|Description
+|More Information
+|
+Place an order for Oracle Analytics Cloud or sign up for a free Oracle Cloud promotion
+|
+Sign up for a free credit promotion or subscribe to Oracle Analytics Cloud through Universal Credits.
+|
+Request and Manage Free Oracle Cloud Promotions
+|
+Activate your Oracle Cloud account and sign in for the first time
+|
+You receive a welcome email when your account is ready. To activate your account, you must sign in with the credentials provided in the email.
+As the Cloud Account Administrator, you can complete all the setup tasks for Oracle Analytics Cloud.
+|
+Determine your service requirements
+|
+Plan your Oracle Analytics Cloud deployment. Think about what you need before you start.
+|
+(Optional) Enable other users to set up services
+|
+If you don’t want to set up Oracle Analytics Cloud yourself, give other users permissions to create services.
+|
+Give Another User Permission to Set Up Oracle Analytics Cloud
+|
+(Recommended) Create a compartment for your service
+|
+Create a compartment for your Oracle Analytics Cloud deployment.
+|
+Create a service
+|
+Deploy a new service with Oracle Analytics Cloud.
+|
+Verify your service
+|
+When your service is ready, check that you can sign in and your service is up and running.
+|
+Set up users and groups
+|
+Set up users and groups for Oracle Analytics Cloud and assign them to application roles.
+|
+Schedule regular backups of your data (snapshots)
+|
+As part of your business continuity plan, take a snapshot before people start using the system and again at suitable intervals so you can restore the environment if something goes wrong.
+|
+Set service-level options
+|
+Configure service-level options for everyone using your service.
+|
+Migrate content
+|
+Leverage your existing content in Oracle Analytics Cloud.
+|Administer services
+|
+Monitor services and perform administrative tasks such as pause, resume, scale, delete, and so on.
+Delegate administrative responsibilities to others through security policies.
+Before You Begin with Oracle Analytics Cloud on Gen 2
+When you order Oracle Analytics Cloud through Universal Credits, you automatically get access to Oracle Cloud Infrastructure Gen 2 and other required services.
+Here’s some information about how Oracle Analytics Cloud uses other services and what you need to do if you’re setting up Oracle Analytics Cloud for the first time.
+|Service
+|What is it for?
+|Do I need to do anything?
+|Oracle Cloud Infrastructure Identity and Access Management (IAM)
+|
+Compartments: You use compartments to organize resources on Oracle Cloud Infrastructure.
+Policies: You use IAM security policies to grant permissions.
+Domains: If available in your cloud account, you use identity domains to manage users and groups in your organization who will use Oracle Analytics Cloud and Oracle Cloud Infrastructure Console.
+|
+Yes.
+Before you create your first Oracle Analytics Cloud instance, Oracle recommends that you set up one or more compartments in which you can deploy and secure your cloud resources.
+Optionally, you can set up security policies that give other users permission to set up and manage Oracle Analytics Cloud instances. See Give Users Permissions to Manage Analytics Cloud Instances.
+If identity domains are available, you can add Oracle Analytics Cloud users and groups before you create the Oracle Analytics Cloud instance or after; you can decide. See Use Identity Domains to Set Up Users and Groups for Oracle Analytics Cloud.
+|Oracle Identity Cloud Service
+|
+If identity domains aren't available in your cloud account, you use Oracle Identity Cloud Service to manage the users and groups in your organization who will use Oracle Analytics Cloud.
+In most cases, Oracle Analytics Cloud is automatically federated with the primary Oracle Identity Cloud Service instance associated with your tenancy.
+|
+Yes.
+You can add users and groups before you create the Oracle Analytics Cloud instance or after; you can decide. See Use Oracle Identity Cloud Service to Set Up Users and Groups for Oracle Analytics Cloud.
+Note: If you want to federate with a secondary Oracle Identity Cloud Service instance or your tenancy is a government region where federation isn't set up automatically, you must federate with Oracle Identity Cloud Service manually. See Federate with Oracle Identity Cloud Service Manually.
+Signing In to the Oracle Cloud Infrastructure Console
+Signing into the Oracle Cloud Infrastructure Console differs depending on whether or not your cloud account uses identity domains.
+If you are not sure if your cloud account uses identity domains, see Set Up Users.
+Sign In to a Cloud Account That Uses Identity Domains
+If your cloud account uses identity domains, you sign in to the Oracle Cloud Infrastructure Console as a user that's configured in Oracle Cloud Infrastructure Identity and Access Management (IAM).
+This topic applies only to cloud accounts that use identity domains. See Set Up Users.
+- Go to http://cloud.oracle.com.
+- Enter your cloud account name and click Next.
+- Select the Default domain.
+Every cloud account includes a Default identity domain.
+You can create and manage multiple identity domains in your cloud account. For example, you might want one for development and one for production. If multiple identity domains are available, select the domain you want.
+- Enter the user name and password provided in the welcome email, and click
+Sign In.The Oracle Cloud Infrastructure Console is displayed.
+Take some time to explore categories and options in the navigation menu.
+- Navigate to the Oracle
+Analytics Cloud landing page where you access, create, and manage Oracle
+Analytics Cloud instances.
+- Open the navigation menu and click Analytics & AI. Under
+Analytics, click Analytics
+Cloud.
+- Click pin to save the selection under the Pinned category on the Home page.
+- Open the navigation menu and click Analytics & AI. Under Analytics, click Analytics Cloud.
+- Navigate to the Oracle Cloud Infrastructure Identity
+and Access Management landing page where you create and manage compartments, identity domains, users,
+groups, and more.
+- Open the navigation menu and click Identity & Security.
+Under Identity, click Domains,
+Compartments, Policies, and so
+on.
+- Click pin to save the selection under the Pinned category on the Home page.
+- Open the navigation menu and click Identity & Security. Under Identity, click Domains, Compartments, Policies, and so on.
+Sign In to a Cloud Account That Does Not Use Identity Domains
+If your cloud account doesn't use identity domains, you sign in to the Oracle Cloud Infrastructure Console as a user federated through Oracle Identity Cloud Service.
+This topic applies only to cloud accounts that don't use identity domains. See Set Up Users.
+- Go to http://cloud.oracle.com.
+- Enter your cloud account name and click Next.
+Under Single Sign-On (SSO) options, note the identity provider oracleidenitycloudservice in the Identity Providers field, and click Continue.
+- Enter the user name and password provided in the welcome email, and click
+Sign In.The Oracle Cloud Infrastructure Console is displayed.
+Take some time to explore categories and options in the navigation menu.
+- Navigate to the Oracle
+Analytics Cloud landing page where you access, create, and manage Oracle
+Analytics Cloud instances.
+- Open the navigation menu and click Analytics & AI. Under
+Analytics, click Analytics
+Cloud.
+- Click pin to save the selection under the Pinned category on the Home page.
+- Open the navigation menu and click Analytics & AI. Under Analytics, click Analytics Cloud.
+- Navigate to the Oracle Identity Cloud
+Service Console to manage end users for Oracle Analytics Cloud.
+- Open the navigation menu and click Identity &
+Security.
+- Under Identity, click Federation, select oracleidentitycloudservice, and then click the Oracle Identity Cloud Service Console URL to access the landing page for Oracle Identity Cloud Service.
+- Click pin to save the selection under the Pinned category on the Home page.
+- Open the navigation menu and click Identity & Security.
+- Navigate to the Oracle Cloud Infrastructure Identity
+and Access Management (IAM) landing page where you create and manage resources on Oracle Cloud
+Infrastructure (compartments, policies, users, groups, and more).
+- Open the navigation menu and click Identity & Security.
+- Under Identity, click Users and Groups to set up other users to manage resources on Oracle Cloud Infrastructure and map your groups in Oracle Identity Cloud Service to groups in IAM.
+- Click Compartments to set up compartments for the resources you want to create on Oracle Cloud Infrastructure.
+- Click Polices to set up security policies that allow users to manage resources on Oracle Cloud Infrastructure.

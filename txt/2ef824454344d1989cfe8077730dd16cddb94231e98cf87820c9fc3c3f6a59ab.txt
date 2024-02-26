@@ -1,0 +1,68 @@
+Overview of Generative AI Service
+Oracle Cloud Infrastructure Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation.
+Use the playground to try out the ready-to-use pretrained models, or create and host your own fine-tuned custom models based on your own data on dedicated AI clusters.
+The OCI Generative AI service includes the following foundational models:
+- Generation
+- Give instructions to generate text or extract information from your text.
+- Summarization
+- Summarize text with your instructed format, length, and tone.
+- Embedding
+- Convert text to vector embeddings to use in applications for semantic searches, recommender systems, text classification, or text clustering.
+Using the Pretrained Foundational Models
+Fine-tuning the Pretrained Models
+You can create a copy of a pretrained foundational model, add your own training dataset, and let the OCI Generative AI service fine-tune the model for you. OCI Generative AI uses dedicated AI clusters specially sized for fine-tuning. These clusters belong only to your tenancy. After your model is fine-tuned, you create an endpoint for the custom model and host that model on a dedicated AI cluster that’s designed for hosting. When you create the hosting cluster, select the correct pretrained model from which the fine-tuned model is derived from.
+Use Cases
+Use the OCI Generative AI service for the following types of use cases.
+- Text Generation
+-
+Create text for any purpose, for example:
+- Pitch for a new product
+- Slogan for a marketing campaign
+- Sales email to a client
+- Social media post
+- Job description
+- Title for an article
+- Conversation
+-
+Create a chatbot-style user interface for intelligent interactions, for example, in customer-support scenarios. Ask questions in natural language about text submitted to the LLM—such as documents, emails, and product reviews—and the LLM reasons over the text and provides intelligent answers.
+- Data Extraction
+-
+Extract specific pieces of data from text, for example:
+- Extract applicant information from an application written in free-form text.
+- Extract dates or sums from a contract.
+- Extract insights or trends from data tables.
+- Summarization
+-
+Generate executive summaries for documents that are too long to read, or summarize any type of text, for example:
+- Documents
+- Contracts
+- Emails
+- Articles
+- Blog posts
+- Product reviews
+- Social media posts
+- Classification
+-
+Classify text into predefined categories, for example:
+- Given a list of support tickets, classify them by the department that should handle them.
+- Given a list of sectors and company names, classify the companies by their respective sectors.
+- Style Transfer
+-
+Change the style or tone of text, for example:
+- Rewrite any text in a different style, format (list or paragraphs), or tone.
+- Rephrase text.
+- Suggest grammatical improvements.
+- Semantic Similarity
+-
+Evaluate several inputs based on how similar their meaning is, for example:
+- Evaluate a list of questions sent to a support system to extract the most relevant answer given to similar questions in the past when a new question comes in.
+- Replace keyword-based searches with semantic searches to improve search results relevance.
+Regions with Generative AI
+Oracle hosts its OCI services in regions and availability domains. A region is a localized geographic area, and an availability domain is one or more data centers in that region. OCI Generative AI is hosted in the following region:
+- Region name: US Midwest (Chicago)
+- Region identifier: us-chicago-1
+See About Regions and Availability Domains for the list of available OCI regions, along with associated locations, region identifiers, region keys, and availability domains.
+Accessing Generative AI in the Console
+- Sign in to the Console by using a supported browser.
+- In the navigation bar of the Console, choose a region that hosts Generative AI, for example, US Midwest (Chicago). If you don't know which region to choose, see Regions with Generative AI.
+- Open the navigation menu and click Analytics & AI. Under AI Services, click Generative AI.

@@ -1,0 +1,392 @@
+Pretrained Image Analysis Models
+Vision provides pretrained image analysis AI models that let you to find and tag objects, text, and entire scenes in images.
+Pretrained models let you use AI with no data science experience. Provide an image to the Vision service and get back information about the objects, text, scenes, and any faces in the image without having to create your own model.
+Use Cases
+Here are several use cases for pretrained image analysis models.
+- Digital asset management
+- Tag digital media-like images for better indexing and retrieval.
+- Scene monitoring
+- Detect if items are on retail shelves, vegetation is growing in the surveillance image of a power line, or if trucks are available at a lot for delivery or shipment.
+- Face detection
+-
+- Privacy: Hide identities by adding a blur to the image using face location information returned through the face detection feature.
+- Prerequisite for Biometrics: Use the facial quality score to decide if a face is clear and unobstructed.
+- Digital asset management: Tag images with facial information for better indexing and retrieval.
+Supported Formats
+Vision supports several image analysis formats.
+- JPG
+- PNG
+Pretrained Models
+Vision has four types of pretrained image analysis model.
+Object Detection
+Object detection is used to locate and identity objects within an image. For example, if you have an image of a living room, Vision locates the objects there, such as a chair, a sofa, and a TV. It then provides bounding boxes for each of the objects and identifies them.
+Vision provides a confidence score for each object identified. The confidence score is a decimal number. Scores closer to 1 indicate a higher confidence in the objects classification, while lower scores indicate a lower confidence score. The range of the confidence score for each label is from 0 to 1.
+- Labels
+- Confidence score
+- Object-bounding polygons
+- Single requests
+- Batch requests
+An example of Object Detection use in Vision.
+- Input image
+-
+- API Request:
+{ "analyzeImageDetails": { "compartmentId": "", "image": { "namespaceName": "", "bucketName": "", "objectName": "", "source": "OBJECT_STORAGE" }, "features": [ { "featureType": "OBJECT_DETECTION", "maxResults": 50 } ] } }
+- Output:
+-
+{ "imageObjects":
+[ { "name": "Bus",
+"confidence": 0.98872757,
+"boundingPolygon":
+{ "normalizedVertices":
+[ { "x": 0.232,
+"y": 0.16114457831325302 },
+{ "x": 0.407,
+"y": 0.16114457831325302 },
+{ "x": 0.407,
+"y": 0.36596385542168675 },
+{ "x": 0.232,
+"y": 0.36596385542168675 } ]
+} },
+}, ... }
+Image Classification
+Image classification can be used to identify scene-based features and objects in an image. You can have one classification or many classifications, depending on the use case and the number of items in an image. For example, if you have an image of a person running, Vision identifies the person, the clothing, and the footwear.
+Vision provides a confidence score for each label. The confidence score is a decimal number. Scores closer to 1 indicate a higher confidence in the label, while lower scores indicate lower confidence score. The range of the confidence score for each label is from 0 to 1.
+- Labels
+- Confidence score
+- Ontology classes
+- Single requests
+- Batch requests
+An example of Image Classification use in Vision.
+- Input image
+-
+- API Request:
+{ "analyzeImageDetails": { "compartmentId": "", "image": { "namespaceName": "", "bucketName": "", "objectName": "", "source": "OBJECT_STORAGE" }, "features": [ { "featureType": "IMAGE_CLASSIFICATION", "maxResults": 5 } ] } }
+- Output:
+- API response:
+{ "labels": [ { "name": "Overhead power line", "confidence": 0.99315816 }, { "name": "Transmission tower", "confidence": 0.9927904 }, { "name": "Plant", "confidence": 0.9924676 }, { "name": "Sky", "confidence": 0.9924451 }, { "name": "Line", "confidence": 0.9912027 } ] ...
+Face Detection
+Vision can detect and recognize faces in an image.
+Face detection lets you pass an image or a batch of images to Vision to detect the following using a pretrained model:
+- The existence of faces in each image.
+- The location of faces in each image.
+- Face landmarks for each face.
+- Visual quality of each face.
+No data science experience is required to use this pretrained model.
+An example of face detection in Vision.
+- Input image
+- API Request:
+{ "compartmentId": "ocid1.compartment.oc1..aaaaaaaau3mwjanch4k54g45rizeqy52jcaxmiu4ii3kwy7hvn6pncs6yyba", "image": { "namespaceName": "axwlrwe7tbir", "bucketName": "demo_examples", "objectName": "FaceDetection/FaceDetection1.jpeg", "source": "OBJECT_STORAGE" }, "features": [ { "featureType": "FACE_DETECTION", "maxResults": 50, "shouldReturnLandmarks": true } ] }
+- Output:
+-
+{
+"ontologyClasses": [],
+"detectedFaces": [
+{
+"confidence": 0.9838427,
+"boundingPolygon": {
+"normalizedVertices": [
+{
+"x": 0.48696465492248536,
+"y": 0.2889890061576746
+},
+{
+"x": 0.6339863777160645,
+"y": 0.2889890061576746
+},
+{
+"x": 0.6339863777160645,
+"y": 0.586297366400352
+},
+{
+"x": 0.48696465492248536,
+"y": 0.586297366400352
+}
+]
+},
+"qualityScore": 0.9043028,
+"landmarks": [
+{
+"type": "LEFT_EYE",
+"x": 0.5203125,
+"y": 0.41114983
+},
+{
+"type": "RIGHT_EYE",
+"x": 0.590625,
+"y": 0.41231126
+},
+{
+"type": "NOSE_TIP",
+"x": 0.553125,
+"y": 0.4715447
+},
+{
+"type": "LEFT_EDGE_OF_MOUTH",
+"x": 0.5210937,
+"y": 0.5005807
+},
+{
+"type": "RIGHT_EDGE_OF_MOUTH",
+"x": 0.5914062,
+"y": 0.5017422
+}
+]
+},
+{
+"confidence": 0.9775677,
+"boundingPolygon": {
+"normalizedVertices": [
+{
+"x": 0.7882407665252685,
+"y": 0.26365977075734065
+},
+{
+"x": 0.9403343200683594,
+"y": 0.26365977075734065
+},
+{
+"x": 0.9403343200683594,
+"y": 0.5528718281567582
+},
+{
+"x": 0.7882407665252685,
+"y": 0.5528718281567582
+}
+]
+},
+"qualityScore": 0.786416,
+"landmarks": [
+{
+"type": "LEFT_EYE",
+"x": 0.81328124,
+"y": 0.37514517
+},
+{
+"type": "RIGHT_EYE",
+"x": 0.88125,
+"y": 0.39140534
+},
+{
+"type": "NOSE_TIP",
+"x": 0.8296875,
+"y": 0.44134727
+},
+{
+"type": "LEFT_EDGE_OF_MOUTH",
+"x": 0.8078125,
+"y": 0.46689895
+},
+{
+"type": "RIGHT_EDGE_OF_MOUTH",
+"x": 0.8726562,
+"y": 0.48083624
+}
+]
+},
+{
+"confidence": 0.97464997,
+"boundingPolygon": {
+"normalizedVertices": [
+{
+"x": 0.038544440269470216,
+"y": 0.2764744597998784
+},
+{
+"x": 0.17794162034988403,
+"y": 0.2764744597998784
+},
+{
+"x": 0.17794162034988403,
+"y": 0.560027438173726
+},
+{
+"x": 0.038544440269470216,
+"y": 0.560027438173726
+}
+]
+},
+"qualityScore": 0.8527186,
+"landmarks": [
+{
+"type": "LEFT_EYE",
+"x": 0.08984375,
+"y": 0.3809524
+},
+{
+"type": "RIGHT_EYE",
+"x": 0.15234375,
+"y": 0.39140534
+},
+{
+"type": "NOSE_TIP",
+"x": 0.12421875,
+"y": 0.44599304
+},
+{
+"type": "LEFT_EDGE_OF_MOUTH",
+"x": 0.07734375,
+"y": 0.46689895
+},
+{
+"type": "RIGHT_EDGE_OF_MOUTH",
+"x": 0.14375,
+"y": 0.47619048
+}
+]
+},
+{
+"confidence": 0.96874785,
+"boundingPolygon": {
+"normalizedVertices": [
+{
+"x": 0.2698225736618042,
+"y": 0.24420403492713777
+},
+{
+"x": 0.38425185680389407,
+"y": 0.24420403492713777
+},
+{
+"x": 0.38425185680389407,
+"y": 0.4686152760575457
+},
+{
+"x": 0.2698225736618042,
+"y": 0.4686152760575457
+}
+]
+},
+"qualityScore": 0.8934359,
+"landmarks": [
+{
+"type": "LEFT_EYE",
+"x": 0.29453126,
+"y": 0.3240418
+},
+{
+"type": "RIGHT_EYE",
+"x": 0.3484375,
+"y": 0.33681765
+},
+{
+"type": "NOSE_TIP",
+"x": 0.31328124,
+"y": 0.3821138
+},
+{
+"type": "LEFT_EDGE_OF_MOUTH",
+"x": 0.2890625,
+"y": 0.39372823
+},
+{
+"type": "RIGHT_EDGE_OF_MOUTH",
+"x": 0.3453125,
+"y": 0.40301976
+}
+]
+},
+{
+"confidence": 0.95825064,
+"boundingPolygon": {
+"normalizedVertices": [
+{
+"x": 0.6876011371612549,
+"y": 0.10002164585942037
+},
+{
+"x": 0.8045546531677246,
+"y": 0.10002164585942037
+},
+{
+"x": 0.8045546531677246,
+"y": 0.3600864033804261
+},
+{
+"x": 0.6876011371612549,
+"y": 0.3600864033804261
+}
+]
+},
+"qualityScore": 0.9237982,
+"landmarks": [
+{
+"type": "LEFT_EYE",
+"x": 0.7171875,
+"y": 0.19976771
+},
+{
+"type": "RIGHT_EYE",
+"x": 0.7703125,
+"y": 0.21254355
+},
+{
+"type": "NOSE_TIP",
+"x": 0.7367188,
+"y": 0.2601626
+},
+{
+"type": "LEFT_EDGE_OF_MOUTH",
+"x": 0.7085937,
+"y": 0.2752613
+},
+{
+"type": "RIGHT_EDGE_OF_MOUTH",
+"x": 0.76640624,
+"y": 0.2857143
+}
+]
+}
+],
+"faceDetectionModelVersion": "1.0.27",
+"errors": []
+}
+Optical Character Recognition (OCR)
+Vision can detect and recognize text in a document.
+Language classification identifies the language of a document, then OCR draws bounding boxes
+around the printed or hand-written text it locates in an image, and digitizes the text. For
+example, if you have an image of a stop sign, Vision locates
+the text in that image and extracts the text
+STOP. It provides bounding boxes
+for the identified text.
+Vision provides a confidence score for each text grouping. The confidence score is a decimal number. Scores closer to 1 indicate a higher confidence in the extracted text, while lower scores indicate lower confidence score. The range of the confidence score for each label is from 0 to 1.
+Text Detection can be used with Document AI or Image Analysis models.
+OCR support is limited to English. If you know the text in your images is in English, set the
+language to
+Eng.
+- Word extraction
+- Text line extraction
+- Confidence score
+- Boundling polygons
+- Single request
+- Batch request
+An example of OCR use in Vision.
+- Input image
+- API Request:
+{ "analyzeImageDetails": { "compartmentId": "", "image": { "namespaceName": "", "bucketName": "", "objectName": "", "source": "OBJECT_STORAGE" }, "features": [ { "featureType": "TEXT_DETECTION" } ] } }
+- Output:
+-
+...
+{ "text": "585-XRP",
+"confidence": 0.9905539,
+"boundingPolygon":
+{ "normalizedVertices":
+[ { "x": 0.466,
+"y": 0.7349397590361446 },
+{ "x": 0.552,
+"y": 0.7319277108433735 },
+{ "x": 0.553,
+"y": 0.7831325301204819 },
+{ "x": 0.467,
+"y": 0.7876506024096386 } ]
+}
+}
+...
+Using the Pretrained Image Analysis Models
+Vision provides pretrained models for customers to extract insights about their images without needing Data Scientists.
+You need the following before using a pretrained model:
+-
+A paid tenancy account in Oracle Cloud Infrastructure.
+-
+Familiarity with Oracle Cloud Infrastructure Object Storage.
+You can call the pretrained Image Analysis models as a batch request using Rest APIs, SDK, or CLI. You can call the pretrained Image Analysis models as a single request using the Console, Rest APIs, SDK, or CLI.
+See the Limits section for information on what is allowed in batch requests.

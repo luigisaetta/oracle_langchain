@@ -1,0 +1,17 @@
+Custom Image Analysis Models
+Vision provides custom image analysis models that allow you to locate and tag objects, text, and entire scenes in images, that are specific to your scenario. Simply create a labeled dataset, instruct Vision to train a model using the labeled dataset, and call the custom model to evaluate new images.
+Use Cases
+- Scene monitoring
+- Review images for user-specific items, to monitor changes or to quantify items in a scene. For example, hazard signs, oil rigs, cars, or tree growth.
+- Visual anomaly detection
+- Classify specific visual properties of equipment or products as defective, and either in need of repair or valid for return.
+- Product SKU classification
+- Classify retail or manufacturer-specific products based on visual properties of the items.
+- Brand sponsorship monitoring
+- Identify sponsor- or advertiser-specific logos to calculate the return on marketing expenditure and overall media coverage. If rebranding, you can create custom logo models to monitor the incorrect use of previous styles or designs.
+- Content moderation
+- Flag inappropriate content so that it can be hidden from users.
+Supported Image Formats
+Vision supports the following document formats:
+- JPG
+- PNG

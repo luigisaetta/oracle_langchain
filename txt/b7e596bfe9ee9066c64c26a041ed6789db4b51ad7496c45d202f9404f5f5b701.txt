@@ -1,0 +1,9 @@
+Service Overview
+Document Understanding is a serverless, multitenant service, accessible using the Console, REST APIs, SDK, or CLI.
+You can upload documents to detect and classify text and objects in them. You can process individual files or batches of documents using the ProcessorJob API endpoint. The following pretrained models are supported:
+- Optical Character Recognition (OCR): Document Understanding can detect and recognize text in a document.
+- Text extraction: Document Understanding provides the word level and line level text, and the bounding box coordinates of where the text is found.
+- Key-value extraction: Document Understanding extracts a predefined list of key-value pair information from receipts, invoices, passports, and driver IDs.
+- Table extraction: Document Understanding extracts content in tabular format, maintaining the row and column relationships of cells.
+- Document classification: Document Understanding classifies documents into different types based on visual appearance, high-level features, and extracted keywords. For example, document types such as invoice, receipt, and resume.
+- Optical Character Recognition (OCR) PDF: Document Understanding generates a searchable PDF file in Object Storage.

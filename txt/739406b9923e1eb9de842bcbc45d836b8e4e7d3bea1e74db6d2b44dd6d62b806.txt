@@ -1,0 +1,901 @@
+Use Select AI to Generate SQL from Natural Language Prompts
+The Select AI feature allows Autonomous Database to use generative AI with Large Language Models (LLMs) to convert user's input text into Oracle SQL. Select AI processes the natural language prompt, supplements the prompt with metadata, and then generates and runs a SQL query.
+- Usage Guidelines
+Provides usage guidelines that ensure effective and proper usage of natural language prompts for SQL generation to ensure an enhanced user experience.
+- About SQL Generation
+Using natural language to interact with your database data is now achievable with LLMs. This means you can use natural language, for example plain English, to query the database.
+- Use DBMS_CLOUD_AI to Configure AI Profiles
+Oracle Autonomous Database Serverless uses AI profiles to facilitate and configure access to an LLM and to setup for the generation of SQL statements from natural language prompts.
+- Configure DBMS_CLOUD_AI Package
+Describes the steps to use
+DBMS_CLOUD_AI.
+- Create and Set an AI Profile
+Describes the steps to create and enable an AI profile.
+- Use AI Keyword to Enter Prompts
+Use
+AIas the keyword in a
+SELECTstatement for interacting with the database using natural language prompts.
+- Terminology
+Definition of some of the terms used in Select AI feature are described.
+Parent topic: Features
+Usage Guidelines
+Provides usage guidelines that ensure effective and proper usage of natural language prompts for SQL generation to ensure an enhanced user experience.
+Intended Use
+This feature is intended for the generation and running of SQL queries resulting from user-provided natural language prompts. It automates what a user could do manually based on their schema metadata in combination with a large language model (LLM) of their choice.
+While any prompt can be provided, including those that do not relate to the
+production of SQL query results, Select AI focuses on SQL query generation. Select AI
+enables submitting general requests with the
+chat action.
+Prompt Augmentation Data
+The database augments the user-specified prompt with database metadata to mitigate hallucinations from the LLM. The augmented prompt is then sent to the user-specified LLM to produce the query.
+The database augments the prompt with schema metadata only. This metadata may include schema definitions, table and column comments, and content available from the data dictionary and catalog. For the purposes of SQL generation, the database does not provide table or view contents (actual row or column values) when augmenting the prompt.
+The
+narrate action, however, does provide the result of the
+query, which may contain database data, to the user-specified LLM from which to generate
+natural language text describing the query results.
+WARNING:
+Large language models (LLMs) have been trained on a broad set of text documentation and content, typically from the Internet. As a result, LLMs may have incorporated patterns from invalid or malicious content, including SQL injection. Thus, while LLMs are adept at generating useful and relevant content, they also can generate incorrect and false information including SQL queries that produce inaccurate results and/or compromise security of your data.
+The queries generated on your behalf by the user-specified LLM provider will be run in your database. Your use of this feature is solely at your own risk, and, notwithstanding any other terms and conditions related to the services provided by Oracle, constitutes your acceptance of that risk and express exclusion of Oracle’s responsibility or liability for any damages resulting from that use.
+About SQL Generation
+Using natural language to interact with your database data is now achievable with LLMs. This means you can use natural language, for example plain English, to query the database.
+When you use Select AI, Autonomous Database manages the process of converting natural language into SQL. This means you can provide a natural language prompt instead of SQL code to interact with your data. Select AI serves as a productivity tool for SQL users and developers and enables non-expert SQL users to derive useful insights from their data, without having to understand data structures or technical languages.
+DBMS_CLOUD_AI package in Autonomous Database enables integration with a
+user-specified LLM for generating SQL code using natural language prompts. The package
+assists in supplying the LLM with knowledge of the database schema and instructing it to
+write a SQL query consistent with that schema. The
+DBMS_CLOUD_AI package works with AI providers like
+OpenAI, Cohere, Azure OpenAI Service, and
+Oracle Cloud Infrastructure Generative AI.
+Note:Users must have an account with the AI provider and provide their credentials through
+DBMS_CLOUD_AI objects that the Autonomous Database uses.
+Use DBMS_CLOUD_AI to Configure AI Profiles
+Oracle Autonomous Database Serverless uses AI profiles to facilitate and configure access to an LLM and to setup for the generation of SQL statements from natural language prompts.
+AI profiles include database objects that are the target for natural language
+queries. Metadata used from these targets can include database table names, column
+names, column data types, and comments. You create and configure AI profiles using the
+DBMS_CLOUD_AI.CREATE_PROFILE and
+DBMS_CLOUD_AI.SET_PROFILE procedures.
+In addition to specifying tables and views in the AI profile, you can also specify tables mapped with external tables, including those described in Query External Data with Data Catalog. This enables you to query data not just inside the database, but also data stored in a data lake's object store.
+Configure DBMS_CLOUD_AI Package
+Describes the steps to use
+DBMS_CLOUD_AI.
+The following are required to run
+DBMS_CLOUD_AI:
+- Access to an Oracle Cloud Infrastructure cloud account and to an Autonomous Database instance.
+- A paid API account for a supported AI provider, one
+of:
+- OpenAI. See Use OpenAI to get your secret API keys.
+- Cohere. See Use Cohere to get your secret API keys.
+- Azure OpenAI Service. See Use Azure OpenAI Service for more information on how to configure Azure OpenAI Service.
+- OCI Generative AI. See How to Generate the API Signing Key.
+- Network
+ACL privileges to access your external AI provider.
+Note:Network ACL is not applicable for OCI Generative AI.
+- A credential that provides access to the AI provider.
+Configure
+DBMS_CLOUD_AI
+DBMS_CLOUD_AI:
+-
+Grant the
+EXECUTEprivilege on the
+DBMS_CLOUD_AIpackage to the user who wants to use Select AI.
+By default, only ADMIN user is granted the
+EXECUTEprivilege. The ADMIN user can grant
+EXECUTEprivilege to other users.
+-
+Grant network ACL access to the user who wants to use Select AI and for the AI provider endpoint.
+The ADMIN user can grant network ACL access. See APPEND_HOST_ACE Procedure for more information.
+- Create a credential to enable access to your
+AI provider.
+See CREATE_CREDENTIAL Procedure for more information.
+EXECUTE
+privilege to
+ADB_USER:
+grant execute on DBMS_CLOUD_AI to ADB_USER;
+The following example grants
+ADB_USER the
+privilege to use the api.openai.com endpoint.
+BEGIN
+DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+host => 'api.openai.com',
+ace => xs$ace_type(privilege_list => xs$name_list('http'),
+principal_name => 'ADB_USER',
+principal_type => xs_acl.ptype_db)
+);
+END;
+/
+APPEND_HOST_ACE Function Parameters
+|Parameter
+|Description
+|
+|
+The host, which can be the name or the IP address of the host. You can use a wildcard to specify a domain or a IP subnet. The host or domain name is not case sensitive.
+For OpenAI, use api.openai.com.
+For Cohere, use api.cohere.ai.
+For Azure OpenAI Service, use <azure_resource_name>.openai.azure.com.
+See Profile Attributes to know more about
+|
+|
+The access control entries (ACE).
+The
+Here is an example of how to create a credential to enable access to OpenAI.
+EXEC
+DBMS_CLOUD.CREATE_CREDENTIAL('OPENAI_CRED', 'OPENAI', 'your_api_token');
+DBMS_CLOUD.CREATE_CREDENTIAL
+Parameters
+|Parameter
+|Description
+|
+|
+The name of the credential to be
+stored. The
+|
+|
+The
+The
+|
+|
+The
+The
+- Use OpenAI
+To enable OpenAI to generate SQL from natural language prompts, obtain API keys from your OpenAI paid account.
+- Use Cohere
+To enable Cohere to generate SQL from natural language prompts, obtain API keys from your Cohere paid account.
+- Use Azure OpenAI Service
+To enable Azure OpenAI Service to generate SQL from natural language prompts, configure and provide access to the AI provider.
+Use OpenAI
+To enable OpenAI to generate SQL from natural language prompts, obtain API keys from your OpenAI paid account.
+You can find your secret API key in your User settings.
+Use Cohere
+To enable Cohere to generate SQL from natural language prompts, obtain API keys from your Cohere paid account.
+Click Dashboard, and click API Keys on the left navigation. Copy the default API key or create another key. See API-Keys for more information.
+Use Azure OpenAI Service
+To enable Azure OpenAI Service to generate SQL from natural language prompts, configure and provide access to the AI provider.
+- Obtain your secret API keys. You can find your API keys in the Resource Management section of your Azure portal. On your Azure OpenAI Service Resource page, click Keys and Endpoint. You can copy either KEY1 or KEY2.
+- Create an Azure OpenAI Service resource
+and deploy a model: Create and deploy an Azure OpenAI
+Service resource.
+Tip:
+- Note the resource name and deployment name as those
+parameters are used to provide network access permission and
+creating your Azure OpenAI Service profile using the
+DBMS_CLOUD_AI.CREATE_PROFILEprocedure.
+- To know more about rate limits for token per minute on a model, see Azure OpenAI Service quotas and limits.
+- Note the resource name and deployment name as those parameters are used to provide network access permission and creating your Azure OpenAI Service profile using the
+- Allow access to Azure OpenAI Service:
+- You can use your secret API key to allow access to Azure OpenAI Service. To know more, see the example in Use AI Keyword to Enter Prompts.
+- Allow service principal to access Azure OpenAI Service and grant the required permissions to the service principal: Use Azure Service Principal to Access Azure Resources and Role-based access control for Azure OpenAI Service. To know more, see the example in Use AI Keyword to Enter Prompts.
+Create and Set an AI Profile
+Describes the steps to create and enable an AI profile.
+Use
+DBMS_CLOUD_AI.CREATE_PROFILE to create an
+AI profile. Next start
+DBMS_CLOUD_AI.SET_PROFILE to enable the AI
+profile so that you can use
+SELECT AI with a natural language
+prompt.
+Note:
+You must run
+DBMS_CLOUD_AI.SET_PROFILE in each new database
+session (connection) before you use
+SELECT
+AI.
+The following example with the OpenAI provider creates an
+AI profile called
+OPENAI and sets the
+OPENAI profile for the current user session.
+-- Create AI profile
+--
+SQL> BEGIN
+DBMS_CLOUD_AI.create_profile(
+'OPENAI',
+'{"provider": "openai",
+"credential_name": "OPENAI_CRED",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "sales"},
+{"owner": "SH", "name": "products"},
+{"owner": "SH", "name": "countries"}]
+}');
+END;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('OPENAI');
+PL/SQL procedure successfully completed.
+Use AI Keyword to Enter Prompts
+Use
+AI as the keyword in a
+SELECT
+statement for interacting with the database using natural language prompts.
+The
+AI keyword in a
+SELECT statement
+instructs the SQL execution engine to use the LLM identified in the active AI profile to
+process natural language and to generate SQL.
+You can use the
+AI keyword in a query with Oracle clients
+such as SQL Developer, OML Notebooks, and third-party tools, to interact with database
+in natural language.
+Note:You cannot run PL/SQL statements, DDL statements, or DML statements using the
+AI keyword.
+Syntax
+SELECT AI action natural_language_prompt
+Parameters
+|Parameter
+|Description
+|
+|
+Run the provided SQL command using a natural language prompt. This is the default action and it is optional to specify this parameter.
+|
+|
+Displays the SQL statement for a natural language prompt.
+|
+|
+The output of the prompt is explained in natural language. This option sends the SQL result to the AI provider to produce a natural language summary.
+|
+|
+Generates conversational responses (AI-chat).
+|
+|
+The SQL generated from the prompt is explained in natural language. This option sends the generated SQL to the AI provider to produce a natural language explanation.
+Usage Notes
+-
+Select
+AIis not supported in Database Actions or APEX Service. You can use only
+DBMS_CLOUD_AI.GENERATEfunction.
+-
+The
+AIkeyword is supported only in a
+SELECTstatement.
+-
+You cannot run PL/SQL statements, DDL statements, or DML statements using the
+AIkeyword.
+-
+The sequence is
+SELECTfollowed by
+AI. These keywords are not case-sensitive. After a
+DBMS_CLOUD_AI.SET_PROFILEis configured, the text after
+SELECT AIis a natural language prompt. If an AI profile is not set,
+SELECT
+AIreports the following error:
+ORA-00923: FROM keyword not found where expected 00923. 00000 - "FROM keyword not found where expected"
+-
+Special character usage rules apply according to Oracle guidelines. For example, use single quotes twice if you are using an apostrophe in a sentence.
+select ai how many customers in SF don''t own their own home
+-
+LLMs are subject to hallucinations and results are not always correct:
+-
+It is possible that
+SELECT AImay not be able to run the generated SQL for a specific natural language prompt.
+-
+It is possible that
+SELECT AImay not be able to generate SQL for a specific natural language prompt.
+In such a scenario,
+SELECT AIresponds with information to assist you in generating valid SQL.
+-
+-
+Use the
+chataction, with
+SELECT AI chat, to learn more about SQL constructs. For better results with the
+chataction, use database views or tables with contextual column names or consider adding column comments explaining values stored in the columns.
+-
+To access DBA or USER views, see DBMS_CLOUD_AI Views.
+The following examples illustrate actions you can perform with
+SELECT AI. These examples use the
+sh
+schema.
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai showsql how many customers exist;
+RESPONSE
+----------------------------------------------------
+SELECT COUNT(*) AS total_customers
+FROM SH.CUSTOMERS
+SQL> select ai narrate how many customers exist;
+RESPONSE
+------------------------------------------------------
+There are a total of 55,500 customers in the database.
+SQL> select ai chat how many customers exist;
+RESPONSE
+--------------------------------------------------------------------------------
+To find out how many customers exist, you can use the following SQL query:
+sql
+SELECT COUNT(*) AS total_customers
+FROM SH.CUSTOMERS;
+This query will return the total number of customers in the SH.CUSTOMERS table.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+Example: Select AI with OpenAI
+Note:Only an ADMIN user can run
+EXECUTE privileges and network ACL procedure.
+--Grants EXECUTE privilege to ADB_USER
+--
+SQL>grant execute on DBMS_CLOUD_AI to ADB_USER;
+-- Grant Network ACL for OpenAI endpoint
+--
+SQL> BEGIN
+DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+host => 'api.openai.com',
+ace => xs$ace_type(privilege_list => xs$name_list('http'),
+principal_name => 'ADB_USER',
+principal_type => xs_acl.ptype_db)
+);
+END;
+/
+PL/SQL procedure successfully completed.
+--
+-- Create Credential for AI provider
+--
+SQL> EXEC DBMS_CLOUD.create_credential('OPENAI_CRED', 'OPENAI', '<your api token>');
+PL/SQL procedure successfully completed.
+--
+-- Create AI profile
+--SQL > BEGIN
+DBMS_CLOUD_AI.create_profile(
+'OPENAI',
+'{"provider": "openai",
+"credential_name": "OPENAI_CRED",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "countries"},
+{"owner": "SH", "name": "supplementary_demographics"},
+{"owner": "SH", "name": "profits"},
+{"owner": "SH", "name": "promotions"},
+{"owner": "SH", "name": "products"}],
+"conversation": "true"
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('OPENAI');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai how many customers in San Francisco are married;
+MARRIED_CUSTOMERS
+-----------------
+18
+SQL> select ai showsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS married_customers_count
+FROM SH.CUSTOMERS c
+WHERE c.CUST_CITY = 'San Francisco'
+AND c.CUST_MARITAL_STATUS = 'Married'
+SQL> select ai narrate what are the top 3 customers in San Francisco;
+RESPONSE
+--------------------------------------------------------------------------------
+The top 3 customers in San Francisco are:
+1. Hector Colven - Total amount sold: $52,025.99
+2. Milburn Klemm - Total amount sold: $50,842.28
+3. Gavin Xie - Total amount sold: $48,677.18
+SQL> select ai chat what is Autonomous Database;
+RESPONSE
+--------------------------------------------------------------------------------
+Autonomous Database is a cloud-based database service provided by Oracle. It is
+designed to automate many of the routine tasks involved in managing a database,
+such as patching, tuning, and backups. Autonomous Database uses machine learning
+and automation to optimize performance, security, and availability, allowing us
+ers to focus on their applications and data rather than database administration
+tasks. It offers both Autonomous Transaction Processing (ATP) for transactional
+workloads and Autonomous Data Warehouse (ADW) for analytical workloads. Autonomo
+us Database provides high performance, scalability, and reliability, making it a
+n ideal choice for modern cloud-based applications.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+SQL> EXEC DBMS_CLOUD_AI.drop_profile('OPENAI');
+PL/SQL procedure successfully completed.
+Example: Select AI with Cohere
+The following example shows how you can use Cohere to generate SQL statements from natural language prompts.
+Note:Only an ADMIN user can run
+EXECUTE privileges and network ACL procedure.
+--Grants EXECUTE privilege to ADB_USER
+--
+SQL>grant execute on DBMS_CLOUD_AI to ADB_USER;
+--
+-- Create Credential for AI provider
+--
+SQL> EXEC DBMS_CLOUD.create_credential('COHERE_CRED', 'COHERE', '<your api token>');
+PL/SQL procedure successfully completed.
+--
+-- Grant Network ACL for Cohere endpoint
+--
+SQL> BEGIN
+DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+host => 'api.cohere.ai',
+ace => xs$ace_type(privilege_list => xs$name_list('http'),
+principal_name => 'ADB_USER',
+principal_type => xs_acl.ptype_db)
+);
+END;
+/
+PL/SQL procedure successfully completed.
+--
+-- Create AI profile
+--
+SQL> BEGIN
+DBMS_CLOUD_AI.create_profile(
+'COHERE',
+'{"provider": "cohere",
+"credential_name": "COHERE_CRED",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "sales"},
+{"owner": "SH", "name": "products"},
+{"owner": "SH", "name": "countries"}]
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('COHERE');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> EXEC DBMS_CLOUD_AI.drop_profile('COHERE');
+PL/SQL procedure successfully completed.
+Example: Select AI with Azure OpenAI Service API Key
+The following example shows how you can enable access to Azure OpenAI Service using your API key, create an AI profile, and generate SQL from natural language prompts.
+-- Create Credential for AI integration
+--
+SQL> EXEC DBMS_CLOUD.create_credential('AZURE_CRED', 'AZUREAI', '<your api token>');
+PL/SQL procedure successfully completed.
+--
+-- Grant Network ACL for OpenAI endpoint
+--
+SQL> BEGIN
+DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+host => '<azure_resource_name>.openai.azure.com',
+ace => xs$ace_type(privilege_list => xs$name_list('http'),
+principal_name => 'ADMIN',
+principal_type => xs_acl.ptype_db)
+);
+END;
+/
+PL/SQL procedure successfully completed.
+--
+-- Create AI profile
+--
+SQL > BEGIN
+DBMS_CLOUD_AI.create_profile(
+'AZUREAI',
+'{"provider": "azure",
+"azure_resource_name": "<azure_resource_name>",
+"azure_deployment_name": "<azure_deployment_name>"
+"credential_name": "AZURE_CRED",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "countries"},
+{"owner": "SH", "name": "supplementary_demographics"},
+{"owner": "SH", "name": "profits"},
+{"owner": "SH", "name": "promotions"},
+{"owner": "SH", "name": "products"}],
+"conversation": "true"
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('AZUREAI');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai how many customers in San Francisco are married;
+MARRIED_CUSTOMERS
+-----------------
+18
+SQL> select ai showsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS married_customers_count
+FROM SH.CUSTOMERS c
+WHERE c.CUST_CITY = 'San Francisco'
+AND c.CUST_MARITAL_STATUS = 'Married'
+SQL> select ai narrate what are the top 3 customers in San Francisco;
+RESPONSE
+--------------------------------------------------------------------------------
+The top 3 customers in San Francisco are:
+1. Hector Colven - Total amount sold: $52,025.99
+2. Milburn Klemm - Total amount sold: $50,842.28
+3. Gavin Xie - Total amount sold: $48,677.18
+SQL> select ai chat what is Autonomous Database;
+RESPONSE
+--------------------------------------------------------------------------------
+Autonomous Database is a cloud-based database service provided by Oracle. It is
+designed to automate many of the routine tasks involved in managing a database,
+such as patching, tuning, and backups. Autonomous Database uses machine learning
+and automation to optimize performance, security, and availability, allowing us
+ers to focus on their applications and data rather than database administration
+tasks. It offers both Autonomous Transaction Processing (ATP) for transactional
+workloads and Autonomous Data Warehouse (ADW) for analytical workloads. Autonomo
+us Database provides high performance, scalability, and reliability, making it a
+n ideal choice for modern cloud-based applications.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+SQL> EXEC DBMS_CLOUD_AI.drop_profile('AZUREAI');
+PL/SQL procedure successfully completed.
+Example: Select AI with Azure OpenAI Service Principle
+Connect as an ADMIN to provide access to Azure service principle
+authentication and then grant the network ACL permissions to the user
+(
+ADB_USER) who wants to use Select AI. To provide access to
+Azure resources, see Use Azure Service Principal to Access Azure Resources.
+Note:Only an ADMIN user can run
+EXECUTE privileges and network ACL procedure.
+-- Connect as ADMIN user and enable Azure service principal authentication.
+begin
+dbms_cloud_admin.enable_principal_auth(provider => 'AZURE',
+params => JSON_OBJECT('azure_tenantid' value 'azure_tenantid'));
+end;
+/
+-- Copy the consent url from cloud_integrations view and consents the ADB-S application.
+SQL> select param_value from CLOUD_INTEGRATIONS where param_name = 'azure_consent_url';
+PARAM_VALUE
+--------------------------------------------------------------------------------
+https://login.microsoftonline.com/<tenant_id>/oauth2/v2.0/authorize?client_id=<client_id>&response_type=code&scope=User.read
+-- On the Azure OpenAI IAM console, search for the Azure application name and assign the permission to the application.
+-- You can get the application name in the cloud_integrations view.
+SQL> select param_value from CLOUD_INTEGRATIONS where param_name = 'azure_app_name';
+PARAM_VALUE
+--------------------------------------------------------------------------------
+ADBS_APP_DATABASE_OCID
+--
+-- Grant Network ACL for Azure OpenAI endpoint
+--
+SQL> BEGIN
+DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+host => 'azure_resource_name.openai.azure.com',
+ace => xs$ace_type(privilege_list => xs$name_list('http'),
+principal_name => 'ADB_USER',
+principal_type => xs_acl.ptype_db)
+);
+END;
+/
+PL/SQL procedure successfully completed.
+--
+-- Create AI profile
+--
+SQL > BEGIN
+DBMS_CLOUD_AI.create_profile(
+'AZUREAI',
+'{"provider": "azure",
+"credential_name": "AZURE$PA",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "countries"},
+{"owner": "SH", "name": "supplementary_demographics"},
+{"owner": "SH", "name": "profits"},
+{"owner": "SH", "name": "promotions"},
+{"owner": "SH", "name": "products"}],
+"azure_resource_name": "azure_resource_name",
+"azure_deployment_name": "azure_deployment_name"
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('AZUREAI');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai how many customers in San Francisco are married;
+MARRIED_CUSTOMERS
+-----------------
+18
+SQL> select ai showsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS married_customers_count
+FROM SH.CUSTOMERS c
+WHERE c.CUST_CITY = 'San Francisco'
+AND c.CUST_MARITAL_STATUS = 'Married'
+SQL> select ai narrate what are the top 3 customers in San Francisco;
+RESPONSE
+--------------------------------------------------------------------------------
+The top 3 customers in San Francisco are:
+1. Hector Colven - Total amount sold: $52,025.99
+2. Milburn Klemm - Total amount sold: $50,842.28
+3. Gavin Xie - Total amount sold: $48,677.18
+SQL> select ai chat what is Autonomous Database;
+RESPONSE
+--------------------------------------------------------------------------------
+Autonomous Database is a cloud-based database service provided by Oracle. It is
+designed to automate many of the routine tasks involved in managing a database,
+such as patching, tuning, and backups. Autonomous Database uses machine learning
+and automation to optimize performance, security, and availability, allowing us
+ers to focus on their applications and data rather than database administration
+tasks. It offers both Autonomous Transaction Processing (ATP) for transactional
+workloads and Autonomous Data Warehouse (ADW) for analytical workloads. Autonomo
+us Database provides high performance, scalability, and reliability, making it a
+n ideal choice for modern cloud-based applications.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+SQL>EXEC DBMS_CLOUD_AI.drop_profile('AZUREAI');
+PL/SQL procedure successfully completed.
+Select AI with OCI Generative AI API Key
+The following example shows how you can access Generative AI using your OCI API key, create an AI profile, and generate SQL from natural language prompts.
+-- Create Credential with OCI API key
+--
+BEGIN
+DBMS_CLOUD.create_credential(
+credential_name => 'GENAI_CRED',
+user_ocid => 'ocid1.user.oc1..aaaa...',
+tenancy_ocid => 'ocid1.tenancy.oc1..aaaa...',
+private_key => '<your_api_key>',
+fingerprint => '<your_fingerprint>'
+);
+END;
+/
+--
+-- Create AI profile
+--
+SQL > BEGIN
+DBMS_CLOUD_AI.create_profile(
+'GENAI',
+'{"provider": "oci",
+"credential_name": "GENAI_CRED",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "countries"},
+{"owner": "SH", "name": "supplementary_demographics"},
+{"owner": "SH", "name": "profits"},
+{"owner": "SH", "name": "promotions"},
+{"owner": "SH", "name": "products"}],
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('GENAI');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai how many customers in San Francisco are married;
+MARRIED_CUSTOMERS
+-----------------
+18
+SQL> select ai showsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS married_customers_count
+FROM SH.CUSTOMERS c
+WHERE c.CUST_CITY = 'San Francisco'
+AND c.CUST_MARITAL_STATUS = 'Married'
+SQL> select ai narrate what are the top 3 customers in San Francisco;
+RESPONSE
+--------------------------------------------------------------------------------
+The top 3 customers in San Francisco are:
+1. Hector Colven - Total amount sold: $52,025.99
+2. Milburn Klemm - Total amount sold: $50,842.28
+3. Gavin Xie - Total amount sold: $48,677.18
+SQL> select ai chat what is Autonomous Database;
+RESPONSE
+--------------------------------------------------------------------------------
+Autonomous Database is a cloud-based database service provided by Oracle. It is
+designed to automate many of the routine tasks involved in managing a database,
+such as patching, tuning, and backups. Autonomous Database uses machine learning
+and automation to optimize performance, security, and availability, allowing us
+ers to focus on their applications and data rather than database administration
+tasks. It offers both Autonomous Transaction Processing (ATP) for transactional
+workloads and Autonomous Data Warehouse (ADW) for analytical workloads. Autonomo
+us Database provides high performance, scalability, and reliability, making it a
+n ideal choice for modern cloud-based applications.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+SQL>EXEC DBMS_CLOUD_AI.drop_profile('GENAI');
+PL/SQL procedure successfully completed.
+Select AI with OCI Generative AI Resource Principal
+To use resource principal with the OCI Generative AI, Oracle Cloud Infrastructure tenancy administrator must grant access for Generative AI resources to a dynamic group. See Perform Prerequisites to Use Resource Principal with Autonomous Database to provide access to a dynamic group.
+-
+To get access to all Generative AI resources in the entire tenancy, use the following policy:
+allow group <your-group-name> to manage generative-ai-family in tenancy
+-
+To get access to all Generative AI resources in your compartment, use the following policy:
+allow group <your-group-name> to manage generative-ai-family in compartment <your-compartment-name>
+Connect as an administrator and enable OCI resource principal. See ENABLE_PRINCIPAL_AUTH Procedure to configure the parameters.
+-- Connect as ADMIN user and enable OCI resource principal.
+begin
+dbms_cloud_admin.enable_principal_auth(provider => 'OCI');
+end;
+/
+--
+-- Create AI profile
+--
+SQL > BEGIN
+DBMS_CLOUD_AI.create_profile(
+'GENAI',
+'{"provider": "oci",
+"credential_name": "OCI$RESOURCE_PRINCIPAL",
+"object_list": [{"owner": "SH", "name": "customers"},
+{"owner": "SH", "name": "countries"},
+{"owner": "SH", "name": "supplementary_demographics"},
+{"owner": "SH", "name": "profits"},
+{"owner": "SH", "name": "promotions"},
+{"owner": "SH", "name": "products"}],
+}');
+end;
+/
+PL/SQL procedure successfully completed.
+--
+-- Enable AI profile in current session
+--
+SQL> EXEC DBMS_CLOUD_AI.set_profile('GENAI');
+PL/SQL procedure successfully completed.
+--
+-- Use AI
+--
+SQL> select ai how many customers exist;
+CUSTOMER_COUNT
+--------------
+55500
+SQL> select ai how many customers in San Francisco are married;
+MARRIED_CUSTOMERS
+-----------------
+18
+SQL> select ai showsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS married_customers_count
+FROM SH.CUSTOMERS c
+WHERE c.CUST_CITY = 'San Francisco'
+AND c.CUST_MARITAL_STATUS = 'Married'
+SQL> select ai narrate what are the top 3 customers in San Francisco;
+RESPONSE
+--------------------------------------------------------------------------------
+The top 3 customers in San Francisco are:
+1. Hector Colven - Total amount sold: $52,025.99
+2. Milburn Klemm - Total amount sold: $50,842.28
+3. Gavin Xie - Total amount sold: $48,677.18
+SQL> select ai chat what is Autonomous Database;
+RESPONSE
+--------------------------------------------------------------------------------
+Autonomous Database is a cloud-based database service provided by Oracle. It is
+designed to automate many of the routine tasks involved in managing a database,
+such as patching, tuning, and backups. Autonomous Database uses machine learning
+and automation to optimize performance, security, and availability, allowing us
+ers to focus on their applications and data rather than database administration
+tasks. It offers both Autonomous Transaction Processing (ATP) for transactional
+workloads and Autonomous Data Warehouse (ADW) for analytical workloads. Autonomo
+us Database provides high performance, scalability, and reliability, making it a
+n ideal choice for modern cloud-based applications.
+SQL> select ai explainsql how many customers in San Francisco are married;
+RESPONSE
+--------------------------------------------------------------------------------
+SELECT COUNT(*) AS customer_count
+FROM SH.CUSTOMERS AS c
+WHERE c.CUST_STATE_PROVINCE = 'San Francisco' AND c.CUST_MARITAL_STATUS = 'Married';
+Explanation:
+- We use the 'SH' table alias for the 'CUSTOMERS' table for better readability.
+- The query uses the 'COUNT(*)' function to count the number of rows that match the given conditions.
+- The 'WHERE' clause is used to filter the results:
+- 'c.CUST_STATE_PROVINCE = 'San Francisco'' filters customers who have 'San Francisco' as their state or province.
+- 'c.CUST_MARITAL_STATUS = 'Married'' filters customers who have 'Married' as their marital status.
+The result of this query will give you the count of customers in San Francisco who are married, using the column alias 'customer_count' for the result.
+Remember to adjust the table and column names based on your actual schema if they differ from the example.
+Feel free to ask if you have more questions related to SQL or database in general.
+SQL>EXEC DBMS_CLOUD_AI.drop_profile('GENAI');
+PL/SQL procedure successfully completed.
+Terminology
+Definition of some of the terms used in Select AI feature are described.
+The following are the terms related to Select AI feature:
+|Term
+|Definition
+|
+Database Credential
+|
+Database Credentials are authentication credentials used to access and interact with databases. They typically consist of a user name and a password, sometimes supplemented by additional authentication factors like security tokens. These credentials are used to establish a secure connection between an application or user and a database, ensuring that only authorized individuals or systems can access and manipulate the data stored within the database.
+|
+Hallucination in LLM
+|
+Hallucination in the context of Large Language Models refers to a phenomenon where the model generates text that is incorrect, nonsensical, or unrelated to the input prompt. Despite being a result of the model's attempt to generate coherent text, these instances can contain information that is fabricated, misleading, or purely imaginative. Hallucination can occur due to biases in training data, lack of proper context understanding, or limitations in the model's training process.
+|
+Large Language Model (LLM)
+|
+Large Language Models refer to advanced artificial intelligence models that are trained on massive amounts of text data to understand and generate human-like language, software code, and database queries. These models are capable of performing a wide range of natural language processing tasks, including text generation, translation, summarization, question answering, sentiment analysis, and more. LLMs are typically neural network-based architectures that learn patterns, context, and semantics from the input data, enabling them to generate coherent and contextually relevant text.
+|
+Natural Language Prompts
+|Natural Language Prompts are human-readable instructions or requests provided to guide generative AI models, such as Large Language Models. Instead of using specific programming languages or commands, users can interact with these models by entering prompts in a more conversational or natural language form. The models then generate output based on the provided prompt.
+|
+Network Access Control List (ACL)
+|
+A Network Access Control List is a set of rules or permissions that define what network traffic is allowed to pass through a network device, such as a router, firewall, or gateway. ACLs are used to control and filter incoming and outgoing traffic based on various criteria such as IP addresses, port numbers, and protocols. They play a crucial role in network security by enabling administrators to manage and restrict network traffic to prevent unauthorized access, potential attacks, and data breaches.

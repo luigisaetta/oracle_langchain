@@ -1,0 +1,24 @@
+The Embedding Models
+A numeric representation of a piece of text. This text can be a phrase, a sentence, or one or more paragraphs. The Generative AI embedding models transforms each phrase, sentence, or paragraph that you input, into an array with 384 or 1024 numbers, depending on the embedding model that you choose.
+You can use these embeddings for finding similarity in phrases that are similar in context or category. Embeddings are typically stored in a vector database. Embeddings are mostly used for semantic searches where the search function focuses on the meaning of the text that it's searching through rather than finding results based on keywords. The following pretrained models are available for creating text embeddings in English and other languages:
+- cohere.embed-english-v3.0
+- cohere.embed-multilingual-v3.0
+- cohere.embed-english-light-v3.0
+- cohere.embed-multilingual-light-v3.0
+- embed-english-light-v2.0
+To visualize the outputs with embeddings, output vectors are projected into two dimensions and plotted as points in the Console. Points that are close together correspond to phrases that the model considers similar. Click Export output to get an array of 1024 vectors for each embedding saved in a
+json file.
+The following categories are ideal uses cases for text embeddings.
+-
+Semantic search
+Search over call transcripts, internal knowledge sources, and so on.
+- Text classification
+Use the text embeddings for classifying intent in customer chat logs and support tickets.
+- Text clustering
+Identifying salient topics in customer reviews or new data.
+- Recommendation systems
+For example, represent podcast descriptions as a numerical feature to use in a recommendation model.
+Embedding Model Parameters
+- Truncate
+-
+Whether to truncate the start or end tokens in a sentence, when that sentence exceeds the maximum number of allowed tokens. For example, for a 512 max token size, if a sentence has 516 tokens, when you select end, the last 4 tokens of that sentence is truncated.

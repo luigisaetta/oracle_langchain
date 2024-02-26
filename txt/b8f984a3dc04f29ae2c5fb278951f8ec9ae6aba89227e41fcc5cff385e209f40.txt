@@ -1,0 +1,31 @@
+Pretrained Foundational Models in Generative AI
+You can use the following pretrained foundational models in Generative AI:
+Note
+For deprecated model time lines, see Deprecating the Models.
+For deprecated model time lines, see Deprecating the Models.
+|Capability
+|Models and Key Features
+|Playground Parameters
+|Text Generation
+Give instructions to generate text or extract information from your text.
+|
+cohere.command
+cohere.command-light
+meta.llama-2-70b-chat
+References: Cohere Models and Llama 2 Models
+|
+|Text Summarization
+Summarize text with your instructed format, length, and tone.
+|
+cohere.command
+Reference: Cohere Models
+|
+Summarization Model Parameters:
+|Text Embeddings
+Convert text to vector embeddings to use in applications for semantic searches, text classification, or text clustering.
+|
+cohere.embed-english-v3.0 and cohere.embed-multilingual-v3.0
+cohere.embed-english-light-v3.0 and cohere.embed-multilingual-light-v3.0
+cohere.embed-english-light-v2.0
+Reference: Cohere Models
+|

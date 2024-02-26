@@ -1,0 +1,40 @@
+Custom Models
+Build custom AI models for text classification or named entity recognition in .
+Custom models are include the following:
+- Projects
+-
+Projects are collaborative containers for organizing and documenting Language assets.
+- Models
+-
+Models define a mathematical representation of data and a business process.
+- Model endpoint
+-
+An endpoint enables access to a model, and to run inferences on the model after training.
+About Custom Text Classification
+With custom text classification, you can build a custom AI model to automatically classify text into a set of classes that you predefine.
+- Use Case: Assigning Support Tickets
+-
+Customer support teams receive hundreds of emails or tickets with problems or queries described in unstructured and free-form text. Triaging these tickets quickly and assigning tickets to the correct owners is critical in ensuring fast response times.
+Manual triaging consumes time and resources. Manual triaging requires people to read and assign tickets to appropriate team members.
+Instead, you can create custom models and train the models on sample emails or support tickets. Then, you can deploy the models to analyze new tickets or email, categorize, and decide to automatically assign to appropriate owners.
+- Use Case: Classifying Documents
+-
+Recruiters manually assign labels to applicants' documents such as work history or recommendation letters.
+Manual labeling requires reading lots of documents and applying labels. Custom text classification trained on sample documents helps build a pipeline to automatically assign the correct tag to each attachment.
+- Supported Languages for Input Text
+-
+Input Text Supported by Custom Text Classification Input Text Language Supported by Custom Text Classification English Yes Spanish Yes Arabic Supported by design Chinese - Simplified Supported by design Chinese - Traditional Supported by design Dutch Supported by design French Supported by design German Supported by design Italian Supported by design Japanese Supported by design Korean Supported by design Polish Supported by design Portuguese Supported by design Thai Supported by design Turkish Supported by design
+About Custom Named Entity Recognition (NER)
+With custom name recognition, you can identify domain-specific entities unique to a business or industry vertical.
+- Use Case: Extracting Custom Entities
+-
+Human resources departments generate, store, and process significant amount of unstructured data such as offer letters, job postings, candidate profiles, interview notes, and so on. Pretrained models can't extract domain or business-specific entities such as offered candidate name, offered date, hiring manager, and joining date.
+Pretrained models can only recognize entities such as
+DATEbut can’t associate business a specific meaning to the entity such as offer or joining dates. You can train custom models on sample data files such as offer letters. Trained models can extract business entities such as offered person, offered entity, supervisor, and HR representative names.
+- Use Case: Retrieving Information
+-
+A financial services company would like to extract specific entities from its contracts to make it easier to get results in its information retrieval system. They would like to extract those entities so later a customer can filter the contracts. For example, they can filter to show only contracts with an “effective date” later than Jan 1, 2022, and a “term” longer than 3 years.
+You can use custom models to identify different entities such as contract term, effective date, signature date, discloser, and recipient. After extracting these entities, you can use the entities as filters and facets in a search subsystem.
+- Supported Languages for Input Text
+-
+Input Text Supported by Custom NER Input Text Language Supported by Custom NER English Yes Spanish Yes Arabic Supported by design Dutch Supported by design French Supported by design German Supported by design Italian Supported by design

@@ -1,0 +1,61 @@
+Custom Model Details
+Document Understanding custom models have metadata and metrics information that you can reference.
+Model Metadata Overview
+The following metadata is provided for the custom model in Document Understanding.
+|Attribute
+|Details
+|labels
+|
+A list of the user-defined labels in the custom model. For document classification, these are the names of the document classes. For key value extraction, these are the names of the custom fields
+For example, for the custom key value extraction model for a Bill of Landing
+document, the labels might be
+|compartmentId
+|The compartment identifier.
+|definedTags
+|Defined tags for this resource. Each key is predefined and scoped to a
+namespace. For example:
+|description
+|(Optional) A description of the model.
+|displayName
+|A human-friendly name for the model, which can be changed.
+|freeformTags
+|A simple key-value pair that's applied without any predefined name, type, or
+scope. It exists for cross-compatibility only. For example:
+|id
+|A unique identifier that's immutable after creation.
+|lifecycleDetails
+|A message describing the current state in more detail. It can provide actionable information if the training failed.
+|lifecycleState
+|
+The current state of the model.
+|modelType
+|
+The type of Document model this is.
+Allowed values are:
+|projectId
+|The OCID of the project that contains the model.
+|systemTags
+|Usage of system tag keys. These predefined keys are scoped to namespaces. For
+example:
+|timeCreated
+|When the model was created, as an RFC3339 datetime string.
+|timeUpdated
+|When the model was updated, as an RFC3339 datetime string.
+Model Metrics Overview
+The following metrics are provided for custom models in Document Understanding
+|Attribute
+|Details
+|Precision
+|The fraction of relevant instances among the retrieved instances.
+|Accuracy
+|The fraction of correct predictions among the total predictions.
+|Recall
+|The fraction of relevant instances that were retrieved.
+|Threshold
+|The decision threshold to make a class prediction for the metrics.
+|Total documents
+|The total number of documents used for training and testing.
+|Test documents
+|The number of documents from the dataset that were used for testing and not used for training.
+|Training duration
+|The length of time in hours that the model was trained.

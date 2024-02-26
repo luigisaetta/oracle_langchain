@@ -1,0 +1,11 @@
+Fine-tuning the Base Models in Generative AI
+Create custom models by fine-tuning the base models with your own dataset. You can create new custom models or create new versions of existing custom models.
+The following workflow displays the tasks for fine-tuning a pretrained model and hosting the fine-tuned model.
+The following tasks include the steps for fine-tuning a pretrained model and hosting the fine-tuned model.
+- Create the training dataset.
+- Add the dataset to an Object Storage bucket.
+- Create a fine-tuning dedicated AI cluster.
+- Create a new custom model or create a new version from an existing model on the fine-tuning dedicated AI cluster.
+- Create a hosting dedicated AI cluster.
+- Create an endpoint for the custom model on the hosting dedicated AI cluster.
+- Run the custom model in the playground.

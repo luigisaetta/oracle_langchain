@@ -1,0 +1,132 @@
+Personal Identifiable Information
+Language detects, classifies and provides options to de-identify personal identifiable information (PII) in unstructured text.
+Use Cases
+- Detecting and curating private information in user feedback
+-
+Many organizations collect user feedback is collected through various channels such as product reviews, return requests, support tickets, and feedback forums. You can use Language PII detection service for automatic detection of PII entities to not only proactively warn, but also anonymize before storing posted feedback. Using the automatic detection of PII entities you can proactively warn users about sharing private data, and applications to implement measures such as storing masked data.
+- Scanning object storage for presence of sensitive data
+-
+Cloud storage solutions such as OCI Object Storage are widely used by employees to store business documents in the locations either locally controlled or shared by many teams. Ensuring that such shared locations don't store private information such as employee names, demographics and payroll information requires automatic scanning of all the documents for presence of PII. The OCI Language PII model provides batch API to process many text documents at scale for processing data at scale.
+Supported Entities
+The following table describes the different entities that PII can extract.
+|Entity Type
+|Description
+|
+PERSON
+|Person name
+|
+ADDRESS
+|Address
+|
+AGE
+|Age
+|
+DATE_TIME
+|Date or time
+|
+SSN_OR_TAXPAYER
+|Social security number or taxpayer ID (US)
+|
+EMAIL
+|
+PASSPORT_NUMBER_US
+|Passport number (US)
+|
+TELEPHONE_NUMBER
+|Telephone or fax (US)
+|
+DRIVER_ID_US
+|Driver identification number (US)
+|
+BANK_ACCOUNT_NUMBER
+|Bank account number (US)
+|
+BANK_SWIFT
+|Bank account (SWIFT)
+|
+BANK_ROUTING
+|Bank routing number
+|
+CREDIT_DEBIT_NUMBER
+|Credit or debit card number
+|
+IP_ADDRESS
+|IP address, both IPV4 and IPV6
+|
+MAC_ADDRESS
+|MAC address
+|
+Following are secret types:
+|
+COOKIE
+|Website Cookie
+|
+XSRF TOKEN
+|Cross-Site Request Forgery (XSRF) Token
+|
+AUTH_BASIC
+|Basic Authentication
+|
+AUTH_BEARER
+|Bearer Authentication
+|
+JSON_WEB_TOKEN
+|JSON Web Token
+|
+PRIVATE_KEY
+|Cryptographic Private Key
+|
+PUBLIC_KEY
+|Cryptographic Public Key
+|
+Following are the OCI account credentials that are the authentication information required to access and manage resources within OCI. These credentials serve the purpose of ensuring secure authentication of users, applications, and services to interact with OCI services and resources.
+|
+OCI_OCID_USER
+|OCI User
+|
+OCI_OCID_TENANCY
+|Tenancy OCID (Oracle Cloud Identifier)
+|
+OCI_SMTP_USERNAME
+|SMTP (Simple Mail Transfer Protocol) Username
+|
+OCI_OCID_REFERENCE
+|OCID Reference
+|
+OCI_FINGERPRINT
+|OCI Fingerprint
+|
+OCI_CREDENTIAL
+|This type covers OCI Auth Token, OAuth Credential and SMTP Credential
+|
+OCI_PRE_AUTH_REQUEST
+|OCI Pre-Authenticated Request
+|
+OCI_STORAGE_SIGNED_URL
+|OCI Storage Singed URL
+|
+OCI_CUSTOMER_SECRET_KEY
+|OCI Customer Secret Key
+|
+OCI_ACCESS_KEY
+|OCI Access Keys or security credentials
+Examples
+|Input Text
+|Output Text Masked with "*"
+|
+Hello Support Team,
+I am reaching out to seek help with my credit card number 1234 5678 9873 2345 expiring on 11/23. There was a suspicious transaction on 12-Aug-2022 which I reported by calling from my mobile number +1 (423) 111-9999 also I emailed from my email id sarah.jones1234@hotmail.com. Would you please let me know the refund status?
+Regards,
+Sarah
+|
+Hello Support Team, I am reaching out to seek help with my credit card number ******************* expiring on ***** . There was a suspicious transaction on *********** which I reported by calling from my mobile number ** ************** also I emailed from my email id *************************** . Would you please let me know the refund status? Regards, *****
+The JSON for the example is:
+- Sample Request
+-
+POST https://<region-url>/20210101/actions/batchDetectLanguagePiiEntities
+- API Request format:
+-
+{ "documents": [ { "languageCode": "en", "key": "1", "text": "Hello Support Team, I am reaching out to seek help with my credit card number 1234 5678 9873 2345 expiring on 11/23. There was a suspicious transaction on 12-Aug-2022 which I reported by calling from my mobile number +1 (423) 111-9999 also I emailed from my email id sarah.jones1234@hotmail.com. Would you please let me know the refund status? Regards, Sarah" } ], "compartmentId": "ocid1.tenancy.oc1..aaaaaaaadany3y6wdh3u3jcodcmm42ehsdno525pzyavtjbpy72eyxcu5f7q", "masking": { "ALL": { "mode": "MASK", "isUnmaskedFromEnd": true, "leaveCharactersUnmasked": 4 } } }
+- Response JSON:
+-
+{ "documents": [ { "key": "1", "entities": [ { "offset": 79, "length": 19, "type": "CREDIT_DEBIT_NUMBER", "text": "1234 5678 9873 2345", "score": 0.75, "isCustom": false }, { "offset": 111, "length": 5, "type": "DATE_TIME", "text": "11/23", "score": 0.9992455840110779, "isCustom": false }, { "offset": 156, "length": 11, "type": "DATE_TIME", "text": "12-Aug-2022", "score": 0.998766303062439, "isCustom": false }, { "offset": 218, "length": 2, "type": "TELEPHONE_NUMBER", "text": "+1", "score": 0.6941494941711426, "isCustom": false }, { "offset": 221, "length": 14, "type": "TELEPHONE_NUMBER", "text": "(423) 111-9999", "score": 0.9527066349983215, "isCustom": false }, { "offset": 268, "length": 27, "type": "EMAIL", "text": "sarah.jones1234@hotmail.com", "score": 0.95, "isCustom": false }, { "offset": 354, "length": 5, "type": "PERSON", "text": "Sarah", "score": 0.9918518662452698, "isCustom": false } ], "languageCode": "en", "maskedText": "Hello Support Team, \nI am reaching out to seek help with my credit card number ***************2345 expiring on *1/23. There was a suspicious transaction on *******2022 which I reported by calling from my mobile number +1 **********9999 also I emailed from my email id ***********************.com. Would you please let me know the refund status?\nRegards,\n*arah" } ], "errors": [] }

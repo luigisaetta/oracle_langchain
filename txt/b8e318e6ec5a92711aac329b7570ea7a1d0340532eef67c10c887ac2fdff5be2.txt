@@ -1,0 +1,143 @@
+Features of Oracle NoSQL Database Cloud Service
+Learn about the key features of Oracle NoSQL Database Cloud Service and Always Free NoSQL Database Service.
+This article has the following topics:
+Key Features
+Learn the key features of Oracle NoSQL Database Cloud Service.
+-
+Fully Managed with Zero Administration: Developers do not need to administer data servers or the underlying infrastructure and security. Oracle maintains the hardware and software which allows developers to focus on building applications.
+-
+Faster Development Life Cycle: After purchasing access to the service, developers write their applications, and then connect to the service using their credentials. Reading and writing data can begin immediately. Oracle performs Database Management, Storage Management, High Availability, and Scalability which helps developers concentrate on delivering high-performance applications.
+-
+High Performance and Predictability: Oracle NoSQL Database Cloud Service takes advantage of the latest component technologies in the Oracle Cloud Infrastructure by providing high performance at scale. Developers know that their applications return data with predictable latencies, even as their throughput and storage requirements increase.
+-
+On-Demand Throughput and Storage Provisioning: Oracle NoSQL Database Cloud Service scales to meet application throughput performance requirements with low and predictable latency. As workloads increase with periodic business fluctuations, applications can increase their provisioned throughput to maintain a consistent user experience. As workloads decrease, the same applications can reduce their provisioned throughput, resulting in lower operating expenses. The same holds true for storage requirements. Those can be adjusted based on business fluctuations. You can increase or decrease the storage using the Oracle Cloud Infrastructure Console or the
+TableRequestAPI.You can choose between an on-demand capacity allocation or provisioned-based capacity allocation:
+- With on-demand capacity, you don't need to provision the read or write capacities for each table. You only pay for the read and write units that are actually consumed. Oracle NoSQL Database Cloud Service automatically manages the read and write capacities to meet the needs of dynamic workloads.
+- With provisioned capacity, you can increase or
+decrease the throughput using the Oracle Cloud
+Infrastructure Console or the
+TableRequestAPI.
+You can also modify the capacity mode from Provisioned Capacity to On-Demand Capacity and vice-versa.
+- Global Active Tables:
+Oracle NoSQL Database Cloud Service supports a
+global active table architecture in which you can
+create tables, replicate them across multiple
+regions, and maintain synchronized data across the
+regional replicas. A Global Active table is one
+that has one or more regional table replicas. Any
+update made to a table in one region is
+automatically propagated to the replicas in all
+the other participating regions. Global Active
+tables can use either the provisioned or the
+on-demand throughput model. In general, all Oracle
+NoSQL tables are created as singleton tables. A
+singleton table is an Oracle NoSQL table that is
+not replicated across one or more regions. The
+counterpart to a singleton table is a Global
+Active table. A singleton table can be converted
+to a Global Active table by adding a table replica
+in another region. You can add or remove region
+replicas over the life of a table.
+Note
+An Always-Free NoSQL table can only be a singleton table.
+-
+Data Modeling: Oracle NoSQL Database Cloud Service supports both schema-based and schema-less (JSON) modeling.
+-
+JSON Data Support: Oracle NoSQL Database Cloud Service allows developers to query schema-less JSON data by using the familiar SQL syntax.
+-
+Partial JSON Updates: Oracle NoSQL Database Cloud Service allows developers to update (change, add, and remove) parts of a JSON document. Because these updates occur on the server, the need for a read-modify-write cycle is eliminated, which would consume throughput capacity.
+-
+Simple APIs: Oracle NoSQL Database Cloud Service provides easy-to-use CRUD (Create Read Update Delete) APIs that allow developers to easily create tables and maintain data in them.
+-
+Data Safety in Redundancy: The Oracle NoSQL Database Cloud Service stores data across multiple Availability Domains (ADs) or Fault Domains (FDs) in single AD regions. If an AD or FD becomes unavailable, user data is still accessible from another AD or FD.
+-
+Data Security: Data is encrypted at rest (on disk) with Advanced Encryption Standard (AES 256). Data is encrypted in motion (transferring data between the application and Oracle NoSQL Database Cloud Service) with HTTPS.
+-
+ACID-Compliant Transactions: ACID (Atomicity, Consistency, Isolation, Durability) transactions are fully supported for the data you store in Oracle NoSQL Database Cloud Service. If required, consistency can be relaxed in favor of lower latency.
+-
+Time-To-Live: Oracle NoSQL Database Cloud Service lets developers set a time frame on table rows, after which the rows expire automatically, and are no longer available. This feature is a critical requirement when capturing sensor data for Internet Of Things (IoT) services.
+-
+SQL Queries: Oracle NoSQL Database Cloud Service lets developers access data with SQL queries.
+-
+Secondary Indexes: Secondary indexes allow a developer to create an index on any field of a supported data type, thus improving performance over multiple paths for queries using the index.
+-
+NoSQL Table Hierarchy: Oracle NoSQL Database Cloud Service supports Table hierarchies that offer high scalability while still providing the benefits of data normalization. A NoSQL table hierarchy is an ideal data model for applications that need some data normalization, but also require predictable, low latency at scale. A table hierarchy links distinct tables and therefore enables left outer joins, combining rows from two or more tables based on related columns between them. Such joins execute efficiently as rows from the parent-child tables are co-located in the same database shard.
+Responsibility Model for Oracle NoSQL Database
+Table 1-2 Sharing tasks between Oracle and customer
+|Task
+|Who
+|Details
+|Provisioning NoSQL Database tables
+|Oracle
+|Oracle is responsible for provisioning tables. You the customer are responsible for initiating provisioning requests that specify the capacities of the tables specified, including read units, write units and storage. In addition, the customer is responsible for specifying the pricing model.
+|Backing up tables
+|Customer
+|Customer is responsible for backing up tables on a schedule they choose. Oracle provides a migrator tool that can be used to take a backup and store it in Oracle Object Storage.
+|Restoring a table
+|Customer
+|Customer is responsible for restoring their tables. Oracle provides a migrator tool that can be used to restore a table from files stored in Oracle Object Storage.
+|Patching and upgrading
+|Oracle
+|Oracle is responsible for patching and upgrading all NoSQL Database resources.
+|Scaling
+|Oracle
+|Oracle is responsible for scaling NoSQL Database tables. You the customer are responsible for initiating scaling requests.
+|Monitoring service health
+|Oracle
+|Oracle is responsible for monitoring the health of NoSQL Database resources and for ensuring their availability as per the published guidelines.
+|Monitoring application health and performance
+|Customer
+|You the customer are responsible for monitoring the health and performance of your applications at all levels. This responsibility includes monitoring the performance of the tables and updates your applications perform.
+|Application security
+|Customer
+|You the customer are responsible for the security of your applications at all levels. This responsibility includes Cloud user access to NoSQL Database tables, network access to these resources, and access to the data. Oracle ensures that data stored in NoSQL Database tables is encrypted and ensures that connections to NoSQL Database tables require TLS 1.2 encryption and wallet-based authentication.
+|Auditing
+|Oracle
+|Oracle is responsible for logging DDL API calls made to NoSQL Database tables and for making these logs available to you the customer for auditing purposes.
+|Alerts and Notifications
+|Oracle
+|Oracle is responsible for providing an alert and notification feature for service events. You the customer are responsible for monitoring any database alerts that may be of interest.
+Always Free Service
+Always Free NoSQL Database Service
+As part of the Oracle Cloud Free Tier, the Oracle NoSQL Database Cloud Service participates as an Always Free service. This section describes the restrictions, and details of that offering.
+Features of Always Free NoSQL Database Service
+- You may have up to three Always Free NoSQL tables in your region.
+- You can have both Always Free and regular tables in the same region.
+- The Always Free NoSQL tables are displayed in the console with an “Always Free” label next to the table name.
+- An Always Free NoSQL table cannot be changed to a regular table or vice versa.
+Resource Restrictions for Always Free NoSQL tables
+- You may have a maximum of three Always Free NoSQL tables in any region at any time. If you have three Always Free NoSQL tables , the toggle button to create an Always Free NoSQL table is disabled. If you delete one or more of those tables, then the toggle button will be re-enabled.
+- Read Capacity (Read Units) is 50 and cannot be changed.
+- Write Capacity (Write Units) is 50 and cannot be changed.
+- Disk Storage is 25GB and cannot be changed.
+Regional Availability
+Always Free NoSQL tables are available in a subset of Oracle Cloud Infrastructure data regions. See Data Regions for more details on where Always Free NoSQL tables are supported.
+Always Free NoSQL tables - Inactivity and Deletion
+If an Always Free NoSQL table has not been used or accessed for 30 days, it moves to an ‘inactive’ state. Always Free NoSQL tables that remain inactive for 90 days are deleted. The inactive state is shown in the console next to the table name. A customer notification is sent to the tenancy administrator when the table initially becomes inactive (after 30 days of inactivity). A reminder is sent again at 75 days of inactivity.
+You may make an Always Free NoSQL table active again by performing any get/put/delete operation on any row(s) in the table. DDL operations do not make an inactive table active again.
+Functional difference between the NoSQL Cloud Service and On-premise database
+Table 1-3 High level feature comparison
+|-
+|NoSQL Database Cloud Service
+|NoSQL Database Enterprise Edition (EE)
+|Infrastructure and software management/maintenance (servers, storage, networking, security, OS, and NoSQL software)
+|Managed by Oracle
+|Managed by customer
+|Database deployment
+|Oracle Cloud only
+|Customer on-premises data centers or BYOL in Oracle Cloud or other cloud vendors.
+|Licensing/Edition
+|Paid subscription or always-free service
+|Enterprise Edition (paid) or Community Edition (free open source)
+|Throughput
+|Throughput capacity is managed at each NoSQL Table level through NoSQL APIs or Oracle Cloud Infrastructure (OCI) Console. The capacity is measured in Write Units, Read Units. Throughput capacity per table can be adjusted to meet the dynamic workloads. When the limits for a table is exceeded, users are notified. At the tenancy level, there are maximum service limits. To get more details, see Oracle NoSQL Database Cloud Service Limits .
+|Throughput capacity is managed at each NoSQL cluster. The capacity depends on the size of the NoSQL cluster deployed. Larger cluster size provides more throughput capacity for user tables.
+|Storage
+|Storage capacity is managed at each NoSQL Table level through NoSQL APIs or Oracle Cloud Infrastructure (OCI) Console. The capacity is measured in gigabytes (GB). Storage capacity per table can be adjusted to meet the dynamic workloads. When the limit for a table is exceeded, users are notified. At the tenancy level, there are maximum service limits. To get more details, see Oracle NoSQL Database Cloud Service Limits.
+|Storage capacity is managed at each NoSQL cluster. The capacity depends on the number of disks and specific configuration in each storage node deployed in the cluster. Larger cluster size and disk capacity provide more storage for user tables.
+|Interoperability
+|Interoperates with NoSQL Database Enterprise Edition through a single programmatic interface with no application code modification.
+|Interoperates with NoSQL Database Cloud Service through a single programmatic interface with no application code modification.
+|Installation
+|No customer installs. Customers start using the service right away by creating NoSQL Tables.
+|Customers download and install the software to set up the NoSQL cluster in multiple storage nodes.

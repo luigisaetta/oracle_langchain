@@ -1,0 +1,54 @@
+Create a Dataset
+Document custom models are intended for Document Understanding users without a data science background.
+Overview
+By creating a dataset, and instructing Document Understanding to train a model based on the dataset, you can have a custom model ready for your scenario. For custom key value extraction, it involves having a set of documents labeled with the fields you're trying to extract in the trained model, for example, company code, date, or total.. For custom document classification, it involves having a set of documents with the document class annotated for each document, for example, job application, recommendation letter, or background check report.
+Tools to Create the Dataset
+The key to building a useful custom model is preparing and training it with a good dataset. We recommend that you create and label the dataset using OCI Data Labeling. Here is an outline of the steps to take:
+- Collect enough documents that match the distribution of the intended application.
+- Choose the correct annotation format for the custom model that you want. All Document Understanding models are supported
+under the
+Documentannotation format, using key-value annotations for custom key value extraction, or single-label classification for custom document classification.
+- Label all instances of the fields or document classes that occur in the sourced dataset.
+For more information, see the Data Labeling service guide, especially the Data Labeling Policies, and steps on Creating a Dataset. See also the video tutorial for creating and annotating a key-value dataset.
+Guidelines for Collecting Data
+- Include expected variations in the training dataset
+- If you expect variation, then have at least one example of each variation in the training dataset. For example, if you expect that in employee application forms not all applications have a completed the reference phone number field, include one example where all the fields are filled out in addition to one where all fields, except the reference phone number field, are filled out.
+- Make the dataset size larger than the minimum
+- Custom key value extraction requires a minimum of five documents, and
+custom document classification requires a minimum of 10 documents.
+Increasing the dataset increases model performance. The following table
+shows the recommended minimum numbers of documents based on targeted
+accuracy, variation in documents, and document types:
+Recommended Number of Documents by Type and Accuracy for Custom Key Value Extraction Document Type Minimum Targeted Accuracy (estimated field-level accuracy) Variation in Training Documents Recommended Minimum Number of Documents More Details Digital 90% All labels are present. 15 Fields of interest are present in all documents. Digital 95% All labels are present. 30 Fields of interest are present in all documents. Digital 85% All labels aren't present. 15 Fields of interest can be missing in some documents. Digital 90% All labels aren't present. 30 Fields of interest can be missing in some documents. Digital 95% All labels aren't present. 50 If documents can have non-standard resolution and DPI. Scan 85% All labels are present.
+Minimal or no handwritten text.
+15 Fields of interest are present in all documents with high readability in documents. Scan 95% All labels are present. 30 Images with rotation and graphical elements (stamps or selection marks). Mobile 80% All labels are present.
+Minimal or no handwritten text.
+15 Fields of interest are present in all documents with high readability in documents. Mobile 85% All labels are present or all labels aren't present.
+Minimal or no handwritten text.
+30 If documents have high rotation, non-standard resolution and DPI. Mobile 90% All labels are present or all labels aren't present.
+Minimal or no handwritten text.
+50 Images with rotation and graphical elements (stamps or selection marks). Recommended Number of Documents by Type and Accuracy for Document Classification Document Type Minimum Targeted Accuracy (estimated field-level accuracy) Variation in Training Documents Recommended Minimum Number of Documents More Details Digital/Scan/Mobile 90%
+All documents of a class have the same template, for example, Invoice class can contain documents from one shop or organization
+15 All documents are labeled.
+The number of documents mentioned is for a single class.
+For example, if a dataset has 5 classes to be classified and if the recommended number of documents is 15, then the total number of documents is 75 (15*5).
+Digital/Scan/Mobile 75% Documents of a class have various templates. For example, the invoice class can contain documents from various shops or organizations. 20 All documents are labeled.
+The number of documents mentioned is for a single class.
+For example, if a dataset has 5 classes to be classified and if the recommended number of documents is 15, then the total number of documents is 75 (15*5).
+Digital/Scan/Mobile 80% Documents of a class have various templates. For example, the invoice class can contain documents from various shops or organizations. 25 All documents are labeled.
+The number of documents mentioned is for a single class.
+For example, if a dataset has 5 classes to be classified and if the recommended number of documents is 15, then the total number of documents is 75 (15*5).
+Digital/Scan/Mobile 90% Documents of a class have various templates. For example, the invoice class can contain documents from various shops or organizations. 35 All documents are labeled.
+The number of documents mentioned is for a single class.
+For example, if a dataset has 5 classes to be classified and if the recommended number of documents is 15, then the total number of documents is 75 (15*5).
+Guidelines for Annotating Data
+- Annotate the documents consistently and correctly
+- Imagine you're creating a custom model for an employee application and want to extract the applicant's name with the custom model. If you expect the first and last name to be extracted, annotate all words related to the full name, for example, Mary Joe Smith, as the applicant name in the training documents. If the applicant name field is present in all the documents, annotate it on all the documents. Skipping annotations on training documents or partially annotating a field adversly affects the quality of the model.
+- Annotate both field names and field values
+- To enable the model to learn better, annotate the associated keys names
+and value names. For example, to extract the applicant name for a
+document, create two labels, for example,
+applicant name fieldand
+applicant name value. On the training document, annotate the field name as
+applicant name fieldand the answer, for example, Mary Joe Smith, as
+applicant name value.

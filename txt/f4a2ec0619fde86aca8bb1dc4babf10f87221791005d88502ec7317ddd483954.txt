@@ -1,0 +1,402 @@
+Overview
+Big Data Service provides enterprise-grade Hadoop as a service, with end-to-end security, high performance, and ease of management and upgradeability.
+Big Data Service is an Oracle Cloud Infrastructure service designed for a diverse set of big data use cases and workloads. From short-lived clusters used to tackle specific tasks to long-lived clusters that manage large data lakes, Big Data Service scales to meet an organization’s requirements at a low cost and with the highest levels of security.
+The data at rest in Block Volumes used by the Big Data Service service is encrypted by default.
+Big Data Service includes:
+- A choice of Hadoop technology stacks. You can choose to create a cluster based on
+either of the following:
+-
+An Hadoop stack that includes an installation of Oracle Distribution including Apache Hadoop (ODH). ODH includes Apache Ambari, Apache Hadoop, Apache HBase, Apache Hive, Apache Spark, and other services for working with and securing big data.
+For a detailed list of what’s in ODH, see About Oracle Distribution Including Apache Hadoop (ODH).
+- An Hadoop stack that includes complete installation of the Cloudera Distribution including Apache Hadoop (CDH). CDH includes Cloudera Manager, Apache Flume, Apache Hadoop, Apache HBase, Apache Hive, Apache Hue, Apache Kafka, Apache Pig, Apache Sentry, Apache Solr, Apache Spark, and other services for working with and securing big data.
+The current version of Big Data Service includes CDH 6.3.3. See CDH 6.3.3 Packaging in the "Cloudera Enterprise 6.x Release Notes" for a complete list of the included components.
+-
+- Oracle Cloud Infrastructure features and resources, including identity management, networking, compute, storage, and monitoring.
+- A REST API for creating and managing clusters.
+bda-oss-adminCLI for managing storage providers.
+odcpCLI for copying and moving data.Note
+ODCP is only available in clusters that use Cloudera Distribution including Hadoop.
+- The ability to create clusters of any size, based on native Oracle Cloud Infrastructure shapes. For example, you can create small, short-lived clusters in flexible virtual environments, very large, long-running clusters on dedicated hardware, or any combination between.
+- Optional secure, high availablity (HA) clusters.
+- Oracle Cloud SQL integration, for analyzing data across Apache Hadoop, Apache Kafka, NoSQL, and object stores using Oracle SQL query language.
+- Full access to customize what is deployed on your Big Data Service clusters.
+About Oracle Distribution Including Apache Hadoop (ODH)
+ODH is built from the ground up, natively integrated into Oracle's data platform. ODH is fully managed, with the same Hadoop components you know and build on today. ODH is available as versions ODH 2.0, ODH 1.x, and ODH 0.9.
+The table below lists the components included in ODH and their versions.
+|Component
+|Version
+|Apache Ambari
+|2.7.5
+|Apache Flume
+|1.10.0
+|Apache Hadoop (HDFS, YARN, MR)
+|3.3.3
+|Apache HBase
+|2.2.6
+|Apache Hive
+|3.1.3
+|Apache Kafka
+|3.2.0
+|Apache Livy
+|0.7.1
+|Apache Oozie
+|5.2.0
+|Apache JupyterHub
+|2.1.1
+|Apache Ranger and InfrSolr
+|2.10 and 0.1.0
+|Apache Spark
+|3.2.1
+|Apache Sqoop
+|1.4.7
+|Apache Tez
+|0.10.0
+|Apache Zookeeper
+|3.5.9
+|Delta Lake1
+|1.2.1
+|Hue
+|4.10.0
+|Trino
+|389
+|Additional value added services
+|Data Studio
+|included
+|Cloud SQL
+|included
+|Data Catalog Metastore
+|included
+1 With ODH 2.0, Big Data Service also supports Delta Lake 1.2.1 as part of Big Data Service Apache Spark service. Delta Lake offers an ACID able storage layer over cloud object stores for the Big Data Service Apache Spark service.
+The table below lists the components included in ODH and their versions.
+|Component
+|Version
+|Apache Ambari
+|2.7.5
+|Apache Flink
+|1.15.2
+|Apache Flume
+|1.10.0
+|Apache Hadoop (HDFS, YARN, MR)
+|3.1.2
+|Apache HBase
+|2.2.6
+|Apache Hive
+|3.1.2
+|Apache Kafka
+|3.2.0
+|Apache Livy
+|0.7.1
+|Apache Oozie
+|5.2.0
+|Apache JupyterHub
+|2.1.1
+|Apache Ranger and InfrSolr
+|2.10 and 0.1.0
+|Apache Spark
+|3.0.2
+|Apache Sqoop
+|1.4.7
+|Apache Tez
+|0.10.0
+|Apache Zookeeper
+|3.5.9
+|Hue
+|4.10.0
+|Trino
+|360
+|Additional value added services
+|Data Studio
+|included
+|Cloud SQL
+|included
+|Data Catalog Metastore
+|included
+The table below lists the components included in ODH 0.9 and their versions.
+|Component
+|Version
+|Apache Ambari
+|2.7.5
+|Apache Avro
+|1.8.2
+|Apache Flume
+|1.9.0
+|Apache Hadoop (HDFS, YARN, MR)
+|3.0.0
+|Apache HBase
+|2.1.4
+|Apache Hive
+|2.1.1
+|Apache Jupyterhub
+|2.1.1
+|Apache Kafka
+|2.2.1
+|Apache Livy
+|0.7.1
+|Apache Oozie
+|5.1.0
+|Apache Parquet or Apache Parquet MR
+|1.10.1 or 1.9.0
+|Parquet Format
+|2.4.0
+|Apache Ranger and InfrSolr
+|2.10 and 0.1.0
+|Apache Spark
+|2.4.4
+|Apache Sqoop
+|1.4.7
+|Apache Tez
+|0.10.0
+|Apache Zookeeper
+|3.4.14
+|Hue
+|4.10.0
+|Trino
+|360*
+|Additional value added services
+|Data Studio
+|included
+|Cloud SQL
+|included
+|Data Catalog Metastore
+|included
+Apache Hive supports functions for data masking which may include weak algorithms. For strong encryption algorithm custom functions can be written. For more information see Apache Hive UDF Reference at: hive/languagemanual+udf.
+See Big Data Service Big Data Service Versions for details of components included in each version of ODH.
+Accessing Big Data Service
+You access Big Data Service using the Console, OCI CLI, REST APIs, or SDKs.
+- The OCI Console is an easy-to-use, browser-based interface. To access the Console, you must use a supported browser.
+- The OCI CLI provides both quick access and full functionality without the need for programming. Use the Cloud Shell environment to run your CLIs.
+- The REST APIs provide the most functionality, but require programming expertise. API Reference and Endpoints provide endpoint details and links to the available API reference documents including the Big Data Service API.
+- OCI provides SDKs that interact with Big Data without the need to create a framework.
+Resource Identifiers
+Big Data Service resources, like most types of resources in Oracle Cloud Infrastructure, have a unique, Oracle-assigned identifier called an Oracle Cloud ID (OCID).
+For information about the OCID format and other ways to identify your resources, see Resource Identifiers.
+Regions and Availability Domains
+Regions and availability domains indicate the physical and logical organization of your Big Data Service resources. A region is a localized geographic area, and an availability domain is one or more data centers located within a region.
+For the latest information on the regions where Big Data Service, Oracle Cloud SQL, and related services are available, see Data Regions for Oracle Cloud Infrastructure and Platform Services.
+Service Limits
+When you sign up for Oracle Cloud Infrastructure (OCI), a set of service limits is configured for your tenancy. The service limit is the quota or allowance set on a resource. These limits might be increased for you automatically based on your OCI resource usage and account standing. See Service Limits.
+Default Service Limits
+Among the limits set on your tenancy are limits on the number of Big Data Service cluster nodes you can create. More specifically, you're restricted to a certain number of nodes of a certain shape.
+The following table shows the default limits to various cluster shapes. These are your limits if you didn't make other arrangements when you bought your subscription and if you haven't already asked for an increase.
+|Resource
+|Monthly universal credits
+|Pay-as-you-go
+|VM.Standard2.1
+|12 instances (12 OCPUs)
+|8 instances (8 OCPUs)
+|VM.Standard2.2
+|12 instances (24 OCPUs)
+|8 instances (16 OCPUs)
+|VM.Standard2.4
+|12 instances (48 OCPUs)
+|8 instances (32 OCPUs)
+|VM.Standard2.8
+|8 instances (64 OCPUs)
+|Contact us
+|VM. Standard2.16
+|8 instances (128 OCPUs)
+|Contact us
+|VM.Standard2.24
+|8 instances (192 OCPUs)
+|Contact us
+|
+VM.DenseIO2.8
+VM.DenseIO2.16
+VM.DenseIO2.24
+VM.DenseIO.E4
+BM.HPC2.36
+BM.DenseIO2.52
+BM.DenseIO.E4
+BM.Optimized3
+BM.Standard2.52
+BM.Standard3.64
+BM.Standard.E4
+|Contact us
+|Contact us
+Units Shown
+In practice, you increase the number of nodes, or instances, in a cluster. ("Nodes" and "instances" mean the same thing in this context. OCI services usually use the term "instance," but Big Data Service follows the Hadoop convention of using the term "node.")
+However, the limits are usually expressed as a number of Oracle Compute Units (OCPUs). Each type of Big Data Service node shape has a set number of OCPUs. The number after the decimal in the node shape name indicates the number of OCPUs in a single node of that shape. For example, a VM.Standard2.1 node has one OCPU, a VM.Standard2.4 node has four OCPUs, and a BM.DenseIO2.52 node has 52 OCPUs.
+For example, if your subscription uses monthly universal credits, the default limit for node shape VM.Standard2.4 is 48 OCPUs, which equals 12 nodes. The calculation is as follows: 48 OCPUs service limit divided by 4 OCPUs per node equals 12 nodes.
+Finding Tenancy Limits
+You must have permission to view limits and usage. See "To view your tenancy's limits and usage" under Service Limits.
+To view limits and usage, see Viewing Your Service Limits, Quotas, and Usage.
+Requesting a Service Limit Increase
+To request a service limit increase, see Requesting a service limit increase.
+Service Quotas
+Big Data Service administrators can set quota policies to enforce restrictions on users by limiting the resources that they can create.
+For information about how Oracle Cloud Infrastructure handles quotas, see Overview of Compartment Quotas.
+Use the following information to create quotas:
+Service name:
+big-data
+|Quota Name
+|Scope
+|Description
+|vm-standard-2-1-ocpu-count
+|Regional
+|Number of VM.Standard2.1 OCPUs
+|vm-standard-2-2-ocpu-count
+|Regional
+|Number of VM.Standard2.2 OCPUs
+|vm-standard-2-4-ocpu-count
+|Regional
+|Number of VM.Standard2.4 OCPUs
+|vm-standard-2-8-ocpu-count
+|Regional
+|Number of VM.Standard2.8 OCPUs
+|vm-standard-2-16-ocpu-count
+|Regional
+|Number of VM.Standard2.16 OCPUs
+|vm-standard-2-24-ocpu-count
+|Regional
+|Number of VM.Standard2.24 OCPUs
+|vm-dense-io-2-8-ocpu-count
+|Regional
+|Number of VM.DenseIO2.8 OCPUs
+|vm-dense-io-2-16-ocpu-count
+|Regional
+|Number of VM.DenseIO2.16 OCPUs
+|vm-dense-io-2-24-ocpu-count
+|Regional
+|Number of VM.DenseIO2.24 OCPUs
+|bm-hpc2-36-ocpu-count
+|Regional
+|Number of BM.HPC2.36 OCPUs
+|bm-dense-io-2-52-ocpu-count
+|Regional
+|Number of BM.DenseIO2.52 OCPUs
+|bm-standard-2-52-ocpu-count
+|Regional
+|Number of BM.Standard2.52 OCPUs
+Big Data Service quota policy examples:
+-
+Limit the number of VM.Standard2.4 OCPUs that users can allocate to services they create in the
+mycompartmentcompartment to 40.
+Set big-data quota vm-standard-2-4-ocpu-count to 40in Compartment mycompartment
+-
+Limit the number of BM.DenseIO2.52 OCPUs that users can allocate to services they create in the
+testcompartmentcompartment to 20.
+Set big-data quota bm-dense-io-2-52-ocpu-count to 20 in Compartment testcompartment
+-
+Don't allow users to create any VM.Standard2.4 OCPUs in the
+examplecompartcompartment.
+Zero big-data quota vm-standard-2-4-ocpu-count in Compartment examplecompart
+Integrated OCI Services
+Big Data Service is integrated with various OCI services and features.
+Big Data Service is integrated with OCI Search. Search lets you find resources within a tenancy and important information about clusters and configuration objects, such as API keys, metastore configurations, lake configurations.
+Examples of search queries:
+Example 1: Search for all Big Data Service resources
+query bigdataservice resources
+Example 2: Search for all active Big Data Service clusters
+query bigdataservice resources where lifecycleState = 'ACTIVE'
+Big Data Service is fully integrated with OCI Search and supports specific resource types.
+|Resource Type
+|Supported Fields
+|
+BigDataService
+|
+|
+BigDataServiceApiKey
+|
+See BdsApiKey Reference.
+|
+BigDataServiceMetastoreConfig
+|
+|
+BigDataServiceLakehouseConfig
+|
+Certain actions performed on Big Data Service clusters emit events.
+You can define rules that trigger a specific action when an event occurs. For example, you might define a rule that sends a notification to administrators when someone deletes a resource. See Overview of Events and Getting Started with Events.
+The following table lists Big Data Service event types.
+|Friendly Name
+|Event Type
+|Create Instance Begin
+|
+com.oraclecloud.bds.cp.createinstance.begin
+|Create Instance End
+|
+com.oraclecloud.bds.cp.createinstance.end
+|Terminate Instance Begin
+|
+com.oraclecloud.bds.cp.terminateinstance.begin
+|Terminate Instance End
+|
+com.oraclecloud.bds.cp.terminateinstance.end
+|Add Worker Node Begin
+|
+com.oraclecloud.bds.cp.addnode.begin
+|Add Worker Node End
+|
+com.oraclecloud.bds.cp.addnode.end
+|Add Block Storage Begin
+|
+com.oraclecloud.bds.cp.addblockstorage.begin
+|Add Block Storage End
+|
+com.oraclecloud.bds.cp.addblockstorage.end
+|Configure Cloud SQL Begin
+|
+com.oraclecloud.bds.cp.addcloudsql.begin
+|Configure Cloud SQL End
+|
+com.oraclecloud.bds.cp.addcloudsql.end
+|Disable Cloud SQL Begin
+|
+com.oraclecloud.bds.cp.removecloudsql.begin
+|Disable Cloud SQL End
+|
+com.oraclecloud.bds.cp.removecloudsql.end
+|Disasble ODH Service Certificate Begin
+|
+com.oraclecloud.bds.cp.disableodhservicecertificate.begin
+|Disable ODH Service Certificate End
+|
+com.oraclecloud.bds.cp.disableodhservicecertificate.end
+|Enable ODH Service Certificate Begin
+|
+com.oraclecloud.bds.cp.enableodhservicecertificate.begin
+|Enable ODH Service Certificate End
+|
+com.oraclecloud.bds.cp.enableodhservicecertificate.end
+|Renew ODH Service Certificate Begin
+|
+com.oraclecloud.bds.cp.renewodhservicecertificate.begin
+|Renew ODH Service Certificate End
+|
+com.oraclecloud.bds.cp.renewodhservicecertificate.end
+The following Big Data Service operations create work requests. You can view these work requests in a Big Data Service cluster's detail page.
+|Big Data Service API
+|Work Request Operation
+|Work Request Status Options
+|
+UpdateAutoScalingConfiguration,
+|
+CREATE_BDS
+UPDATE_BDS
+DELETE_BDS
+ADD_BLOCK_STORAGE
+ADD_WORKER_NODES
+ADD_CLOUD_SQL
+REMOVE_CLOUD_SQL
+CHANGE_COMPARTMENT_FOR_BDS
+CHANGE_SHAPE
+RESTART_NODE
+UPDATE_INFRA
+UPDATE_INFRA
+UPDATE_INFRA
+|
+References:
+Additional Resources
+Take a Getting Started Workshop to learn Big Data Service
+If you're new to Big Data Service and want to get up and running quickly, try one of the Using Cloudera Distribution including Hadoop with Big Data Service workshops. (There's one for a highly-available (HA) cluster and one for a non-HA cluster.) A series of step-by-step labs guide you through the process of setting up a simple environment and creating a small cluster.
+- Get started with Big Data (HA Cluster)
+- Learn about Big Data Service. Set up the Oracle Cloud Infrastructure environment and create a highly available (HA) and secure cluster with Cloud SQL support.
+- Get started with Big Data (Non-HA Cluster)
+- Learn about Big Data Service. Set up the Oracle Cloud Infrastructure environment and create a non-HA cluster with Cloud SQL support.
+- Use a load balancer to access services on Big Data (HA Cluster)
+- Learn about Big Data Service. Set up the Oracle Cloud Infrastructure environment and create a highly available (HA) and secure cluster with Cloud SQL support.
+- Use a load balancer to access services on Big Data (Non-HA Cluster)
+- Create a load balancer to be used as a front end for securely accessing Cloudera Manager, Hue, and Oracle Data Studio on your non-highly-available (non-HA) Big Data Service cluster.
+- Connecting Oracle DataSource for Apache Hadoop and Big Data to Autonomous Data Warehouse
+- Learn how to connect Oracle DataSource for Apache Hadoop(OD4H) on Big Data Service to Autonomous Data Warehouse (ADW).
+Learn Hadoop
+Watch the videos on this Oracle Learning playlist to learn about Apache Hadoop and the Hadoop Ecosystem.

@@ -1,0 +1,21 @@
+Managing Redis Clusters
+OCI Cache with Redis lets you create Redis clusters for your memory-based storage solutions.
+After you've created your Redis cluster, Cache with Redis handles most of the management and operations of Redis clusters, including operations such as security updates, upgrades, and resizing.
+This topic covers the following Redis cluster tasks:
+- Creating a cluster.
+- Viewing cluster configuration details.
+- Changing a cluster's name.
+- Resizing a cluster's nodes.
+- Resizing the memory per node for a cluster.
+- Moving a cluster to a different compartment.
+- Tagging a cluster.
+- Deleting a cluster.
+Required IAM Policy
+To use all Cache with Redis features, you must have the following permissions:
+- Manage Redis clusters and work requests.
+- Manage Network resources.
+Example policy:
+Allow group RedisAdmins to manage redis-family in compartment <YOUR_COMPARTMENT>
+Allow group RedisAdmins to manage virtual-network-family in compartment <YOUR_COMPARTMENT>
+See forCache with Redis IAM Policies detailed policy information and more examples.
+If you're new to policies, see Getting Started with Policies and Common Policies.

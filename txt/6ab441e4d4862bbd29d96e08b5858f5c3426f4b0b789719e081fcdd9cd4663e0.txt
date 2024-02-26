@@ -1,0 +1,219 @@
+Overview of Data Science
+Oracle Cloud Infrastructure (OCI) Data Science is a fully managed and serverless platform for data science teams to build, train, and manage machine learning models.
+The Data Science service:
+-
+Provides data scientists with a collaborative, project-driven workspace.
+-
+Enables self-service, serverless access to infrastructure for data science workloads.
+-
+Includes Python-centric tools, libraries, and packages developed by the open source community and the Oracle Accelerated Data Science Library, which supports the end-to-end lifecycle of predictive models:
+-
+Data acquisition, profiling, preparation, and visualization.
+-
+Feature engineering.
+-
+Model training (including Oracle AutoML).
+-
+Model evaluation, explanation, and interpretation (including Oracle MLX).
+-
+-
+Integrates with the rest of the Oracle Cloud Infrastructure stack, including Functions, Data Flow, Autonomous Data Warehouse, and Object Storage.
+-
+Model deployment as resources to deploy models as web applications (HTTP API endpoints).
+-
+Data Science jobs enable you to define and run repeatable machine learning tasks on a fully-managed infrastructure.
+-
+Pipelines enable you to execute end-to-end machine learning workflows.
+-
+Includes policies, and vaults to control access to compartments and resources.
+- Includes metrics that provide insight into the health, availability, performance, and utilization of your Data Science resources.
+-
+Helps data scientists concentrate on methodology and domain expertise to deliver models to production.
+You can use A Data Scientist's Guide to OCI to get started.
+Data Science Concepts
+Review the following concepts and terms to help you get started with Data Science.
+- Accelerated Data Science SDK
+-
+The Oracle Accelerated Data Science (ADS) SDK is a Python library that's included as part of the OCI Data Science service. ADS has many functions and objects that automate or simplify the steps in the Data Science workflow, including connecting to data, exploring and visualizing data, training a model with AutoML, evaluating models, and explaining models. In addition, ADS provides an interface to access the Data Science service model catalog and other OCI services including Object Storage. To familiarize yourself with ADS, see the Accelerated Data Science Library.
+- Projects
+-
+Projects are collaborative workspaces for organizing and documenting Data Science assets, such as notebook sessions and models.
+- Notebook Sessions
+-
+Data Science notebook sessions are interactive coding environments for building and training models. Notebook sessions come with many preinstalled open source and Oracle developed machine learning and data science packages.
+- Conda Environments
+-
+Conda is an open source environment and package management system and was created for Python programs. It installs, runs, and updates packages and their dependencies. Conda easily creates, saves, loads, and switches between environments on your local computer.
+- Models
+-
+Models define a mathematical representation of your data and business process. The model catalog is a place to store, track, share, and manage models.
+- Model Deployments
+-
+Model deployments are a managed resource in the Data Science service that allows you to deploy models stored in the model catalog as HTTP endpoints. Deploying machine learning models as web applications (HTTP API endpoints) serving predictions in real time is the most common way to productionized models. HTTP endpoints are flexible and can serve requests for model predictions.
+- Jobs
+-
+Data Science jobs enable you to define and run repeatable machine learning tasks on a fully-managed infrastructure.
+- Pipelines
+-
+A Data Science pipeline is an executable construct that describes an end-to-end machine learning orchestration that can be run in a repeatable way.
+- Logs
+-
+Integrate the Logging service into Data Science to create and manage custom logs.
+- Metrics
+-
+Monitor the health, capacity, and performance of some Data Science resources using metrics, alarms, and notifications.
+Review the OCI Key Concepts.
+Ways to Access Data Science
+You access Data Science using the Console, REST API, SDKs, or CLI.
+Use any of the following options, based on your preference and its suitability for the task you want to complete:
+- The OCI Console is an easy-to-use, browser-based interface. To access the Console, you must use a supported browser.
+- The REST APIs provide the most functionality, but require programming expertise. API reference and endpoints provide endpoint details and links to the available API reference documents including the Data Science REST API.
+- OCI provides SDKs that interact with Data Science without the need to create a framework.
+- The CLI provides both quick access and full functionality without the need for programming.
+Regions and Availability Domains
+OCI services are hosted in regions and availability domains. A region is a localized geographic area, and an availability domain is one or more data centers located in that region.
+Data Science is hosted in these regions:
+-
+Australia East (Sydney)
+Australia Southeast (Melbourne)
+Brazil East (Sao Paulo)
+Brazil Southeast (Vinhedo)
+-
+Canada Southeast (Montreal)
+-
+Canada Southeast (Toronto)
+-
+Chile Central (Santiago)
+-
+Dedicated Region Cloud@Customer
+-
+France Central (Paris)
+-
+France South (Marseille)
+-
+Germany Central (Frankfurt)
+-
+India South (Hyderabad)
+-
+India West (Mumbai)
+-
+Israel Central (Jerusalem)
+-
+Italy Northwest (Milan)
+-
+Japan Central (Osaka)
+-
+Japan East (Tokyo)
+-
+Mexico Central (Queretaro)
+-
+Netherlands Northwest (Amsterdam)
+-
+Saudi Arabia West (Jeddah)
+-
+Singapore (Singapore)
+-
+South Africa Central (Johannesburg)
+-
+South Korea Central (Seoul)
+-
+South Korea North (Chuncheon)
+-
+Spain Central (Madrid)
+-
+Sweden Central (Stockholm)
+-
+Switzerland North (Zurich)
+-
+UAE Central (Abu Dhabi)
+-
+UAE East (Dubai)
+-
+UK South (London)
+-
+UK West (Newport)
+-
+US East (Ashburn)
+US Midwest (Chicago)
+-
+US West (Phoenix)
+-
+US West (San Jose)
+Limits on Data Science Resources
+When you sign up for OCI, a set of service limits is configured for your tenancy. The service limit is the quota or allowance set on the resources.
+Limits by Service includes Data Science limits and other OCI services. You can request a service limit increase to change the defaults.
+Watch the increasing Data Science service limits video for specifics.
+In addition to these service limits, note that:
+-
+Failed and inactive notebook sessions and models count against your service limits. Only when you fully stop an instance or delete a model is it not counted toward your quota.
+-
+GPU limits are set to zero by default so ask your system administrator to increase the limits so that you can use GPUs.
+-
+The maximum number of jobs is 1000. By default, every tenancy can create up to 1000 jobs. You can increase this limit a CAM service request ticket.
+-
+The number of simultaneous job runs is limited by your Data Science core count limits.
+Resource Identifiers
+Most types of OCI resources have an Oracle assigned unique ID called an OCID (Oracle Cloud Identifier) .
+The OCID is included as part of the resource's information in both the Console and API. For information about the OCID format and other ways to identify resources, see Resource Identifiers.
+Authentication and Authorization
+Each service in OCI integrates with Identity and Access Management for access to cloud resources through all interfaces (the OCI Console, SDKs, REST APIs, or the CLI).
+An administrator in your organization must set up tenancies, groups, compartments, and policies that control who can access which services and resources and the type of access. Your administrator confirms which compartments you should be using.
+Use Policies to create and manage Data Science projects, or launch notebook sessions.
+Provisioning and Pricing
+The Data Science service offers a serverless experience for model development and deployment. When you create Data Science resources, such as notebook sessions, models, model deployments, jobs, and the underlying Compute and storage infrastructure is provisioned and maintained for you.
+You pay for the use of the underlying infrastructure (Block Storage, Compute, and Object Storage). Review the detailed pricing list for Data Science resources.
+You only pay for the infrastructure while you are using it with Data Science resources:
+- Notebook Sessions
+-
+-
+Notebook sessions are serverless, and all underlying infrastructure is service-managed.
+-
+When creating a notebook session, you select the VM shape (the type of machine CPU or GPU, and the number of OCPU or GPUs) and amount of block storage (minimum of 50 GB).
+- While a notebook session is active, you pay for Compute and Block Storage at the standard Oracle Cloud Infrastructure rates, see Deactivating Notebook Sessions.
+-
+You can deactivate your notebook session, which shuts down the Compute though retains the Block Storage. In this case, you are no longer charged for Compute, but you continue to pay for the Block Storage. This applies to notebook sessions with a GPU instance. Notebook sessions with a GPU instance aren't metered for Compute when they are deactivated.
+You can activate your notebook session to reattach this Block Storage to new Compute, see Deactivating and Activating a Notebook Session.
+-
+When you delete a notebook session, you are no longer charged for Compute or Block Storage, see Deleting a Notebook Session.
+-
+- Models
+-
+-
+When you save a model to the model catalog, you are charged for the storage of the model artifact at the standard Object Storage rates in terms of GB per month.
+-
+When you delete a model, you are no longer charged, see Deleting a Model.
+-
+- Model Deployments
+-
+-
+When you deploy a model, you select the shape type and the number of replicas hosting the model servers. You can also select the load balancer bandwidth associated with your deployment.
+-
+When a model deployment is active, you pay for the VMs that are hosting the model servers and the load balancer at the standard OCI rates.
+-
+When you deactivate a model deployment, you are no longer charged for the VMs or the load balancer. You can activate a model deployment and billing resumes for both VMs and the load balancer.
+-
+When you stop a model deployment, you are no longer charged for the infrastructure associated with the model deployment.
+-
+- Jobs
+-
+-
+Jobs don't render a premium cost for using the service, you only pay for the underlining used infrastructure and only during the duration of execution of the job artifact.
+-
+Metering starts from the moment the job artifact is run, and stops with the code exit. You don't pay for the infrastructure provisioning time nor for the deprovisioning of the infrastructure.
+Metering includes the CPU or GPU consumption per OCPU during the duration of running the job artifact and the Block Storage size used for the job.
+-
+Using the Logging service with Jobs doesn't incur an extray cost.
+-
+- Pipelines
+-
+-
+Pipelines are billed by the usage of the underlying Compute and Block Storage that the pipeline uses to execute the pipeline step code.
+-
+There is no additional charge for the orchestration or artifact storage.
+-
+You can use Checking Your Balance and Usage to review the costs associated with your account. Also, you can use the Oracle Cloud Infrastructure Billing and Payment Tools to analyze your Data Science usage and manage your costs.
+Compliance
+Review the standards that the Data Science service is compliant with.
+The service is compliant with these standards:
+HIPAA, used by healthcare companies to protect patient privacy.
+PCI-DSS, used by the credit card industry to protect consumers against fraud.

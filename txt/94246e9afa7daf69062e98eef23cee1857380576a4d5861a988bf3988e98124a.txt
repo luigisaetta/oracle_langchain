@@ -1,0 +1,392 @@
+Getting Access to Generative AI Resources
+You can get access to Generative AI resources with Identity and Access Management (IAM) policies.
+By default, only users in the
+Administrators group have access to all OCI resources including Generative AI resources. If you’re a member of another group, ask your administrator to assign you the least privileges that are required to perform your responsibilities by reviewing the following sections.
+- Access to Generative AI Playground, Custom Models, Dedicated AI Clusters, and Endpoints
+-
+- To get access to all Generative AI resources in the entire tenancy, use the following policy:
+allow group <your-group-name> to manage generative-ai-family in tenancy
+- To get access to all Generative AI resources in your compartment, use the following policy:
+allow group <your-group-name> to manage generative-ai-family in compartment <your-compartment-name>
+- To get access to all Generative AI resources in the entire tenancy, use the following policy:
+- Access to Generative AI Training Datasets for Fine-Tuning Custom Models
+-
+Training datasets for fine-tuning custom models must be stored in Object Storage buckets. When creating a custom model, you need permission to list and choose those training datasets in the create model workflow.
+Note
+- To allow users to add fine-tuning training datasets to Object Storage buckets:
+Allow group <your-group-name> to manage object-family in compartment <compartment-with-bucket>
+- To allow users to list and choose the fine-tuning training data when creating a custom model in your compartment:
+Allow group <your-group-name> to use object-family in compartment <compartment-with-bucket>
+If the training data and the custom models are in different compartments, ensure that users creating custom models have permission to use
+object-familyin the compartment with the bucket.
+- To allow users to add fine-tuning training datasets to Object Storage buckets:
+Ask your administrator to review the examples in Securing Object Storage and add policies that apply to you such as policies to avoid accidental deleting of buckets that contain training data.
+The following sections list the permissions required for each operation in Generative AI.
+Resource-Types
+Generative AI has seven individual resource-types, and you can assign different permissions to different user groups on how they can use these resources. The Generative AI resource types are:
+- generative-ai-text-generation: The base pretrained text generation models
+- generative-ai-text-summarization: The base pretrained text summarization model
+- generative-ai-text-embedding: The base pretrained text embedding model
+- generative-ai-model: Custom models
+- generative-ai-dedicated-ai-cluster: Dedicated AI clusters
+- generative-ai-endpoint: Endpoints for custom models
+- generative-ai-work-request: Work requests for Generative AI actions
+allow group <generative-ai-administrators> to manage generative-ai-family in tenancy
+|Aggregate Resource-Type
+|Included Individual Resource-Types
+|generative-ai-family
+|
+Details for Verb + Resource-Type Combinations
+This section lists the permissions for Generative AI operations.
+The level of access is cumulative as you go from
+inspect > read > use > manage.
+For example, if you have permission to
+manage the
+generative-ai-endpoint resource type, you can list, get details, create, and delete endpoints. You don't require another permission to
+inspect the endpoints.
+generative-ai-text-generation
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_TEXT_GENERATE
+|
+GenerateText
+|
+POST
+|
+use
+allow group GenAIusers to use generative-ai-text-generation in compartment AIModelsCompartment
+generative-ai-text-summarization
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_TEXT_SUMMARIZE
+|
+SummarizeText
+|
+POST
+|
+use
+allow group GenAIusers to use generative-ai-text-summarization in compartment AIModelsCompartment
+generative-ai-text-embedding
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_TEXT_EMBED
+|
+EmbedText
+|
+POST
+|
+use
+allow group GenAIusers to use generative-ai-embed-text in compartment AIModelsCompartment
+generative-ai-model
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_MODEL_INSPECT
+|
+ListModels
+|
+GET
+|
+inspect
+|
+GENERATIVE_AI_MODEL_READ
+|
+GetModel
+|
+GET
+|
+read
+|
+GENERATIVE_AI_MODEL_UPDATE
+|
+UpdateModel
+|
+PUT
+|
+use
+|
+GENERATIVE_AI_MODEL_MOVE
+|
+ChangeModelCompartment
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_MODEL_CREATE
+|
+CreateModel
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_MODEL_DELETE
+|
+DeleteModel
+|
+DELETE
+|
+manage
+allow group GenAIusers to manage generative-ai-model in compartment AIModelsCompartment
+generative-ai-dedicated-ai-cluster
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_INSPECT
+|
+ListDedicatedAiClusters
+|
+GET
+|
+inspect
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_READ
+|
+GetDedicatedAiCluster
+|
+GET
+|
+read
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_UPDATE
+|
+UpdateDedicatedAiCluster
+|
+PUT
+|
+use
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_MOVE
+|
+ChangeDedicatedAiClusterCompartment
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_CREATE
+|
+CreateDedicatedAiCluster
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_DELETE
+|
+DeleteDedicatedAiCluster
+|
+DELETE
+|
+manage
+allow group GenAIusers to manage generative-ai-dedicated-ai-cluster in compartment AIModelsCompartment
+generative-ai-endpoint
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_ENDPOINT_INSPECT
+|
+ListEndpoints
+|
+GET
+|
+inspect
+|
+GENERATIVE_AI_ENDPOINT_READ
+|
+GetEndpoint
+|
+GET
+|
+read
+|
+GENERATIVE_AI_ENDPOINT_UPDATE
+|
+UpdateEndpoint
+|
+PUT
+|
+use
+|
+GENERATIVE_AI_ENDPOINT_MOVE
+|
+ChangeEndpointCompartment
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_ENDPOINT_CREATE
+|
+CreateEndpoint
+|
+POST
+|
+manage
+|
+GENERATIVE_AI_ENDPOINT_DELETE
+|
+DeleteEndpoint
+|
+DELETE
+|
+manage
+allow group GenAIusers to manage generative-ai-endpoint in compartment AIModelsCompartment
+generative-ai-work-request
+|Permission
+|API Operation
+|Operation Type
+|Verb
+|
+GENERATIVE_AI_WORK_REQUEST_INSPECT
+|
+ListWorkRequests
+|
+GET
+|
+inspect
+|
+GENERATIVE_AI_WORK_REQUEST_READ
+|
+GetWorkRequest
+|
+GET
+|
+read
+|
+GENERATIVE_AI_WORK_REQUEST_ERRORS
+|
+ListWorkRequestErrors
+|
+GET
+|
+read
+|
+GENERATIVE_AI_WORK_REQUEST_LOGS_READ
+|
+ListWorkRequestLogs
+|
+GET
+|
+read
+allow group GenAIusers to read generative-ai-work-request in compartment AIModelsCompartment
+Permissions Required for Each API Operation
+The following table lists the permissions required for Generative AI API operations.
+|API Operation
+|Permissions Required to Use the Operation
+|
+GenerateText
+|
+GENERATIVE_AI_TEXT_GENERATE
+|
+SummarizeText
+|
+GENERATIVE_AI_TEXT_SUMMARIZE
+|
+EmbedText
+|
+GENERATIVE_AI_TEXT_EMBED
+|
+ListModels
+|
+GENERATIVE_AI_MODEL_INSPECT
+|
+GetModel
+|
+GENERATIVE_AI_MODEL_READ
+|
+UpdateModel
+|
+GENERATIVE_AI_MODEL_UPDATE
+|
+ChangeModelCompartment
+|
+GENERATIVE_AI_MODEL_MOVE
+|
+CreateModel
+|
+GENERATIVE_AI_MODEL_CREATE
+|
+DeleteModel
+|
+GENERATIVE_AI_MODEL_DELETE
+|
+ListDedicatedAiClusters
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_INSPECT
+|
+GetDedicatedAiCluster
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_READ
+|
+UpdateDedicatedAiCluster
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_UPDATE
+|
+ChangeDedicatedAiClusterCompartment
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_MOVE
+|
+CreateDedicatedAiCluster
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_CREATE
+|
+DeleteDedicatedAiCluster
+|
+GENERATIVE_AI_DEDICATED_AI_CLUSTER_DELETE
+|
+ListEndpoints
+|
+GENERATIVE_AI_ENDPOINT_INSPECT
+|
+GetEndpoint
+|
+GENERATIVE_AI_ENDPOINT_READ
+|
+UpdateEndpoint
+|
+GENERATIVE_AI_ENDPOINT_UPDATE
+|
+ChangeEndpointCompartment
+|
+GENERATIVE_AI_ENDPOINT_MOVE
+|
+CreateEndpoint
+|
+GENERATIVE_AI_ENDPOINT_CREATE
+|
+DeleteEndpoint
+|
+GENERATIVE_AI_ENDPOINT_DELETE
+|
+ListWorkRequests
+|
+GENERATIVE_AI_WORK_REQUEST_INSPECT
+|
+GetWorkRequest
+|
+GENERATIVE_AI_WORK_REQUEST_READ
+|
+ListWorkRequestErrors
+|
+GENERATIVE_AI_WORK_REQUEST_ERRORS
+|
+ListWorkRequestLogs
+|
+GENERATIVE_AI_WORK_REQUEST_LOGS_READ

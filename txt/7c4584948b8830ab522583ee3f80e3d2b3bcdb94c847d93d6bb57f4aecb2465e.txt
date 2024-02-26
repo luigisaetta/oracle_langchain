@@ -1,0 +1,19 @@
+Pretrained Document AI Models
+Document Understanding provides pretrained models that allow you to organize and extract text and structure from business documents.
+Pretrained models let you use AI with no data science experience. Simply provide a file to the Document Understanding service and, without having to create your own model, get back information about your document.
+Use Cases
+Pretrained models let you automate back-office tasks, and process documents more accurately and quickly.
+- Intelligent search
+- Enrich document files with metadata, including document type and key fields, for easier retrieval.
+- Invoice automation
+- Extract data from invoices, such as the amounts, dates, and payment terms to automatically process the invoices for payment. This data can save time and effort, and can improve the accuracy and reliability of the invoicing process.
+- Document analysis
+- Extract data from documents like invoices or insurance claims to identify trends or identify opportunities for cost savings.
+- Human resources management
+- Extract employee record data, such as names, addresses, and job titles, to populate a human resources management system. This data makes it easier to store and manage employee information, and can reduce the risk of errors.
+Supported Formats
+Document Understanding supports several document formats.
+You can upload documents from a local file or Oracle Cloud Infrastructure Object Storage. They can be in the following formats:
+- JPEG
+- PNG
+- TIFF

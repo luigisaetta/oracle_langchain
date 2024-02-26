@@ -1,0 +1,51 @@
+Concepts for Generative AI
+Here are some concepts and terms related to the OCI Generative AI service.
+Generative AI
+An AI model trained on large amounts of data which takes inputs that it hasn't seen before and generates new content.
+Prompts and Prompt Engineering
+- Prompts
+- A string of text in natural language used to instruct or extract information from a large language model. For example,
+- What is the summer solstice?
+- Write a poem about trees swaying in the breeze.
+- Rewrite the previous text in a lighter tone.
+- Prompt Engineering
+- The iterative process of crafting specific requests in natural language for extracting optimized prompts from a large language model. Based on the exact language used, the prompt engineer can guide the large language model to provide better or different outputs.
+Streaming
+Generation of content by a large language model where the user can see the tokens being generated one at a time instead of waiting for a complete response to be generated before returning the response to the user.
+Streaming is not supported in the Generative AI SDK.
+Embedding
+A numerical representation that has the property of preserving the meaning of a piece of text. This text can be a phrase, a sentence, or one or more paragraphs. The Generative AI embedding models transform each phrase, sentence, or paragraph that you input, into an array with 384 or 1024 numbers, depending on the embedding model that you choose. You can use these embeddings for finding similarity in phrases that are similar in context or category. Embeddings are typically stored in a vector database. Embeddings are mostly used for semantic searches where the search function focuses on the meaning of the text that it's searching through rather than finding results based on keywords. To create the embeddings, you can input phrases in English and other languages.
+Playground
+An interface in the OCI Console for exploring the hosted pretrained and custom models without writing a single line of code. Use the playground to test your use cases and refine prompts and parameters. When you're happy with the results, copy the generated code or use the model's endpoint to integrate Generative AI into your applications.
+Custom Model
+A model that you can create by using a pretrained model as a base and using your own dataset to fine-tune that model.
+Tokens
+A token is a word, part of a word, or a punctuation. For example, apple is a token and friendship is made up of two tokens, friend and ship. When you run a model in the playground, you can set the maximum number of output tokens. Estimate three tokens per word.
+Temperature
+How random to generate the output text. To generate the same output for a prompt every time you run that prompt, use 0. To generate a random new text for that prompt, increase the temperature. Default temperature is 1, and the maximum temperature is 5.
+Start with the temperature set to 0 and increase the temperature as you regenerate the prompts to refine the outputs.
+Top k
+Have the model choose the next token randomly from the top k most likely tokens. A higher k generates more random outputs making the output text sound more natural. Default value is 0 for command models and -1 for Llama2 models, which means consider all tokens and don't use this method.
+Top p
+To eliminate tokens with low likelihood, assign p a minimum percentage for the next token's likelihood. The default for p is 0.75, which eliminates the bottom 25 percent for the next token.
+The top p method ensures that only the most likely tokens with the sum p of their probabilities are considered for generation at each step. A higher p introduces more randomness into the output. Either set to 1.0 or 0 to disable this method. If also using top k, then the model considers only the top tokens whose probabilities add up to p percent and ignores the rest of the k tokens. For example, if k is 20, but the probabilities of top 10 add up to .75, then only the top 10 tokens are chosen.
+Frequency Penalty
+Assigns a penalty when a token appears frequently. High penalties encourage less repeated tokens and produce more random outputs.
+Presence Penalty
+Assigns a penalty to each token when it appears in the output to encourage generating outputs with tokens that haven't been used.
+Likelihood
+In a large language model's output, how likely it would be for a token to follow the current generated token. When a large language model generates a new token for the output text, a likelihood is assigned to all tokens, where tokens with higher likelihoods are more likely to follow the current token. For example, it's more likely that the word "favorite" is followed by the word "food" or "book" rather than the word "zebra". Likelihood is defined by a number between
+-15 and
+0 and the more negative the number, the less likely that token follows the current token.
+Model Endpoint
+A designated point on a dedicated AI cluster where a large language model can accept user requests and send back responses such as the model's generated text.
+In Generative AI, you can create endpoints for out-of-the-box pretrained models and custom models. Those endpoints are listed in the playground for testing the models. You need to create a model endpoint to consume a model that's hosted on a dedicated AI cluster. You can also reference those endpoints in applications.
+Content Moderation
+- Hate and harassment, such as identity attack, insult, threat of violence, or sexual aggression.
+- Self-inflicted harm, such as self-harm or eating-disorder promotion.
+- Ideological harm, such as extremism, terrorism, organized crime, and misinformation.
+- Exploitation, such as scams and sexual abuse.
+Dedicated AI Clusters
+Compute resources that you can use for fine-tuning custom models or for hosting endpoints for pretrained and custom models. The clusters are dedicated to your models and not shared with other customers.
+Deprecated State
+The duration that an older version of a model is supported, after the new version of that model is released. See Deprecating the Models.
