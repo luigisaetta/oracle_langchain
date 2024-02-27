@@ -17,6 +17,13 @@ EMBED_MODEL = "cohere.embed-multilingual-v3.0"
 GENAI_MODEL = "cohere.command"
 ENDPOINT = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com"
 
+# parameter for LLM
+TEMPERATURE = 0.1
+MAX_TOKENS = 1024
+
+# number of docs returne dfrom the Retriever
+TOP_K = 4
+
 # max length in token of the input for embeddings
 MAX_LENGTH = 512
 
