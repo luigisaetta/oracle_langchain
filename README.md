@@ -12,4 +12,4 @@ Clone the repository, setup your conda environemnt, have a ready DB with AI Vect
 ## Security (and Setup)
 To connect to your Oracle DB (with AI Vector search) you need to prepoare a config_private.py file with user/pwd.
 
-See details in the [Security section of the Wiki](./wiki/Security) 
+See details in the [Security section of the Wiki](https://github.com/luigisaetta/oracle_langchain/wiki/Security) 
