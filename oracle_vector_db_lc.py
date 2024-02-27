@@ -77,6 +77,12 @@ VST = TypeVar("VST", bound="VectorStore")
 #
 # supporting functions
 #
+def make_dsn():
+    DSN = DB_HOST_IP + "/" + DB_SERVICE
+
+    return DSN
+
+
 def get_type_from_bits():
     if EMBEDDINGS_BITS == 64:
         type = "d"
@@ -105,7 +111,7 @@ def oracle_query(
     tStart = time.time()
 
     # build the DSN from data taken from config.py
-    DSN = DB_HOST_IP + "/" + DB_SERVICE
+    DSN = make_dsn()
 
     try:
         with oracledb.connect(user=DB_USER, password=DB_PWD, dsn=DSN) as connection:
@@ -239,12 +245,6 @@ class OracleVectorStore(VectorStore):
 
         return result_docs
 
-    @classmethod
-    def make_dsn(cls):
-        DSN = DB_HOST_IP + "/" + DB_SERVICE
-
-        return DSN
-
     #
     # This function enable to load a table from scratch, with
     # texts and embeddings... then you can query
@@ -302,7 +302,7 @@ class OracleVectorStore(VectorStore):
         # save in db
         tot_errors = 0
 
-        DSN = OracleVectorStore.make_dsn()
+        DSN = make_dsn()
 
         with oracledb.connect(user=DB_USER, password=DB_PWD, dsn=DSN) as connection:
             with connection.cursor() as cursor:
@@ -354,7 +354,7 @@ class OracleVectorStore(VectorStore):
     @classmethod
     def drop_collection(cls, collection_name: str):
 
-        DSN = OracleVectorStore.make_dsn()
+        DSN = make_dsn()
 
         with oracledb.connect(user=DB_USER, password=DB_PWD, dsn=DSN) as connection:
             with connection.cursor() as cursor:
@@ -370,7 +370,7 @@ class OracleVectorStore(VectorStore):
 
     @classmethod
     def create_collection(cls, collection_name: str):
-        DSN = OracleVectorStore.make_dsn()
+        DSN = make_dsn()
 
         with oracledb.connect(user=DB_USER, password=DB_PWD, dsn=DSN) as connection:
             with connection.cursor() as cursor:

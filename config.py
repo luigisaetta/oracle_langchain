@@ -14,6 +14,7 @@ REF_FILE = "references.csv"
 
 # OCI GenAI model used for Embeddings
 EMBED_MODEL = "cohere.embed-multilingual-v3.0"
+GENAI_MODEL = "cohere.command"
 ENDPOINT = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com"
 
 # max length in token of the input for embeddings
