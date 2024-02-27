@@ -8,3 +8,8 @@ In the txt subdirectory you can find a set of txt files, taken from Oracle docs 
 Clone the repository, setup your conda environemnt, have a ready DB with AI Vector Search and then:
 * load the txt files + embeddings in the DB, using [load_vector_store](./load_vector_store.ipynb)
 * query your knowledge base, using a [simple_assistant](./simple_assistant.ipynb) 
+
+## Security (and Setup)
+To connect to your Oracle DB (with AI Vector search) you need to prepoare a config_private.py file with user/pwd.
+
+See details in the [Security section of the Wiki](./wiki/Security) 
